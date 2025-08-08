@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, UserPlus, Mountain, UserCircle, Calculator } from "lucide-react";
+import { Menu, LogIn, UserPlus, UserCircle, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { GetQuoteForm } from "./GetQuoteForm";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -48,8 +49,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
-                <Mountain className="h-6 w-6 text-primary" />
-                <span className="font-headline text-lg font-bold">Interiorscape</span>
+                <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
             </Link>
         </div>
 
@@ -100,8 +100,7 @@ export function Header() {
             <SheetContent side="right">
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Mountain className="h-6 w-6 text-primary" />
-                  <span className="font-headline text-lg font-bold">Interiorscape</span>
+                  <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {navLinks.map((link) => (

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { Mountain } from 'lucide-react';
+import Image from 'next/image';
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -73,8 +73,7 @@ export function MobileFooter() {
             <SheetContent side="bottom" className="h-full">
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Mountain className="h-6 w-6 text-primary" />
-                  <span className="font-headline text-lg font-bold">Interiorscape</span>
+                  <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {allNavLinks.map((link) => (

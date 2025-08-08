@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Mountain, Twitter, Instagram, Facebook } from 'lucide-react';
+import { Twitter, Instagram, Facebook } from 'lucide-react';
+import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -8,8 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
              <Link href="/" className="flex items-center gap-2">
-                <Mountain className="h-6 w-6 text-primary" />
-                <span className="font-headline text-lg font-bold">Interiorscape</span>
+                <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="180" height="50" className="object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Crafting timeless spaces for modern living.
