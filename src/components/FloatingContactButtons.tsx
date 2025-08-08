@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -14,7 +15,7 @@ export function FloatingContactButtons() {
                 className="bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#1EBE57] transition-all flex items-center justify-center"
                 aria-label="Chat on WhatsApp"
             >
-                <Image src="/whatsapp.svg" alt="WhatsApp" width={32} height={32} />
+                <Image src="/WhatsApp_icon.PNG" alt="WhatsApp" width={32} height={32} />
             </Link>
             <Link 
                 href="tel:5551234567" 
