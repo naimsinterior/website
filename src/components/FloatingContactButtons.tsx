@@ -19,7 +19,7 @@ export function FloatingContactButtons() {
             </Link>
             <Link 
                 href="tel:5551234567" 
-                className="bg-card text-card-foreground p-4 rounded-full shadow-lg hover:bg-muted transition-all flex items-center justify-center border"
+                className="bg-card text-card-foreground p-3 rounded-full shadow-lg hover:bg-muted transition-all flex items-center justify-center border w-12 h-12"
                 aria-label="Call Us"
             >
                 <Phone className="h-6 w-6" />
