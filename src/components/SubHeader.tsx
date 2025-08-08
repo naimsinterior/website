@@ -13,10 +13,11 @@ export function SubHeader() {
 
   return (
     <div className="relative bg-accent text-accent-foreground">
-      <div className="container mx-auto flex items-center justify-center px-4 py-2 text-center text-sm">
-        <p>
-          Refer a friend and join our network for exclusive offers!{' '}
-          <Link href="/contact" className="underline font-bold hover:opacity-80 transition-opacity">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2 text-sm">
+        <p className="flex-1 text-center pr-8">
+          <span className="hidden sm:inline">Refer a friend and join our network for exclusive offers! </span>
+          <span className="sm:hidden">Refer a friend & get exclusive offers!</span>
+          <Link href="/contact" className="underline font-bold hover:opacity-80 transition-opacity ml-1">
             Learn More
           </Link>
         </p>
