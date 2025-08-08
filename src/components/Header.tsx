@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, UserPlus, Mountain, UserCircle } from "lucide-react";
+import { Menu, LogIn, UserPlus, Mountain, UserCircle, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -23,6 +23,7 @@ const navLinks = [
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
+  { href: "/calculate", label: "Calculator" },
 ];
 
 export function Header() {
@@ -58,9 +59,13 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4">
-            <GetQuoteForm />
+            <Button asChild>
+                <Link href="/calculate">
+                    <Calculator className="mr-2 h-4 w-4" /> Calculate
+                </Link>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon">
@@ -104,7 +109,9 @@ export function Header() {
                   ))}
                 </nav>
                  <div className="mt-4 flex flex-col gap-2">
-                    <GetQuoteForm />
+                    <Button asChild>
+                      <Link href="/calculate">Calculate</Link>
+                    </Button>
                     <Button asChild variant="outline">
                       <Link href="/login">Login</Link>
                     </Button>

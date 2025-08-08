@@ -39,6 +39,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               <li><Link href="/style-tool" className="text-sm text-muted-foreground hover:text-primary">Style Tool</Link></li>
               <li><Link href="/moodboard" className="text-sm text-muted-foreground hover:text-primary">Moodboard</Link></li>
+              <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
             </ul>
           </div>
