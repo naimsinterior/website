@@ -180,21 +180,37 @@ export default function Home() {
               <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
               <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">We're proud to have created spaces that our clients love.</p>
             </div>
-            <div className="mt-12 grid gap-8 md:grid-cols-1 lg:grid-cols-3">
-              {testimonials.map((project) => (
-                <Card key={project.slug}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />)}
-                    </div>
-                    <p className="text-muted-foreground italic">"{project.testimonial!.text}"</p>
-                  </CardContent>
-                  <CardFooter className="flex flex-col items-start p-6 pt-0">
-                    <p className="font-bold">{project.testimonial!.author}</p>
-                    <p className="text-sm text-muted-foreground">{project.title}</p>
-                  </CardFooter>
-                </Card>
-              ))}
+             <div className="mt-12">
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    className="w-full max-w-5xl mx-auto"
+                >
+                    <CarouselContent>
+                        {testimonials.map((project) => (
+                            <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                                <div className="p-4 h-full">
+                                    <Card className="h-full flex flex-col">
+                                        <CardContent className="p-6 flex-grow">
+                                            <div className="flex items-center mb-4">
+                                                {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />)}
+                                            </div>
+                                            <p className="text-muted-foreground italic h-32 overflow-hidden">"{project.testimonial!.text}"</p>
+                                        </CardContent>
+                                        <CardFooter className="flex flex-col items-start p-6 pt-0">
+                                            <p className="font-bold">{project.testimonial!.author}</p>
+                                            <p className="text-sm text-muted-foreground">{project.title}</p>
+                                        </CardFooter>
+                                    </Card>
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="hidden sm:flex" />
+                    <CarouselNext className="hidden sm:flex" />
+                </Carousel>
             </div>
           </div>
         </section>
@@ -232,5 +248,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
