@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,14 @@ import { projects } from "./projects/projects";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
+
+const brands = [
+  { name: "Apex Co.", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
+  { name: "Strive Inc.", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg> },
+  { name: "Prestige", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
+  { name: "Vertex", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> },
+  { name: "Legacy", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
+];
 
 export default function Home() {
   return (
@@ -196,27 +205,25 @@ export default function Home() {
             <h2 className="text-center font-headline text-2xl text-muted-foreground">
               Trusted by Leading Brands
             </h2>
-            <div className="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
-              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-                <span>Apex Co.</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                <span>Strive Inc.</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-                <span>Prestige</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                <span>Vertex</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-                <span>Legacy</span>
-              </div>
+            <div className="mt-12">
+              <Carousel
+                  opts={{
+                      align: "start",
+                      loop: true,
+                  }}
+                  className="w-full max-w-4xl mx-auto"
+              >
+                  <CarouselContent>
+                      {brands.map((brand) => (
+                          <CarouselItem key={brand.name} className="basis-1/2 md:basis-1/3 lg:basis-1/5">
+                              <div className="flex items-center justify-center p-6 text-muted-foreground">
+                                  {brand.icon}
+                                  <span className="font-bold text-xl ml-2">{brand.name}</span>
+                              </div>
+                          </CarouselItem>
+                      ))}
+                  </CarouselContent>
+              </Carousel>
             </div>
           </div>
         </section>
@@ -225,3 +232,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
