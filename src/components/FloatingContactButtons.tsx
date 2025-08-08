@@ -12,7 +12,7 @@ export function FloatingContactButtons() {
                 href="https://wa.me/15551234567" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="transition-all flex items-center justify-center"
+                className="transition-all flex items-center justify-center w-12 h-12"
                 aria-label="Chat on WhatsApp"
             >
                 <Image src="/WhatsApp_icon.png" alt="WhatsApp" width={48} height={48} />
