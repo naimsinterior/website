@@ -5,8 +5,15 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, UserPlus, Mountain } from "lucide-react";
+import { Menu, LogIn, UserPlus, Mountain, UserCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -49,18 +56,28 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link href="/signup">
-              <UserPlus className="mr-2 h-4 w-4" />
-              Sign Up
-            </Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary">
+                <UserCircle className="mr-2 h-5 w-5" />
+                Account
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/login">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/signup">
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Sign Up
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
