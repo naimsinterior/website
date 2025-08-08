@@ -3,10 +3,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ArrowRight, Paintbrush, Users, Briefcase } from "lucide-react";
+import { ArrowRight, Paintbrush, Users, Briefcase, Star } from "lucide-react";
 import { projects } from "./projects/projects";
 
 const featuredProjects = projects.slice(0, 5);
+const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
 export default function Home() {
   return (
@@ -162,6 +163,64 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Testimonials Section */}
+        <section className="bg-muted py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center">
+              <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
+              <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">We're proud to have created spaces that our clients love.</p>
+            </div>
+            <div className="mt-12 grid gap-8 md:grid-cols-1 lg:grid-cols-3">
+              {testimonials.map((project) => (
+                <Card key={project.slug}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />)}
+                    </div>
+                    <p className="text-muted-foreground italic">"{project.testimonial!.text}"</p>
+                  </CardContent>
+                  <CardFooter className="flex flex-col items-start p-6 pt-0">
+                    <p className="font-bold">{project.testimonial!.author}</p>
+                    <p className="text-sm text-muted-foreground">{project.title}</p>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Brands Section */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-center font-headline text-2xl text-muted-foreground">
+              Trusted by Leading Brands
+            </h2>
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <span>Apex Co.</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                <span>Strive Inc.</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <span>Prestige</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                <span>Vertex</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-bold text-xl">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <span>Legacy</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   );
