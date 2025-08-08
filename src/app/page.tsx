@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { ArrowRight, Paintbrush, Users, Briefcase, Star } from "lucide-react";
 import { projects } from "./projects/projects";
+import { Input } from "@/components/ui/input";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -39,11 +40,13 @@ export default function Home() {
             <p className="mt-4 max-w-2xl text-lg md:text-xl">
               We believe in creating interiors that are not just beautiful, but also a true reflection of you.
             </p>
-            <Button asChild className="mt-8">
-              <Link href="/projects">
-                Explore Our Work <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+            <form className="mt-8 w-full max-w-lg rounded-lg bg-white/20 p-4 backdrop-blur-sm">
+                <div className="flex flex-col gap-4 sm:flex-row">
+                    <Input type="text" placeholder="Your Name" className="bg-transparent text-white placeholder:text-gray-200" />
+                    <Input type="email" placeholder="Your Email" className="bg-transparent text-white placeholder:text-gray-200" />
+                    <Button type="submit" className="w-full sm:w-auto">Get a Quote</Button>
+                </div>
+            </form>
           </div>
         </section>
 
