@@ -45,20 +45,20 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <div className="flex items-center gap-2 mr-auto">
+        <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
                 <Mountain className="h-6 w-6 text-primary" />
                 <span className="font-headline text-lg font-bold">Interiorscape</span>
             </Link>
         </div>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-6 md:flex md:flex-1 md:justify-center">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-4">
             <GetQuoteForm />
             <DropdownMenu>
