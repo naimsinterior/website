@@ -7,11 +7,11 @@ export function Footer() {
     <footer className="border-t bg-card">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="space-y-4">
-             <Link href="/" className="flex items-center gap-2">
+          <div className="space-y-4 flex flex-col items-center md:items-start">
+             <Link href="/">
                 <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="180" height="50" className="object-contain" />
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground text-center md:text-left">
               Crafting timeless spaces for modern living.
             </p>
             <div className="flex space-x-4">
