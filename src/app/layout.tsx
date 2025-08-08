@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import { SubHeader } from '@/components/SubHeader';
 import { FloatingContactButtons } from '@/components/FloatingContactButtons';
+import { MobileFooter } from '@/components/MobileFooter';
 
 export const metadata: Metadata = {
   title: 'Interiorscape',
@@ -26,9 +27,10 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <SubHeader />
         <Header />
-        <main>{children}</main>
+        <main className="pb-20 md:pb-0">{children}</main>
         <FloatingContactButtons />
         <Footer />
+        <MobileFooter />
         <Toaster />
       </body>
     </html>
