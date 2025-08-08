@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 export function FloatingContactButtons() {
     return (
-        <div className="fixed bottom-6 right-4 z-50 flex flex-col items-center gap-4">
+        <div className="fixed bottom-24 right-4 z-50 flex flex-col items-center gap-4">
             <Link 
                 href="https://wa.me/15551234567" 
                 target="_blank" 
