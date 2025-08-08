@@ -1,0 +1,153 @@
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { suggestStyle, type SuggestStyleOutput } from '@/ai/flows/suggest-style';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { Upload, Wand2, Loader2, ArrowRight } from 'lucide-react';
+import { projects } from '../projects/projects';
+
+export function StyleToolClient() {
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [suggestions, setSuggestions] = useState<SuggestStyleOutput | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setPhotoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!photoFile) {
+      toast({
+        title: "No photo selected",
+        description: "Please upload a photo of your room first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    setSuggestions(null);
+
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(photoFile);
+      reader.onload = async (e) => {
+        const photoDataUri = e.target?.result as string;
+        const result = await suggestStyle({ photoDataUri });
+        setSuggestions(result);
+      };
+      reader.onerror = (error) => {
+        throw new Error("Failed to read file");
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "An error occurred",
+        description: "Failed to get style suggestions. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-12 max-w-4xl mx-auto">
+      <Card>
+        <CardContent className="p-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8">
+              <label htmlFor="photo-upload" className="cursor-pointer text-center">
+                <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-4 font-semibold">
+                  {photoFile ? 'Change Photo' : 'Click to upload a photo'}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">PNG, JPG, WEBP</p>
+              </label>
+              <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" />
+            </div>
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+              {photoPreview ? (
+                <Image src={photoPreview} alt="Room preview" fill className="object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                  Your photo will appear here
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="mt-6 flex justify-center">
+            <Button onClick={handleSubmit} disabled={!photoFile || isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="mr-2 h-5 w-5" />
+                  Suggest Styles
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {isLoading && (
+        <div className="mt-8 text-center">
+           <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+           <p className="mt-4 text-muted-foreground">Our AI is analyzing your space...</p>
+        </div>
+      )}
+
+      {suggestions && suggestions.suggestedStyles.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-center font-headline text-3xl">Our Suggestions</h2>
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+            {suggestions.suggestedStyles.map((style, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle className="font-headline">{style.styleName}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Explore projects that embody the {style.styleName} style:
+                  </CardDescription>
+                  <ul className="mt-4 space-y-2">
+                    {style.projectLinks.map((link, linkIndex) => {
+                      const project = projects.find(p => link.includes(p.slug));
+                      return (
+                         <li key={linkIndex}>
+                           <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
+                             <span>{project ? project.title : 'Project Link'}</span>
+                             <ArrowRight className="h-4 w-4 text-muted-foreground"/>
+                           </Link>
+                         </li>
+                      )
+                    })}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
