@@ -58,9 +58,9 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary">
-                <UserCircle className="mr-2 h-5 w-5" />
-                Account
+              <Button variant="secondary" size="icon">
+                <UserCircle className="h-5 w-5" />
+                <span className="sr-only">Account</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
