@@ -126,7 +126,7 @@ const processSteps = [
     {
         step: 1,
         title: "Meet with a Designer",
-        percentage: 0,
+        percentage: 1,
         paymentText: "Free",
         description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
     },
