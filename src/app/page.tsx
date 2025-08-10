@@ -19,6 +19,34 @@ import { Progress } from "@/components/ui/progress";
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
+const beforeAfterProjects = [
+    {
+        before: "https://placehold.co/600x400.png",
+        after: "https://placehold.co/600x400.png",
+        beforeHint: "outdated kitchen",
+        afterHint: "modern kitchen",
+        title: "Kitchen Remodel",
+        description: "From a cramped and dated kitchen to a bright, open-concept culinary hub."
+    },
+    {
+        before: "https://placehold.co/600x400.png",
+        after: "https://placehold.co/600x400.png",
+        beforeHint: "empty living room",
+        afterHint: "cozy living room",
+        title: "Living Room Transformation",
+        description: "A blank canvas transformed into a warm, inviting space for family gatherings."
+    },
+    {
+        before: "https://placehold.co/600x400.png",
+        after: "https://placehold.co/600x400.png",
+        beforeHint: "old bathroom",
+        afterHint: "luxury bathroom",
+        title: "Master Bathroom Oasis",
+        description: "An old, tired bathroom became a spa-like retreat with modern finishes."
+    }
+];
+
+
 const brands = [
   { name: "Apex Co.", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
   { name: "Strive Inc.", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg> },
@@ -428,9 +456,43 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
+        {/* Before and After Section */}
+        <section className="bg-muted py-16 md:py-24">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl md:text-4xl">From Vision to Reality: Before & After</h2>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Witness the stunning transformations we bring to every space.
+                    </p>
+                </div>
+                <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+                    {beforeAfterProjects.map((project, index) => (
+                        <div key={index}>
+                            <Card>
+                                <CardContent className="p-4">
+                                    <div className="relative aspect-video w-full">
+                                        <Image src={project.before} alt={`Before: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.beforeHint} />
+                                        <div className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold uppercase px-2 py-1 rounded">Before</div>
+                                    </div>
+                                    <div className="relative aspect-video w-full mt-4">
+                                        <Image src={project.after} alt={`After: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.afterHint} />
+                                         <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold uppercase px-2 py-1 rounded">After</div>
+                                    </div>
+                                </CardContent>
+                                <CardHeader>
+                                    <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
+                                    <CardDescription>{project.description}</CardDescription>
+                                </CardHeader>
+                            </Card>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
 
         {/* Testimonials Section */}
-        <section className="py-16 md:py-24 bg-muted">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center">
               <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
@@ -473,7 +535,7 @@ export default function Home() {
         </section>
 
         {/* Brands Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="font-headline text-3xl md:text-4xl">
              Best Materials, Sourced for You
