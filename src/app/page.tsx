@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from "next/image";
@@ -126,7 +127,7 @@ const processSteps = [
     {
         step: 1,
         title: "Meet with a Designer",
-        percentage: 0,
+        percentage: 5,
         paymentText: "Free",
         description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
     },
@@ -341,25 +342,25 @@ export default function Home() {
                     </p>
                 </div>
 
-                <div className="relative max-w-3xl mx-auto">
-                    <div className="absolute top-5 left-0 w-full h-2 bg-secondary rounded-full">
-                        <div 
-                           className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-300" 
-                           style={{width: `${activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage}%`}}
-                        ></div>
-                    </div>
-                    <div className="relative flex justify-between">
+                <div className="relative max-w-4xl mx-auto">
+                    <div className="relative flex justify-between z-10">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
-                                className="flex flex-col items-center text-center cursor-pointer z-10"
+                                className="flex flex-col items-center text-center cursor-pointer"
                                 onClick={() => setActiveProcessStep(index)}
                              >
-                                <div className={`flex items-center justify-center h-12 w-12 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
+                                <div className={`flex items-center justify-center h-10 w-10 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
                                     {item.step}
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    <div className="absolute top-5 left-0 w-full h-2 bg-secondary rounded-full transform -translate-y-1/2">
+                         <div 
+                           className="h-full bg-primary rounded-full transition-all duration-300" 
+                           style={{width: `${processSteps[activeProcessStep].percentage}%`}}
+                        ></div>
                     </div>
                 </div>
 
