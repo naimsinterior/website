@@ -30,8 +30,8 @@ export default function RootLayout({
         <Header />
         <main className="pb-20 md:pb-0">{children}</main>
         <FloatingContactButtons />
-        <SubFooter />
         <Footer />
+        <SubFooter />
         <MobileFooter />
         <Toaster />
       </body>
