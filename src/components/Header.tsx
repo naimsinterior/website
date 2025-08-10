@@ -105,7 +105,7 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <div className="flex flex-col gap-6 p-6 pt-0">
-                  <div className="flex items-center pt-6">
+                  <div className="flex items-center">
                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                       <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
                     </Link>
