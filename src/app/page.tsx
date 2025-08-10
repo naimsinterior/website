@@ -1,4 +1,5 @@
 
+'use client';
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ArrowRight, Paintbrush, Users, Briefcase, Star } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
+import React from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -21,6 +24,14 @@ const brands = [
 ];
 
 export default function Home() {
+    const plugins = [
+        Autoplay({
+            delay: 5000,
+            stopOnInteraction: true,
+            stopOnMouseEnter: true,
+        }),
+    ];
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -182,6 +193,7 @@ export default function Home() {
             </div>
              <div className="mt-12">
                 <Carousel
+                    plugins={plugins}
                     opts={{
                         align: "start",
                         loop: true,
@@ -224,6 +236,13 @@ export default function Home() {
              <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">We collaborate with the best in the industry providing exceptional quality.</p>
             <div className="mt-12">
               <Carousel
+                  plugins={[
+                    Autoplay({
+                      delay: 2000,
+                      stopOnInteraction: false,
+                      stopOnMouseEnter: false,
+                    }),
+                  ]}
                   opts={{
                       align: "start",
                       loop: true,
