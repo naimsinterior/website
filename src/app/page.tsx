@@ -23,7 +23,7 @@ const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 const beforeAfterProjects = [
     {
         before: "/naims_logo.PNG",
-        after: "/naims_interior.PNG",
+        after: "/Naims_interior.PNG",
         beforeHint: "outdated kitchen",
         afterHint: "modern kitchen",
         title: "Kitchen Remodel",
@@ -164,7 +164,7 @@ const processSteps = [
     {
         step: 1,
         title: "Meet with a Designer",
-        percentage: 5,
+        percentage: 2,
         paymentText: "Free",
         description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
     },
