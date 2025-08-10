@@ -92,7 +92,7 @@ export function Header() {
           <div className="flex items-center gap-2 md:hidden">
             <Button asChild variant="ghost" size="icon">
                 <Link href="/calculate">
-                    <Calculator className="h-5 w-5" />
+                    <Calculator className="h-6 w-6" />
                     <span className="sr-only">Calculate</span>
                 </Link>
             </Button>
@@ -104,10 +104,12 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <div className="flex flex-col gap-6 p-6">
-                  <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
-                  </Link>
+                <div className="flex flex-col gap-6 p-6 pt-0">
+                  <div className="flex items-center pt-6">
+                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
+                    </Link>
+                  </div>
                   <nav className="flex flex-col gap-4">
                     {navLinks.map((link) => (
                       <NavLink key={link.href} {...link} />
