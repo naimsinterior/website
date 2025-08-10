@@ -371,11 +371,11 @@ export default function Home() {
                 </div>
 
                 <div className="relative max-w-4xl mx-auto">
-                    <div className="relative flex justify-between z-10">
+                    <div className="flex justify-between">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
-                                className="flex flex-col items-center text-center cursor-pointer"
+                                className="flex flex-col items-center text-center cursor-pointer z-10"
                                 onClick={() => setActiveProcessStep(index)}
                              >
                                 <div className={`flex items-center justify-center h-10 w-10 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
@@ -384,8 +384,8 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-                    <div className="absolute top-5 left-0 w-full h-2 bg-secondary rounded-full transform -translate-y-1/2">
-                         <div 
+                     <div className="absolute top-5 left-0 w-full h-2 bg-secondary rounded-full transform -translate-y-1/2">
+                        <div 
                            className="h-full bg-primary rounded-full transition-all duration-300" 
                            style={{width: `${processSteps[activeProcessStep].percentage}%`}}
                         ></div>
