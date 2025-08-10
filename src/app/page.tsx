@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck, Check } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
@@ -196,27 +196,34 @@ export default function Home() {
                         Transforming spaces into stunning works of art with thoughtful design solutions tailored to your needs.
                     </p>
                 </div>
-                <div className="mt-12 max-w-4xl mx-auto">
-                    <Accordion type="single" collapsible defaultValue="residential" className="w-full">
+                <div className="mt-12 max-w-5xl mx-auto">
+                    <Tabs defaultValue="residential" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto">
+                            {services.map((service) => (
+                               <TabsTrigger key={service.value} value={service.value} className="py-2.5">
+                                   {service.title}
+                               </TabsTrigger>
+                            ))}
+                        </TabsList>
                         {services.map((service) => (
-                           <AccordionItem value={service.value} key={service.value}>
-                                <AccordionTrigger className="font-headline text-xl text-left">
-                                    {service.title}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base">
-                                    <p className="text-muted-foreground mb-4">{service.description}</p>
-                                    <ul className="space-y-2">
-                                      {service.items.map((item, index) => (
-                                          <li key={index} className="flex items-start">
-                                            <Check className="h-5 w-5 text-primary mr-3 mt-1 flex-shrink-0" />
-                                            <span>{item}</span>
-                                          </li>
-                                      ))}
-                                    </ul>
-                                </AccordionContent>
-                           </AccordionItem>
+                           <TabsContent value={service.value} key={service.value} className="mt-8">
+                                <Card>
+                                    <CardContent className="p-8">
+                                        <h3 className="font-headline text-2xl mb-4">{service.title}</h3>
+                                        <p className="text-muted-foreground mb-6">{service.description}</p>
+                                        <ul className="space-y-3">
+                                          {service.items.map((item, index) => (
+                                              <li key={index} className="flex items-start">
+                                                <Check className="h-5 w-5 text-primary mr-3 mt-1 flex-shrink-0" />
+                                                <span className="text-base">{item}</span>
+                                              </li>
+                                          ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                           </TabsContent>
                         ))}
-                    </Accordion>
+                    </Tabs>
                 </div>
             </div>
         </section>
