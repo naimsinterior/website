@@ -72,7 +72,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="border-t text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} NAIMS INTERIOR. All rights reserved.</p>
         </div>
         <div className="mt-8 border-t pt-8">
