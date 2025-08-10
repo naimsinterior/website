@@ -6,8 +6,8 @@ export function Footer() {
   return (
     <footer className="border-t bg-card">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4 items-start">
-          <div className="flex flex-col items-center md:items-start py-2.5">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 items-start">
+          <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start py-2.5">
              <Link href="/">
                 <Image src="/naimsinterior-logo-footer.png" alt="Interiorscape Logo" width="165" height="46" className="object-contain" />
             </Link>
