@@ -15,7 +15,7 @@ export function FloatingContactButtons() {
                 className="transition-all flex items-center justify-center w-12 h-12"
                 aria-label="Chat on WhatsApp"
             >
-                <Image src="/WhatsApp_icon.PNG" alt="WhatsApp" width={48} height={48} />
+                <Image src="/WhatsApp_icon.png" alt="WhatsApp" width={48} height={48} />
             </Link>
             <Link 
                 href="tel:5551234567" 
