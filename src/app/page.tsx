@@ -22,8 +22,8 @@ const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
 const beforeAfterProjects = [
     {
-        before: "/naims-logo.PNG",
-        after: "/naimsinterior-logo.PNG",
+        before: "/naims_logo.PNG",
+        after: "/naims_interior.PNG",
         beforeHint: "outdated kitchen",
         afterHint: "modern kitchen",
         title: "Kitchen Remodel",
