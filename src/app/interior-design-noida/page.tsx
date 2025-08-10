@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowRight, Star, Check, DollarSign, Users, Smile, Gem, BadgeCheck, Briefcase } from "lucide-react";
+import { ArrowRight, Star, Check, DollarSign, Users, Smile, Gem, BadgeCheck, Briefcase, MessageCircleQuestion } from "lucide-react";
 import { projects } from "../projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React, { useEffect, useState } from "react";
@@ -200,6 +200,10 @@ const faqs = [
         question: "Can I see a 3D model of my design before work begins?",
         answer: "Yes! We provide detailed 3D visualizations of your project. This allows you to see exactly how your space in Noida will look and feel, and gives you the opportunity to make any changes before we start the execution phase."
     },
+     {
+        question: "What makes Naims Interior different from other designers in Noida?",
+        answer: "Our key differentiators are our deep understanding of the Noida market, a client-centric approach, commitment to quality, and transparent processes. We focus on creating personalized designs that reflect our clients' personalities and lifestyles, ensuring a seamless and enjoyable experience from start to finish."
+    }
 ];
 
 export default function InteriorDesignNoidaPage() {
@@ -554,17 +558,24 @@ export default function InteriorDesignNoidaPage() {
                         Have questions? We have answers.
                     </p>
                 </div>
-                <div className="mt-12 max-w-3xl mx-auto">
-                    <Accordion type="single" collapsible className="w-full">
-                        {faqs.map((faq, index) => (
-                             <AccordionItem key={index} value={`item-${index}`}>
-                                <AccordionTrigger className="font-headline text-lg text-left">{faq.question}</AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {faq.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
+                <div className="mt-12 max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+                    {faqs.map((faq, index) => (
+                        <Card key={index} className="flex flex-col">
+                            <CardHeader className="flex flex-row items-start gap-4">
+                                <div className="flex-shrink-0">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                                      <MessageCircleQuestion className="h-6 w-6 text-primary" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <CardTitle className="font-headline text-lg">{faq.question}</CardTitle>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="flex-grow pt-0">
+                                <p className="text-muted-foreground">{faq.answer}</p>
+                            </CardContent>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </section>
