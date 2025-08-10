@@ -342,7 +342,7 @@ export default function Home() {
                 </div>
 
                 <div className="relative max-w-3xl mx-auto">
-                    <div className="relative grid grid-cols-5 gap-x-4 mb-4">
+                    <div className="relative grid grid-cols-5 gap-x-4">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
@@ -352,14 +352,16 @@ export default function Home() {
                                 <div className={`relative z-10 flex items-center justify-center h-12 w-12 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
                                     {item.step}
                                 </div>
-                                <p className={`mt-2 text-sm font-semibold transition-colors duration-300 ${activeProcessStep >= index ? 'text-primary' : 'text-muted-foreground'}`}>{item.paymentText}</p>
                             </div>
                         ))}
                     </div>
-                    <Progress value={activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage} className="h-2" />
+                    <Progress value={activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage} className="h-2 absolute top-1/2 -translate-y-1/2 -z-10" />
                 </div>
 
                 <div className="mt-8">
+                     <p className={`text-center mb-2 text-sm font-semibold transition-colors duration-300 text-primary`}>
+                        {processSteps[activeProcessStep].paymentText}
+                    </p>
                     <Card className="max-w-2xl mx-auto">
                          <CardContent className="p-8 text-center min-h-[150px] flex flex-col justify-center">
                             <h3 className="font-headline text-2xl mb-2">{processSteps[activeProcessStep].title}</h3>
