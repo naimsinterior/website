@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 items-start">
           <div className="flex flex-col items-center md:items-start py-2.5">
              <Link href="/">
-                <Image src="/naimsinterior-logo-footer.png" alt="Interiorscape Logo" width="180" height="50" className="object-contain" />
+                <Image src="/naimsinterior-logo-footer.png" alt="Interiorscape Logo" width="165" height="46" className="object-contain" />
             </Link>
             <p className="mt-4 text-sm text-muted-foreground text-center md:text-left">
               Crafting timeless spaces for modern living.
