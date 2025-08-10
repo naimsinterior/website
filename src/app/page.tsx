@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { OfferPopup } from "@/components/OfferPopup";
 import { Progress } from "@/components/ui/progress";
+import { ScratchCard } from "@/components/ScratchCard";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -471,51 +472,26 @@ export default function Home() {
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">From Vision to Reality: Before & After</h2>
                     <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                        Witness the stunning transformations we bring to every space.
+                        Scratch to reveal the stunning transformations we bring to every space.
                     </p>
                 </div>
-                <div className="mt-12">
-                     <Carousel
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                        plugins={[
-                            Autoplay({
-                                delay: 4000,
-                                stopOnInteraction: true,
-                                stopOnMouseEnter: true,
-                            }),
-                        ]}
-                        className="w-full"
-                    >
-                        <CarouselContent>
-                            {beforeAfterProjects.map((project, index) => (
-                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-2">
-                                        <Card>
-                                            <CardContent className="p-4">
-                                                <div className="relative aspect-video w-full">
-                                                    <Image src={project.before} alt={`Before: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.beforeHint} />
-                                                    <div className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold uppercase px-2 py-1 rounded">Before</div>
-                                                </div>
-                                                <div className="relative aspect-video w-full mt-4">
-                                                    <Image src={project.after} alt={`After: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.afterHint} />
-                                                    <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold uppercase px-2 py-1 rounded">After</div>
-                                                </div>
-                                            </CardContent>
-                                            <CardHeader>
-                                                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
-                                                <CardDescription>{project.description}</CardDescription>
-                                            </CardHeader>
-                                        </Card>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                         <CarouselPrevious className="hidden sm:flex" />
-                         <CarouselNext className="hidden sm:flex" />
-                    </Carousel>
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {beforeAfterProjects.slice(0, 2).map((project, index) => (
+                        <Card key={index}>
+                            <CardContent className="p-4">
+                                <ScratchCard
+                                    beforeImage={project.before}
+                                    afterImage={project.after}
+                                    beforeHint={project.beforeHint}
+                                    afterHint={project.afterHint}
+                                />
+                            </CardContent>
+                            <CardHeader className="pt-2">
+                                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
+                                <CardDescription>{project.description}</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </section>
