@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { ScratchCard } from "@/components/ScratchCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -221,6 +222,7 @@ export default function InteriorDesignDelhiPage() {
     const [activeProcessStep, setActiveProcessStep] = useState(0);
     const [isProcessHovered, setIsProcessHovered] = useState(false);
     const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
+    const [activeFaqIndex, setActiveFaqIndex] = useState(0);
 
 
     useEffect(() => {
@@ -558,24 +560,45 @@ export default function InteriorDesignDelhiPage() {
                         Have questions? We have answers.
                     </p>
                 </div>
-                <div className="mt-12 max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-                    {faqs.map((faq, index) => (
-                        <Card key={index} className="flex flex-col">
-                            <CardHeader className="flex flex-row items-start gap-4">
+                <div className="mt-12 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
+                    <div className="flex flex-col gap-4">
+                        {faqs.map((faq, index) => (
+                           <button 
+                                key={index} 
+                                onClick={() => setActiveFaqIndex(index)}
+                                className={cn(
+                                    "p-4 rounded-lg text-left transition-all",
+                                    "flex items-start gap-4",
+                                    activeFaqIndex === index ? 'bg-background shadow' : 'hover:bg-background/50'
+                                )}
+                            >
                                 <div className="flex-shrink-0">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                                      <MessageCircleQuestion className="h-6 w-6 text-primary" />
+                                    <div className={cn(
+                                        "flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 transition-colors",
+                                        activeFaqIndex === index && 'bg-primary text-primary-foreground'
+                                    )}>
+                                      <MessageCircleQuestion className="h-6 w-6" />
                                     </div>
                                 </div>
-                                <div>
-                                    <CardTitle className="font-headline text-lg">{faq.question}</CardTitle>
+                                <div className="flex-grow">
+                                    <p className="font-headline text-lg">{faq.question}</p>
+                                    <p className={cn("text-sm text-muted-foreground mt-1 transition-all duration-300 overflow-hidden", activeFaqIndex === index ? 'max-h-0' : 'max-h-0 md:max-h-20')}>
+                                      {faq.answer}
+                                    </p>
                                 </div>
+                           </button>
+                        ))}
+                    </div>
+                     <div className="sticky top-24">
+                        <Card className="h-full min-h-[300px] flex flex-col justify-center">
+                            <CardHeader>
+                                <CardTitle className="font-headline text-2xl">{faqs[activeFaqIndex].question}</CardTitle>
                             </CardHeader>
-                            <CardContent className="flex-grow pt-0">
-                                <p className="text-muted-foreground">{faq.answer}</p>
+                            <CardContent>
+                                <p className="text-muted-foreground">{faqs[activeFaqIndex].answer}</p>
                             </CardContent>
                         </Card>
-                    ))}
+                    </div>
                 </div>
             </div>
         </section>
