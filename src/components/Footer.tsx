@@ -64,11 +64,11 @@ export function Footer() {
            <div>
             <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">Contact</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Gurgaon</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Chennai</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">OMR</Link></li>
+              <li><Link href="/contact?office=headoffice" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
+              <li><Link href="/contact?office=noida" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
+              <li><Link href="/contact?office=gurgaon" className="text-sm text-muted-foreground hover:text-primary">Gurgaon</Link></li>
+              <li><Link href="/contact?office=chennai" className="text-sm text-muted-foreground hover:text-primary">Chennai</Link></li>
+              <li><Link href="/contact?office=omr" className="text-sm text-muted-foreground hover:text-primary">OMR</Link></li>
             </ul>
           </div>
         </div>

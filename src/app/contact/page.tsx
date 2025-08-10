@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -30,6 +32,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const locations = [
     {
+        id: 'headoffice',
         name: 'Head Office',
         address: 'H-77, Silai Bara Gaon, Milak, Rampur, Uttar Pradesh (244701)',
         email: 'headoffice@naimsinterior.com',
@@ -37,6 +40,7 @@ const locations = [
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55604.57684847901!2d79.0026363872999!3d28.8092348510808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390a5add696144a1%3A0x2d87a7168b958937!2sRampur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488825852!5m2!1sen!2sin"
     },
     {
+        id: 'noida',
         name: 'Noida',
         address: 'Sector 62, Noida, Uttar Pradesh 201309',
         email: 'noida@naimsinterior.com',
@@ -44,6 +48,7 @@ const locations = [
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14013.149595299837!2d77.36151909923838!3d28.608759600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce544da318685%3A0x62836b6901844893!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488924296!5m2!1sen!2sin"
     },
     {
+        id: 'gurgaon',
         name: 'Gurgaon',
         address: 'DLF Cyber City, Gurgaon, Haryana 122002',
         email: 'gurgaon@naimsinterior.com',
@@ -51,6 +56,7 @@ const locations = [
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14031.1194200159!2d77.0805335992225!3d28.4984242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d194473c4d42d%3A0x891435fc036e5229!2sDLF%20CyberHub%2C%20Gurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1719489000185!5m2!1sen!2sin"
     },
     {
+        id: 'chennai',
         name: 'Chennai',
         address: 'T. Nagar, Chennai, Tamil Nadu 600017',
         email: 'chennai@naimsinterior.com',
@@ -58,6 +64,7 @@ const locations = [
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31093.003926019313!2d80.21985901309832!3d13.04586940801304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526674a2373307%3A0x356f955f01905380!2sT.%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1719489053531!5m2!1sen!2sin"
     },
     {
+        id: 'omr',
         name: 'OMR',
         address: 'Old Mahabalipuram Road, Chennai, Tamil Nadu 600119',
         email: 'omr@naimsinterior.com',
@@ -66,7 +73,10 @@ const locations = [
     }
 ];
 
-export default function ContactPage() {
+function ContactPageContent() {
+    const searchParams = useSearchParams();
+    const office = searchParams.get('office') || 'headoffice';
+
     const { toast } = useToast();
     const form = useForm<ContactFormValues>({
         resolver: zodResolver(contactFormSchema),
@@ -92,9 +102,9 @@ export default function ContactPage() {
             <div className="mt-16 grid grid-cols-1 gap-16 lg:grid-cols-2">
                 <div>
                      <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
-                     <Accordion type="single" collapsible defaultValue="item-0" className="w-full">
-                        {locations.map((loc, index) => (
-                            <AccordionItem key={loc.name} value={`item-${index}`}>
+                     <Accordion type="single" collapsible defaultValue={office} className="w-full">
+                        {locations.map((loc) => (
+                            <AccordionItem key={loc.id} value={loc.id}>
                                 <AccordionTrigger>
                                     <span className="font-headline text-xl">{loc.name}</span>
                                 </AccordionTrigger>
@@ -185,4 +195,11 @@ export default function ContactPage() {
     );
 }
 
-    
+
+export default function ContactPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ContactPageContent />
+        </Suspense>
+    )
+}
