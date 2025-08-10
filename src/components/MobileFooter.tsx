@@ -88,7 +88,7 @@ export function MobileFooter() {
                 </nav>
                  <div className="mt-4 flex flex-col gap-2">
                     <Button asChild>
-                      <Link href="/calculate">Calculate your home interior</Link>
+                      <Link href="/calculate" onClick={() => setIsMobileMenuOpen(false)}>Calculate your home interior</Link>
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
