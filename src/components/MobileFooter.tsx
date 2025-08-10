@@ -27,7 +27,6 @@ const allNavLinks = [
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
-  { href: "/calculate", label: "Calculator" },
 ];
 
 const legalLinks = [

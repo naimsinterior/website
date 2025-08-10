@@ -24,7 +24,6 @@ const navLinks = [
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
-  { href: "/calculate", label: "Calculator" },
 ];
 
 export function Header() {
