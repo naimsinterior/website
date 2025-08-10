@@ -21,9 +21,11 @@ export function Footer() {
              <Link href="/">
                 <Image src="/naimsinterior-logo-footer.png" alt="Interiorscape Logo" width="165" height="46" className="object-contain" />
             </Link>
-            <p className="mt-4 text-sm text-muted-foreground text-center md:text-left">
-              Crafting timeless spaces for modern living.
-            </p>
+            <div className="mt-4 text-sm text-muted-foreground text-center md:text-left">
+                <p>Reg.Office H-77, Silai Bara Gaon, Milak</p>
+                <p>Rampur, Uttar Pradesh (244701)</p>
+                <p>WeCare@Naimsinterior.com</p>
+            </div>
             <div className="mt-4 flex space-x-4">
               <Link href="#" className="text-muted-foreground hover:text-primary">
                 <Twitter className="h-5 w-5" />
@@ -53,8 +55,6 @@ export function Footer() {
               <li><Link href="/style-tool" className="text-sm text-muted-foreground hover:text-primary">Style Tool</Link></li>
               <li><Link href="/moodboard" className="text-sm text-muted-foreground hover:text-primary">Moodboard</Link></li>
               <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
-              <li><Link href="/interior-design-noida" className="text-sm text-muted-foreground hover:text-primary">Interior Design in Noida</Link></li>
-              <li><Link href="/interior-design-delhi" className="text-sm text-muted-foreground hover:text-primary">Interior Design in Delhi</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
             </ul>
           </div>
