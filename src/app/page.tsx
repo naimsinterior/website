@@ -22,8 +22,8 @@ const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
 const beforeAfterProjects = [
     {
-        before: "https://placehold.co/600x400.png",
-        after: "https://placehold.co/600x400.png",
+        before: "/naims-logo.PNG",
+        after: "/naimsinterior-logo.PNG",
         beforeHint: "outdated kitchen",
         afterHint: "modern kitchen",
         title: "Kitchen Remodel",
