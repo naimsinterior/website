@@ -13,6 +13,7 @@ import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React, { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { ScratchCard } from "@/components/ScratchCard";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -175,6 +176,29 @@ const processSteps = [
         percentage: 100,
         paymentText: "5% Payment",
         description: "Celebrate the completion of your project with confidence and satisfaction.",
+    },
+];
+
+const faqs = [
+    {
+        question: "What is the first step to starting a project with Naims Interior in Delhi?",
+        answer: "The first step is to schedule a free consultation with one of our expert designers. You can do this by filling out the contact form on our website or by calling our Delhi office directly. During this meeting, we'll discuss your vision, needs, and budget to see how we can best help you."
+    },
+    {
+        question: "How long does a typical interior design project take in Delhi?",
+        answer: "The timeline for a project can vary greatly depending on the scope. A single room design in Delhi might take 4-6 weeks, while a full home renovation could take several months. We will provide a detailed project timeline after our initial consultation and design approval."
+    },
+    {
+        question: "Do you work with my existing furniture and decor?",
+        answer: "Absolutely! We believe in creating spaces that reflect you. We can certainly incorporate your existing beloved pieces into the new design. We can also help you decide what to keep, what to reupholster, and what to replace to achieve your desired look for your Delhi home."
+    },
+    {
+        question: "What is your fee structure for projects in Delhi?",
+        answer: "We offer a transparent fee structure that is typically a combination of a design fee and a percentage of the project budget. We provide a detailed quote after the initial design concept is approved, so you know exactly what to expect. There are no hidden charges."
+    },
+     {
+        question: "Can I see a 3D model of my design before work begins?",
+        answer: "Yes! We provide detailed 3D visualizations of your project. This allows you to see exactly how your space in Delhi will look and feel, and gives you the opportunity to make any changes before we start the execution phase."
     },
 ];
 
@@ -521,8 +545,32 @@ export default function InteriorDesignDelhiPage() {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="bg-muted py-16 md:py-24">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Have questions? We have answers.
+                    </p>
+                </div>
+                <div className="mt-12 max-w-3xl mx-auto">
+                    <Accordion type="single" collapsible className="w-full">
+                        {faqs.map((faq, index) => (
+                             <AccordionItem key={index} value={`item-${index}`}>
+                                <AccordionTrigger className="font-headline text-lg text-left">{faq.question}</AccordionTrigger>
+                                <AccordionContent className="text-base text-muted-foreground">
+                                    {faq.answer}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            </div>
+        </section>
+
         {/* Brands Section */}
-        <section className="py-16 md:py-24 bg-muted">
+        <section className="py-16 md:py-24 bg-card">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="font-headline text-3xl md:text-4xl">
              Best Materials, Sourced for Your Delhi Project
