@@ -1,6 +1,5 @@
 
 import Link from 'next/link';
-import { Youtube, Linkedin, X } from 'lucide-react';
 import Image from 'next/image';
 
 const serviceAreas = [
@@ -10,6 +9,15 @@ const serviceAreas = [
     { name: "Ghaziabad", href: "#" },
     { name: "Faridabad", href: "#" },
     { name: "Greater Noida", href: "#" },
+];
+
+const socialLinks = [
+    { name: "Facebook", href: "#", icon: "/facebook.svg" },
+    { name: "Instagram", href: "#", icon: "/instagram.svg" },
+    { name: "X", href: "#", icon: "/x-logo.svg" },
+    { name: "YouTube", href: "#", icon: "/youtube.svg" },
+    { name: "LinkedIn", href: "#", icon: "/linkedin.svg" },
+    { name: "Pinterest", href: "#", icon: "/pinterest.svg" },
 ];
 
 export function Footer() {
@@ -25,6 +33,13 @@ export function Footer() {
                 <p>Reg.Office H-77, Silai Bara Gaon, Milak</p>
                 <p>Rampur, Uttar Pradesh (244701)</p>
                 <p>WeCare@Naimsinterior.com</p>
+            </div>
+             <div className="mt-4 flex gap-4">
+                {socialLinks.map(social => (
+                    <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                        <Image src={social.icon} alt={social.name} width={20} height={20} className="object-contain" />
+                    </Link>
+                ))}
             </div>
           </div>
           <div>
