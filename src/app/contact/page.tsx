@@ -48,7 +48,7 @@ export default function ContactPage() {
                     Have a project in mind or just want to say hello? We'd love to hear from you.
                 </p>
             </div>
-            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
+            <div className="mt-16 max-w-2xl mx-auto">
                 <Card>
                     <CardContent className="p-8">
                         <h2 className="font-headline text-2xl mb-6">Send us a message</h2>
@@ -92,32 +92,6 @@ export default function ContactPage() {
                         </Form>
                     </CardContent>
                 </Card>
-                <div className="space-y-8">
-                    <h2 className="font-headline text-2xl">Contact Information</h2>
-                    <div className="space-y-6">
-                        <div className="flex items-start gap-4">
-                            <MapPin className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                            <div>
-                                <h3 className="font-semibold">Our Studio</h3>
-                                <p className="text-muted-foreground">123 Design Lane, New York, NY 10001</p>
-                            </div>
-                        </div>
-                         <div className="flex items-start gap-4">
-                            <Mail className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                            <div>
-                                <h3 className="font-semibold">Email Us</h3>
-                                <p className="text-muted-foreground">hello@interiorscape.com</p>
-                            </div>
-                        </div>
-                         <div className="flex items-start gap-4">
-                            <Phone className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                            <div>
-                                <h3 className="font-semibold">Call Us</h3>
-                                <p className="text-muted-foreground">(555) 123-4567</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
