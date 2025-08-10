@@ -474,7 +474,7 @@ export default function Home() {
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">From Vision to Reality: Before & After</h2>
                     <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                        Scratch and see the transformation we bring to every space.
+                        Scratch to see the transformation we bring to every space.
                     </p>
                 </div>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
