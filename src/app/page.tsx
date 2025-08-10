@@ -340,32 +340,26 @@ export default function Home() {
                         Transforming spaces is easy with our transparent and customer-focused process.
                     </p>
                 </div>
-                <div className="relative">
-                    {/* Dotted line connector for larger screens */}
-                     <div className="hidden md:block absolute top-6 left-0 w-full h-px -translate-y-1/2">
-                         <svg width="100%" height="2" className="stroke-current text-border">
-                            <line x1="0" y1="1" x2="100%" y2="1" strokeWidth="2" strokeDasharray="8, 8"/>
-                        </svg>
-                    </div>
-                    <div className="relative grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-5">
+
+                <div className="relative max-w-3xl mx-auto">
+                    <Progress value={processSteps[activeProcessStep].percentage} className="h-2 mb-4" />
+                    <div className="relative grid grid-cols-5 gap-x-4">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
-                                className={`flex flex-col items-center text-center transition-transform duration-500 cursor-pointer ${activeProcessStep === index ? 'scale-110' : 'scale-100 opacity-70'}`}
+                                className={`flex flex-col items-center text-center cursor-pointer`}
                                 onClick={() => setActiveProcessStep(index)}
                              >
-                                <div className="relative z-10">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 border-4 border-background">
-                                        {item.step}
-                                    </div>
-                                    <Progress value={item.percentage} className="h-2 my-2 w-16 mx-auto" />
-                                    <p className="text-sm font-bold text-primary">{item.paymentText}</p>
+                                <div className={`relative z-10 flex items-center justify-center h-12 w-12 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                                    {item.step}
                                 </div>
+                                <p className={`mt-2 text-sm font-semibold transition-colors duration-300 ${activeProcessStep >= index ? 'text-primary' : 'text-muted-foreground'}`}>{item.paymentText}</p>
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className="mt-12">
+
+                <div className="mt-8">
                     <Card className="max-w-2xl mx-auto">
                          <CardContent className="p-8 text-center min-h-[150px] flex flex-col justify-center">
                             <h3 className="font-headline text-2xl mb-2">{processSteps[activeProcessStep].title}</h3>
