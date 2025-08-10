@@ -47,19 +47,19 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <div className="mr-auto flex items-center gap-2 md:mr-0 md:flex-1">
+        <div className="flex-1 flex items-center">
             <Link href="/" className="flex items-center gap-2">
                 <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
             </Link>
         </div>
 
-        <nav className="hidden items-center gap-6 md:flex md:flex-1 md:justify-center">
+        <nav className="hidden items-center gap-6 md:flex">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
         </nav>
 
-        <div className="flex items-center justify-end gap-4 md:flex-1">
+        <div className="flex-1 flex items-center justify-end gap-4">
           <div className="hidden md:flex items-center gap-4">
             <Button asChild>
                 <Link href="/calculate">
