@@ -11,6 +11,7 @@ import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
+import { OfferPopup } from "@/components/OfferPopup";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -34,6 +35,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+       <OfferPopup />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative h-[80vh] w-full">
