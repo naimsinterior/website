@@ -347,25 +347,31 @@ export default function Home() {
                             <line x1="0" y1="1" x2="100%" y2="1" strokeWidth="2" strokeDasharray="8, 8"/>
                         </svg>
                     </div>
-                    <div className="relative grid grid-cols-1 gap-12 md:grid-cols-5">
+                    <div className="relative grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-5">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
-                                className={`flex flex-col items-center text-center transition-all duration-500 ${activeProcessStep === index ? 'scale-105' : 'scale-95 opacity-70'}`}
+                                className={`flex flex-col items-center text-center transition-transform duration-500 cursor-pointer ${activeProcessStep === index ? 'scale-110' : 'scale-100 opacity-70'}`}
                                 onClick={() => setActiveProcessStep(index)}
                              >
                                 <div className="relative z-10">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 border-4 border-muted">
+                                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 border-4 border-background">
                                         {item.step}
                                     </div>
                                     <Progress value={item.percentage} className="h-2 my-2 w-16 mx-auto" />
                                     <p className="text-sm font-bold text-primary">{item.paymentText}</p>
                                 </div>
-                                <h3 className="font-headline text-lg mb-2 mt-4 h-12 flex items-center">{item.title}</h3>
-                                <p className="text-muted-foreground text-sm mb-2 h-24">{item.description}</p>
                             </div>
                         ))}
                     </div>
+                </div>
+                <div className="mt-12">
+                    <Card className="max-w-2xl mx-auto">
+                         <CardContent className="p-8 text-center min-h-[150px] flex flex-col justify-center">
+                            <h3 className="font-headline text-2xl mb-2">{processSteps[activeProcessStep].title}</h3>
+                            <p className="text-muted-foreground">{processSteps[activeProcessStep].description}</p>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </section>
