@@ -342,8 +342,7 @@ export default function Home() {
                 </div>
 
                 <div className="relative max-w-3xl mx-auto">
-                    <Progress value={processSteps[activeProcessStep].percentage} className="h-2 mb-4" />
-                    <div className="relative grid grid-cols-5 gap-x-4">
+                    <div className="relative grid grid-cols-5 gap-x-4 mb-4">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
@@ -357,6 +356,7 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
+                    <Progress value={processSteps[activeProcessStep].percentage} className="h-2" />
                 </div>
 
                 <div className="mt-8">
