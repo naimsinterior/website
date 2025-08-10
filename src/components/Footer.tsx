@@ -64,11 +64,12 @@ export function Footer() {
           </div>
            <div>
             <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">Contact</h3>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li>123 Design Lane</li>
-              <li>New York, NY 10001</li>
-              <li>(555) 123-4567</li>
-              <li>hello@interiorscape.com</li>
+            <ul className="mt-4 space-y-2">
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Gurgaon</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Chennai</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">OMR</Link></li>
             </ul>
           </div>
         </div>
