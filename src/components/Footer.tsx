@@ -2,6 +2,15 @@ import Link from 'next/link';
 import { Twitter, Instagram, Facebook } from 'lucide-react';
 import Image from 'next/image';
 
+const serviceAreas = [
+    { name: "Delhi", href: "/interior-design-delhi" },
+    { name: "Noida", href: "/interior-design-noida" },
+    { name: "Gurgaon", href: "#" },
+    { name: "Ghaziabad", href: "#" },
+    { name: "Faridabad", href: "#" },
+    { name: "Greater Noida", href: "#" },
+];
+
 export function Footer() {
   return (
     <footer className="border-t bg-card">
@@ -60,6 +69,20 @@ export function Footer() {
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Interiorscape. All rights reserved.</p>
+        </div>
+        <div className="mt-8 border-t pt-8">
+            <h3 className="font-headline text-lg font-semibold text-center md:text-left">Our Service Areas</h3>
+            <div className="mt-4">
+                <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
+                    {serviceAreas.map(area => (
+                        <li key={area.name}>
+                            <Link href={area.href} className="text-sm text-muted-foreground hover:text-primary">
+                                Interior Design in {area.name}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
       </div>
     </footer>
