@@ -126,28 +126,28 @@ const processSteps = [
     {
         step: 1,
         title: "Meet with a Designer",
-        percentage: 1,
+        percentage: 0,
         paymentText: "Free",
         description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
     },
     {
         step: 2,
         title: "Kickstart Your Journey",
-        percentage: 5,
+        percentage: 20,
         paymentText: "5% Payment",
         description: "Secure your booking with just 5% and let us bring your vision to life.",
     },
     {
         step: 3,
         title: "3D Design Review",
-        percentage: 45,
+        percentage: 50,
         paymentText: "40% Payment",
         description: "See your dream space come to life with a customized 3D design and approve it with confidence.",
     },
     {
         step: 4,
         title: "Execution Phase",
-        percentage: 95,
+        percentage: 80,
         paymentText: "50% Payment",
         description: "Our skilled team ensures every detail is perfectly crafted during the execution phase.",
     },
@@ -356,7 +356,7 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-                    <Progress value={processSteps[activeProcessStep].percentage} className="h-2" />
+                    <Progress value={activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage} className="h-2" />
                 </div>
 
                 <div className="mt-8">
