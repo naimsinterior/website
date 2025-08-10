@@ -560,42 +560,29 @@ export default function InteriorDesignDelhiPage() {
                         Have questions? We have answers.
                     </p>
                 </div>
-                <div className="mt-12 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
+                 <div className="mt-12 max-w-4xl mx-auto">
                     <div className="flex flex-col gap-4">
                         {faqs.map((faq, index) => (
                            <button 
                                 key={index} 
                                 onClick={() => setActiveFaqIndex(index)}
                                 className={cn(
-                                    "p-4 rounded-lg text-left transition-all",
-                                    "flex items-start gap-4",
-                                    activeFaqIndex === index ? 'bg-background shadow' : 'hover:bg-background/50'
+                                    "p-4 rounded-lg text-left transition-all text-lg",
+                                    "flex items-center gap-4",
+                                    activeFaqIndex === index 
+                                      ? 'bg-primary text-primary-foreground shadow-lg' 
+                                      : 'bg-background hover:bg-background/80'
                                 )}
                             >
-                                <div className="flex-shrink-0">
-                                    <div className={cn(
-                                        "flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 transition-colors",
-                                        activeFaqIndex === index && 'bg-primary text-primary-foreground'
-                                    )}>
-                                      <MessageCircleQuestion className="h-6 w-6" />
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="font-headline text-lg">{faq.question}</p>
-                                    <p className={cn("text-sm text-muted-foreground mt-1 transition-all duration-300 overflow-hidden", activeFaqIndex === index ? 'max-h-0' : 'max-h-0 md:max-h-20')}>
-                                      {faq.answer}
-                                    </p>
-                                </div>
+                                <MessageCircleQuestion className="h-6 w-6 flex-shrink-0" />
+                                <span className="font-headline flex-grow">{faq.question}</span>
                            </button>
                         ))}
                     </div>
-                     <div className="sticky top-24">
-                        <Card className="h-full min-h-[300px] flex flex-col justify-center">
-                            <CardHeader>
-                                <CardTitle className="font-headline text-2xl">{faqs[activeFaqIndex].question}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-muted-foreground">{faqs[activeFaqIndex].answer}</p>
+                     <div className="mt-6">
+                        <Card className="h-full min-h-[150px] flex flex-col justify-center transition-all duration-300">
+                            <CardContent className="p-8">
+                                <p className="text-muted-foreground text-lg">{faqs[activeFaqIndex].answer}</p>
                             </CardContent>
                         </Card>
                     </div>
