@@ -118,6 +118,13 @@ export function Header() {
                       <Link href="/signup">Sign Up</Link>
                     </Button>
                 </div>
+                 <div className="mt-4 border-t pt-4">
+                    <nav className="flex flex-col gap-4">
+                        <Link href="/terms-and-conditions" className="text-sm text-muted-foreground hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
+                        <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
+                        <Link href="/declaration" className="text-sm text-muted-foreground hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Declaration</Link>
+                    </nav>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

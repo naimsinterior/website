@@ -30,6 +30,12 @@ const allNavLinks = [
   { href: "/calculate", label: "Calculator" },
 ];
 
+const legalLinks = [
+    { href: "/terms-and-conditions", label: "Terms & Conditions" },
+    { href: "/privacy-policy", label: "Privacy Policy" },
+    { href: "/declaration", label: "Declaration" },
+];
+
 
 export function MobileFooter() {
   const pathname = usePathname();
@@ -90,6 +96,11 @@ export function MobileFooter() {
                      <Button asChild>
                       <Link href="/signup">Sign Up</Link>
                     </Button>
+                </div>
+                 <div className="mt-4 border-t pt-4">
+                    <nav className="flex flex-col gap-4">
+                        {legalLinks.map(link => <AllLinksNavLink key={link.href} {...link} />)}
+                    </nav>
                 </div>
               </div>
             </SheetContent>
