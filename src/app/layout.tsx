@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { SubHeader } from '@/components/SubHeader';
 import { FloatingContactButtons } from '@/components/FloatingContactButtons';
 import { MobileFooter } from '@/components/MobileFooter';
+import { SubFooter } from '@/components/SubFooter';
 
 export const metadata: Metadata = {
   title: 'Interiorscape',
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Header />
         <main className="pb-20 md:pb-0">{children}</main>
         <FloatingContactButtons />
+        <SubFooter />
         <Footer />
         <MobileFooter />
         <Toaster />

@@ -44,6 +44,7 @@ export function Footer() {
               <li><Link href="/moodboard" className="text-sm text-muted-foreground hover:text-primary">Moodboard</Link></li>
               <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
               <li><Link href="/interior-design-noida" className="text-sm text-muted-foreground hover:text-primary">Interior Design in Noida</Link></li>
+              <li><Link href="/interior-design-delhi" className="text-sm text-muted-foreground hover:text-primary">Interior Design in Delhi</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
             </ul>
           </div>
