@@ -92,7 +92,7 @@ export function Header() {
           <div className="flex items-center gap-2 md:hidden">
             <Button asChild variant="ghost" size="icon">
                 <Link href="/calculate">
-                    <Calculator className="h-6 w-6" />
+                    <Calculator className="h-7 w-7" />
                     <span className="sr-only">Calculate</span>
                 </Link>
             </Button>
