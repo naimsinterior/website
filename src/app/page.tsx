@@ -212,6 +212,8 @@ export default function Home() {
     
     const [activeProcessStep, setActiveProcessStep] = useState(0);
     const [isProcessHovered, setIsProcessHovered] = useState(false);
+    const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
+
 
     useEffect(() => {
         if (isTabHovered) return;
@@ -257,7 +259,7 @@ export default function Home() {
               We believe in creating interiors that are not just beautiful, but also a true reflection of you.
             </p>
             <div className="mt-8">
-                <GetQuoteForm />
+                <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen} />
             </div>
           </div>
         </section>
@@ -472,7 +474,7 @@ export default function Home() {
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">From Vision to Reality: Before & After</h2>
                     <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                        Scratch to reveal the stunning transformations we bring to every space.
+                        Scratch and see the transformation we bring to every space.
                     </p>
                 </div>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -484,6 +486,7 @@ export default function Home() {
                                     afterImage={project.after}
                                     beforeHint={project.beforeHint}
                                     afterHint={project.afterHint}
+                                    onScratchComplete={() => setIsQuoteFormOpen(true)}
                                 />
                             </CardContent>
                             <CardHeader className="pt-2">

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,8 +33,12 @@ const quoteFormSchema = z.object({
 
 type QuoteFormValues = z.infer<typeof quoteFormSchema>;
 
-export function GetQuoteForm() {
-    const [open, setOpen] = React.useState(false);
+interface GetQuoteFormProps {
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+}
+
+export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
     const { toast } = useToast();
     const form = useForm<QuoteFormValues>({
         resolver: zodResolver(quoteFormSchema),
@@ -46,11 +51,11 @@ export function GetQuoteForm() {
             description: `Thank you, ${data.name}. We'll be in touch shortly.`,
         });
         form.reset();
-        setOpen(false);
+        onOpenChange?.(false);
     }
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
                 <Button>Get a Quote</Button>
             </DialogTrigger>

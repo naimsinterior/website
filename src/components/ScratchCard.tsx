@@ -9,33 +9,77 @@ interface ScratchCardProps {
   afterImage: string;
   beforeHint: string;
   afterHint: string;
+  onScratchComplete: () => void;
 }
 
-export function ScratchCard({ beforeImage, afterImage, beforeHint, afterHint }: ScratchCardProps) {
+export function ScratchCard({ beforeImage, afterImage, beforeHint, afterHint, onScratchComplete }: ScratchCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isScratching, setIsScratching] = useState(false);
+  const [hasPopped, setHasPopped] = useState(false);
+
+  const getCanvasContext = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    return canvas.getContext('2d', { willReadFrequently: true });
+  }
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = getCanvasContext();
     if (!ctx) return;
-
+    
+    const canvas = ctx.canvas;
     const image = new window.Image();
     image.crossOrigin = 'anonymous'; // Required for placehold.co images
     image.src = beforeImage;
 
     image.onload = () => {
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-      // Add "Before" text
+      
+      // Add centered text
       ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.fillRect(0, canvas.height / 2 - 25, canvas.width, 50);
+
+      ctx.fillStyle = '#FFF';
+      ctx.font = 'bold 20px "Playfair Display", serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Scratch and see the transformation', canvas.width / 2, canvas.height / 2);
+
+       // Add "Before" text
       ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
       ctx.fillRect(5, 5, 55, 20);
       ctx.fillStyle = '#000';
       ctx.font = 'bold 12px sans-serif';
-      ctx.fillText('BEFORE', 10, 19);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('BEFORE', 10, 8);
     };
   }, [beforeImage]);
+
+  const checkScratchPercentage = () => {
+    const ctx = getCanvasContext();
+    if (!ctx || hasPopped) return;
+
+    const canvas = ctx.canvas;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    let transparentPixels = 0;
+
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i] === 0) {
+        transparentPixels++;
+      }
+    }
+
+    const totalPixels = data.length / 4;
+    const percentage = (transparentPixels / totalPixels) * 100;
+
+    if (percentage > 30) {
+        onScratchComplete();
+        setHasPopped(true); 
+    }
+  }
 
   const getBrushPos = (xRef: number, yRef: number) => {
     const canvas = canvasRef.current;
@@ -49,9 +93,8 @@ export function ScratchCard({ beforeImage, afterImage, beforeHint, afterHint }: 
 
   const draw = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isScratching) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (!canvas || !ctx) return;
+    const ctx = getCanvasContext();
+    if (!ctx) return;
 
     let mousePos;
     if ('touches' in e) {
@@ -67,7 +110,17 @@ export function ScratchCard({ beforeImage, afterImage, beforeHint, afterHint }: 
   };
 
   const handleMouseDown = () => setIsScratching(true);
-  const handleMouseUp = () => setIsScratching(false);
+
+  const handleMouseUp = () => {
+    setIsScratching(false);
+    checkScratchPercentage();
+  };
+  
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isScratching) return;
+    draw(e);
+  };
+
 
   return (
     <div className="relative aspect-video w-full cursor-grab active:cursor-grabbing rounded-md overflow-hidden">
@@ -89,11 +142,11 @@ export function ScratchCard({ beforeImage, afterImage, beforeHint, afterHint }: 
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onMouseMove={draw}
+        onMouseMove={handleMouseMove}
         onTouchStart={handleMouseDown}
         onTouchEnd={handleMouseUp}
         onTouchCancel={handleMouseUp}
-        onTouchMove={draw}
+        onTouchMove={handleMouseMove}
       />
     </div>
   );
