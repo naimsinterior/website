@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Heart, Menu } from 'lucide-react';
+import { Home, LayoutGrid, Heart, Menu, LogIn, UserPlus, UserCircle, Calculator } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -87,14 +88,29 @@ export function MobileFooter() {
                 </nav>
                  <div className="mt-4 flex flex-col gap-2">
                     <Button asChild>
-                      <Link href="/calculate">Calculate</Link>
+                      <Link href="/calculate">Calculate your home interior</Link>
                     </Button>
-                    <Button asChild variant="outline">
-                      <Link href="/login">Login</Link>
-                    </Button>
-                     <Button asChild>
-                      <Link href="/signup">Sign Up</Link>
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline">
+                          <UserCircle className="mr-2 h-4 w-4" /> Account
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuItem asChild>
+                          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                            <LogIn className="mr-2 h-4 w-4" />
+                            Login
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                            <UserPlus className="mr-2 h-4 w-4" />
+                            Sign Up
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
                  <div className="mt-4 border-t pt-4">
                     <nav className="flex flex-col gap-4">
