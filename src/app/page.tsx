@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck, Check } from "lucide-react";
+import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck, Check, Workflow } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React, { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { OfferPopup } from "@/components/OfferPopup";
+import { Progress } from "@/components/ui/progress";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -121,6 +122,39 @@ const services = [
   },
 ]
 
+const processSteps = [
+    {
+        step: 1,
+        title: "Meet with a Designer",
+        percentage: 0,
+        description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
+    },
+    {
+        step: 2,
+        title: "Kickstart Your Journey",
+        percentage: 5,
+        description: "Secure your booking with just 5% and let us bring your vision to life.",
+    },
+    {
+        step: 3,
+        title: "3D Design Review",
+        percentage: 45,
+        description: "See your dream space come to life with a customized 3D design and approve it with confidence.",
+    },
+    {
+        step: 4,
+        title: "Execution Phase",
+        percentage: 75,
+        description: "Our skilled team ensures every detail is perfectly crafted during the execution phase.",
+    },
+    {
+        step: 5,
+        title: "The Final Touch – Handover",
+        percentage: 100,
+        description: "Celebrate the completion of your project with confidence and satisfaction.",
+    },
+];
+
 export default function Home() {
     const plugins = [
         Autoplay({
@@ -219,7 +253,7 @@ export default function Home() {
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto">
                             {services.map((service) => (
-                               <TabsTrigger key={service.value} value={service.value} className="py-2.5">
+                               <TabsTrigger key={service.value} value={service.value} className="py-2.5 whitespace-normal">
                                    {service.title}
                                </TabsTrigger>
                             ))}
@@ -274,8 +308,44 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Projects Carousel */}
+        {/* Our Process Section */}
         <section className="py-16 md:py-24 bg-muted">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="font-headline text-3xl md:text-4xl">NAIMS INTERIOR</h2>
+                    <p className="mt-2 text-lg font-semibold">Your Journey to Dream Interior Made Simple.</p>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Transforming spaces is easy with our transparent and customer-focused process.
+                    </p>
+                </div>
+                <div className="relative">
+                    {/* Dotted line connector for larger screens */}
+                     <div className="hidden md:block absolute top-6 left-0 w-full h-px -translate-y-1/2">
+                         <svg width="100%" height="2" className="stroke-current text-border">
+                            <line x1="0" y1="1" x2="100%" y2="1" strokeWidth="2" strokeDasharray="8, 8"/>
+                        </svg>
+                    </div>
+                    <div className="relative grid grid-cols-1 gap-12 md:grid-cols-5">
+                        {processSteps.map((item) => (
+                             <div key={item.step} className="flex flex-col items-center text-center">
+                                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 z-10 border-4 border-muted">
+                                    {item.step}
+                                </div>
+                                <h3 className="font-headline text-lg mb-2">{item.title}</h3>
+                                <p className="text-muted-foreground text-sm mb-2 h-24">{item.description}</p>
+                                <div className="w-full px-4 mt-auto">
+                                    <Progress value={item.percentage} className="h-2 my-2" />
+                                    <p className="text-sm font-bold text-primary">{item.percentage > 0 ? `Upto ${item.percentage}% Payment` : 'Free'}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {/* Featured Projects Carousel */}
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-center font-headline text-3xl md:text-4xl">
               Featured Projects
@@ -326,7 +396,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center">
               <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
@@ -369,7 +439,7 @@ export default function Home() {
         </section>
 
         {/* Brands Section */}
-        <section className="py-16 md:py-24 bg-muted">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="font-headline text-3xl md:text-4xl">
              Best Materials, Sourced for You
@@ -409,3 +479,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
