@@ -127,30 +127,35 @@ const processSteps = [
         step: 1,
         title: "Meet with a Designer",
         percentage: 0,
+        paymentText: "Free",
         description: "Start your journey with a free consultation. Discuss your ideas, needs, and preferences with our expert designers—no strings attached!",
     },
     {
         step: 2,
         title: "Kickstart Your Journey",
         percentage: 5,
+        paymentText: "5% Payment",
         description: "Secure your booking with just 5% and let us bring your vision to life.",
     },
     {
         step: 3,
         title: "3D Design Review",
         percentage: 45,
+        paymentText: "40% Payment",
         description: "See your dream space come to life with a customized 3D design and approve it with confidence.",
     },
     {
         step: 4,
         title: "Execution Phase",
-        percentage: 75,
+        percentage: 95,
+        paymentText: "50% Payment",
         description: "Our skilled team ensures every detail is perfectly crafted during the execution phase.",
     },
     {
         step: 5,
         title: "The Final Touch – Handover",
         percentage: 100,
+        paymentText: "5% Payment",
         description: "Celebrate the completion of your project with confidence and satisfaction.",
     },
 ];
@@ -166,6 +171,9 @@ export default function Home() {
 
     const [activeTab, setActiveTab] = useState(services[0].value);
     const [isTabHovered, setIsTabHovered] = useState(false);
+    
+    const [activeProcessStep, setActiveProcessStep] = useState(0);
+    const [isProcessHovered, setIsProcessHovered] = useState(false);
 
     useEffect(() => {
         if (isTabHovered) return;
@@ -178,6 +186,16 @@ export default function Home() {
 
         return () => clearInterval(interval);
     }, [activeTab, isTabHovered]);
+
+    useEffect(() => {
+        if(isProcessHovered) return;
+
+        const processInterval = setInterval(() => {
+            setActiveProcessStep(prev => (prev + 1) % processSteps.length);
+        }, 3000);
+
+        return () => clearInterval(processInterval);
+    }, [isProcessHovered]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -310,7 +328,11 @@ export default function Home() {
 
         {/* Our Process Section */}
         <section className="py-16 md:py-24 bg-muted">
-            <div className="container mx-auto px-4 md:px-6">
+            <div 
+                className="container mx-auto px-4 md:px-6"
+                onMouseEnter={() => setIsProcessHovered(true)}
+                onMouseLeave={() => setIsProcessHovered(false)}
+            >
                 <div className="text-center mb-12">
                     <h2 className="font-headline text-3xl md:text-4xl">NAIMS INTERIOR</h2>
                     <p className="mt-2 text-lg font-semibold">Your Journey to Dream Interior Made Simple.</p>
@@ -326,17 +348,21 @@ export default function Home() {
                         </svg>
                     </div>
                     <div className="relative grid grid-cols-1 gap-12 md:grid-cols-5">
-                        {processSteps.map((item) => (
-                             <div key={item.step} className="flex flex-col items-center text-center">
-                                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 z-10 border-4 border-muted">
-                                    {item.step}
+                        {processSteps.map((item, index) => (
+                             <div 
+                                key={item.step} 
+                                className={`flex flex-col items-center text-center transition-all duration-500 ${activeProcessStep === index ? 'scale-105' : 'scale-95 opacity-70'}`}
+                                onClick={() => setActiveProcessStep(index)}
+                             >
+                                <div className="relative z-10">
+                                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 border-4 border-muted">
+                                        {item.step}
+                                    </div>
+                                    <Progress value={item.percentage} className="h-2 my-2 w-16 mx-auto" />
+                                    <p className="text-sm font-bold text-primary">{item.paymentText}</p>
                                 </div>
-                                <h3 className="font-headline text-lg mb-2">{item.title}</h3>
+                                <h3 className="font-headline text-lg mb-2 mt-4 h-12 flex items-center">{item.title}</h3>
                                 <p className="text-muted-foreground text-sm mb-2 h-24">{item.description}</p>
-                                <div className="w-full px-4 mt-auto">
-                                    <Progress value={item.percentage} className="h-2 my-2" />
-                                    <p className="text-sm font-bold text-primary">{item.percentage > 0 ? `Upto ${item.percentage}% Payment` : 'Free'}</p>
-                                </div>
                             </div>
                         ))}
                     </div>
@@ -479,3 +505,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
