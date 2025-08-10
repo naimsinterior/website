@@ -342,20 +342,25 @@ export default function Home() {
                 </div>
 
                 <div className="relative max-w-3xl mx-auto">
-                    <div className="relative grid grid-cols-5 gap-x-4">
+                    <div className="absolute top-5 left-0 w-full h-2 bg-secondary rounded-full">
+                        <div 
+                           className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-300" 
+                           style={{width: `${activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage}%`}}
+                        ></div>
+                    </div>
+                    <div className="relative flex justify-between">
                         {processSteps.map((item, index) => (
                              <div 
                                 key={item.step} 
-                                className={`flex flex-col items-center text-center cursor-pointer`}
+                                className="flex flex-col items-center text-center cursor-pointer z-10"
                                 onClick={() => setActiveProcessStep(index)}
                              >
-                                <div className={`relative z-10 flex items-center justify-center h-12 w-12 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                                <div className={`flex items-center justify-center h-12 w-12 rounded-full border-4 border-background transition-all duration-300 ${activeProcessStep >= index ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
                                     {item.step}
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <Progress value={activeProcessStep === 0 ? 0 : processSteps[activeProcessStep].percentage} className="h-2 absolute top-1/2 -translate-y-1/2 -z-10" />
                 </div>
 
                 <div className="mt-8">
