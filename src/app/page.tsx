@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck, Check } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { OfferPopup } from "@/components/OfferPopup";
 
@@ -130,6 +130,21 @@ export default function Home() {
         }),
     ];
 
+    const [activeTab, setActiveTab] = useState(services[0].value);
+    const [isTabHovered, setIsTabHovered] = useState(false);
+
+    useEffect(() => {
+        if (isTabHovered) return;
+
+        const interval = setInterval(() => {
+            const currentIndex = services.findIndex(s => s.value === activeTab);
+            const nextIndex = (currentIndex + 1) % services.length;
+            setActiveTab(services[nextIndex].value);
+        }, 3000); // Change tab every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [activeTab, isTabHovered]);
+
   return (
     <div className="flex flex-col min-h-screen">
        <OfferPopup />
@@ -196,8 +211,12 @@ export default function Home() {
                         Transforming spaces into stunning works of art with thoughtful design solutions tailored to your needs.
                     </p>
                 </div>
-                <div className="mt-12 max-w-5xl mx-auto">
-                    <Tabs defaultValue="residential" className="w-full">
+                <div 
+                    className="mt-12 max-w-5xl mx-auto"
+                    onMouseEnter={() => setIsTabHovered(true)}
+                    onMouseLeave={() => setIsTabHovered(false)}
+                >
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto">
                             {services.map((service) => (
                                <TabsTrigger key={service.value} value={service.value} className="py-2.5">
