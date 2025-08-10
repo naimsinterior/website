@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Twitter, Instagram, Facebook } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Linkedin, Pinterest, X } from 'lucide-react';
 import Image from 'next/image';
 
 const serviceAreas = [
@@ -28,7 +28,16 @@ export function Footer() {
             </div>
             <div className="mt-4 flex space-x-4">
               <Link href="#" className="text-muted-foreground hover:text-primary">
-                <Twitter className="h-5 w-5" />
+                <X className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Youtube className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Pinterest className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Linkedin className="h-5 w-5" />
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary">
                 <Instagram className="h-5 w-5" />
