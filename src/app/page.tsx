@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ArrowRight, Paintbrush, Users, Briefcase, Star } from "lucide-react";
+import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React from "react";
@@ -22,6 +22,39 @@ const brands = [
   { name: "Prestige", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
   { name: "Vertex", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> },
   { name: "Legacy", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> },
+];
+
+const whyChooseUs = [
+    {
+        icon: <Smile className="h-8 w-8 text-primary" />,
+        title: "100% Customer Satisfaction",
+        description: "100% Customer satisfaction is the main motto of our company. We love to see happy and satisfied customers by delivering outstanding interior designing services. Your experience really matters to us!",
+    },
+    {
+        icon: <Users className="h-8 w-8 text-primary" />,
+        title: "1000+ Happy Clients",
+        description: "Our 1000+ happy customers are the live example of our best-in-class interior designing services. We always aim to deliver high-quality service within your budget.",
+    },
+    {
+        icon: <DollarSign className="h-8 w-8 text-primary" />,
+        title: "Economic Cost",
+        description: "We offer an affordable wide range of interior designing services for your dream home, yet no compromise in material quality to withstand durability.",
+    },
+     {
+        icon: <Gem className="h-8 w-8 text-primary" />,
+        title: "High Quality Materials",
+        description: "We always use only high-quality material supplies for all of our interior works that provide complete protection to your dream house in the long run. No compromise in Quality.",
+    },
+    {
+        icon: <BadgeCheck className="h-8 w-8 text-primary" />,
+        title: "No Hidden Charges",
+        description: "We believe that transparency is the core key in excellent customer service. So, we don't have any hidden charges. What you see is what you pay.",
+    },
+    {
+        icon: <Briefcase className="h-8 w-8 text-primary" />,
+        title: "Expert Interior Designers",
+        description: "Our experienced designers have decades of experience in interior designing. So you just hand over everything to us and relax, we will take care of everything.",
+    },
 ];
 
 export default function Home() {
@@ -135,8 +168,35 @@ export default function Home() {
             </div>
         </section>
 
-        {/* Featured Projects Carousel */}
+        {/* Why Choose Us Section */}
         <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-12">
+              <h2 className="font-headline text-3xl md:text-4xl">Why Choose Naims Interior?</h2>
+              <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                Over others?
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {whyChooseUs.map((item, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader>
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
+                      {item.icon}
+                    </div>
+                    <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{item.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Projects Carousel */}
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-center font-headline text-3xl md:text-4xl">
               Featured Projects
@@ -187,7 +247,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="bg-muted py-16 md:py-24">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center">
               <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
@@ -230,7 +290,7 @@ export default function Home() {
         </section>
 
         {/* Brands Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="font-headline text-3xl md:text-4xl">
              Best Materials, Sourced for You
@@ -270,3 +330,4 @@ export default function Home() {
     </div>
   );
 }
+
