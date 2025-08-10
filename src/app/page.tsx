@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ArrowRight, Paintbrush, Users, Briefcase, Star, Smile, Gem, DollarSign, BadgeCheck, Check } from "lucide-react";
 import { projects } from "./projects/projects";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import React from "react";
@@ -56,6 +57,69 @@ const whyChooseUs = [
         description: "Our experienced designers have decades of experience in interior designing. So you just hand over everything to us and relax, we will take care of everything.",
     },
 ];
+
+const services = [
+  {
+    value: "residential",
+    title: "Residential Design",
+    description: "We at Naims Interior, provide complete residential interior designing services including:",
+    items: [
+        "Living Room & Home Office Design",
+        "Bedroom & Dinning Interior Design",
+        "Kids’ Room Design"
+    ]
+  },
+  {
+    value: "kitchen-bathroom",
+    title: "Kitchen & Bathroom Interior",
+    description: "We offer complete Kitchen and Bathroom interior services for your dream home, including:",
+    items: [
+      "Modular Kitchen Design",
+      "Kitchen Remodeling",
+      "Bathroom Renovation"
+    ]
+  },
+  {
+    value: "furniture-decor",
+    title: "Customized Furniture & Decor",
+    description: "We offer high-end customized furniture and decor services, including:",
+    items: [
+      "Custom Furniture (Sofas, beds, and storage units.)",
+      "Wall Treatments & Wallpapers",
+      "Lighting Design & Solutions",
+      "Flooring Solutions (Wooden, marble, tile, etc.)"
+    ]
+  },
+  {
+    value: "space-planning",
+    title: "Space Planning & Optimization",
+    description: "Our interior experts help transform any space into a functional area, including:",
+    items: [
+      "Smart Storage Solutions",
+      "Compact Home Design",
+      "Vastu/Feng Shui Interior Consulting"
+    ]
+  },
+  {
+    value: "renovation",
+    title: "Home Renovation & Makeovers",
+    description: "We undertake complete home renovations and makeovers, including:",
+    items: [
+      "Full Home Makeover",
+      "Themed Interior (Contemporary, minimalist, bohemian, etc.)"
+    ]
+  },
+  {
+    value: "3d-visualization",
+    title: "3D Visualization & Consultation",
+    description: "We offer interior consultation and design services, including:",
+    items: [
+      "3D Interior Rendering",
+      "Virtual Interior Design Services",
+      "Mood Board & Material Selection"
+    ]
+  },
+]
 
 export default function Home() {
     const plugins = [
@@ -128,42 +192,31 @@ export default function Home() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">Our Services</h2>
-                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">From concept to completion, we offer a range of services to bring your vision to life.</p>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Transforming spaces into stunning works of art with thoughtful design solutions tailored to your needs.
+                    </p>
                 </div>
-                <div className="mt-12 grid gap-8 md:grid-cols-3">
-                    <Card className="text-center">
-                        <CardHeader>
-                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                                <Paintbrush className="h-6 w-6 text-primary" />
-                            </div>
-                            <CardTitle className="font-headline mt-4">Interior Design</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Full-service design for new constructions and renovations, tailored to your style and needs.</p>
-                        </CardContent>
-                    </Card>
-                    <Card className="text-center">
-                        <CardHeader>
-                             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                                <Users className="h-6 w-6 text-primary" />
-                            </div>
-                            <CardTitle className="font-headline mt-4">Design Consultation</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Expert advice on color palettes, furniture selection, and space planning to refresh your home.</p>
-                        </CardContent>
-                    </Card>
-                    <Card className="text-center">
-                        <CardHeader>
-                             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                                <Briefcase className="h-6 w-6 text-primary" />
-                            </div>
-                            <CardTitle className="font-headline mt-4">Commercial Spaces</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Creating functional and inspiring environments for offices, retail, and hospitality.</p>
-                        </CardContent>
-                    </Card>
+                <div className="mt-12 max-w-4xl mx-auto">
+                    <Accordion type="single" collapsible defaultValue="residential" className="w-full">
+                        {services.map((service) => (
+                           <AccordionItem value={service.value} key={service.value}>
+                                <AccordionTrigger className="font-headline text-xl text-left">
+                                    {service.title}
+                                </AccordionTrigger>
+                                <AccordionContent className="text-base">
+                                    <p className="text-muted-foreground mb-4">{service.description}</p>
+                                    <ul className="space-y-2">
+                                      {service.items.map((item, index) => (
+                                          <li key={index} className="flex items-start">
+                                            <Check className="h-5 w-5 text-primary mr-3 mt-1 flex-shrink-0" />
+                                            <span>{item}</span>
+                                          </li>
+                                      ))}
+                                    </ul>
+                                </AccordionContent>
+                           </AccordionItem>
+                        ))}
+                    </Accordion>
                 </div>
             </div>
         </section>
@@ -330,4 +383,3 @@ export default function Home() {
     </div>
   );
 }
-
