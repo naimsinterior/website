@@ -43,6 +43,14 @@ const beforeAfterProjects = [
         afterHint: "luxury bathroom",
         title: "Master Bathroom Oasis",
         description: "An old, tired bathroom became a spa-like retreat with modern finishes."
+    },
+    {
+        before: "https://placehold.co/600x400.png",
+        after: "https://placehold.co/600x400.png",
+        beforeHint: "outdated bedroom",
+        afterHint: "modern bedroom",
+        title: "Bedroom Refresh",
+        description: "A dull bedroom turned into a serene and stylish personal sanctuary."
     }
 ];
 
@@ -466,27 +474,48 @@ export default function Home() {
                         Witness the stunning transformations we bring to every space.
                     </p>
                 </div>
-                <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-                    {beforeAfterProjects.map((project, index) => (
-                        <div key={index}>
-                            <Card>
-                                <CardContent className="p-4">
-                                    <div className="relative aspect-video w-full">
-                                        <Image src={project.before} alt={`Before: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.beforeHint} />
-                                        <div className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold uppercase px-2 py-1 rounded">Before</div>
+                <div className="mt-12">
+                     <Carousel
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                        plugins={[
+                            Autoplay({
+                                delay: 4000,
+                                stopOnInteraction: true,
+                                stopOnMouseEnter: true,
+                            }),
+                        ]}
+                        className="w-full"
+                    >
+                        <CarouselContent>
+                            {beforeAfterProjects.map((project, index) => (
+                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-2">
+                                        <Card>
+                                            <CardContent className="p-4">
+                                                <div className="relative aspect-video w-full">
+                                                    <Image src={project.before} alt={`Before: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.beforeHint} />
+                                                    <div className="absolute top-2 left-2 bg-black/50 text-white text-xs font-bold uppercase px-2 py-1 rounded">Before</div>
+                                                </div>
+                                                <div className="relative aspect-video w-full mt-4">
+                                                    <Image src={project.after} alt={`After: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.afterHint} />
+                                                    <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold uppercase px-2 py-1 rounded">After</div>
+                                                </div>
+                                            </CardContent>
+                                            <CardHeader>
+                                                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
+                                                <CardDescription>{project.description}</CardDescription>
+                                            </CardHeader>
+                                        </Card>
                                     </div>
-                                    <div className="relative aspect-video w-full mt-4">
-                                        <Image src={project.after} alt={`After: ${project.title}`} fill className="rounded-md object-cover" data-ai-hint={project.afterHint} />
-                                         <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold uppercase px-2 py-1 rounded">After</div>
-                                    </div>
-                                </CardContent>
-                                <CardHeader>
-                                    <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
-                                    <CardDescription>{project.description}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                    ))}
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                         <CarouselPrevious className="hidden sm:flex" />
+                         <CarouselNext className="hidden sm:flex" />
+                    </Carousel>
                 </div>
             </div>
         </section>
