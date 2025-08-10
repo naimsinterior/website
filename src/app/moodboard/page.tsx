@@ -26,12 +26,17 @@ export default function MoodboardPage() {
                 toast({
                     title: "Project Shared!",
                 });
-            } catch (error) {
+            } catch (error: any) {
+                // Ignore AbortError which is triggered when the user cancels the share dialog
+                if (error.name === 'AbortError') {
+                    return;
+                }
                 console.error('Error sharing:', error);
+                 // Fallback to clipboard for other errors
+                navigator.clipboard.writeText(projectUrl);
                 toast({
-                    title: "Could not share project",
-                    description: "Something went wrong. Please try again.",
-                    variant: "destructive"
+                    title: "Link Copied!",
+                    description: "Sharing failed, but the link is in your clipboard.",
                 });
             }
         } else {
