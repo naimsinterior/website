@@ -72,9 +72,6 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} NAIMS INTERIOR. All rights reserved.</p>
-        </div>
         <div className="mt-8 border-t pt-8">
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Our Service Areas</h3>
             <div className="mt-4">
@@ -88,6 +85,9 @@ export function Footer() {
                     ))}
                 </ul>
             </div>
+        </div>
+        <div className="border-t text-center text-sm text-muted-foreground py-1.5">
+          <p className="m-0">&copy; {new Date().getFullYear()} NAIMS INTERIOR. All rights reserved.</p>
         </div>
       </div>
     </footer>
