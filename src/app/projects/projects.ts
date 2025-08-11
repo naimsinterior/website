@@ -85,6 +85,18 @@ export const projectsData: Project[] = [
             author: "CEO of TechForward Inc."
         }
     },
+    {
+        slug: 'art-deco-apartment',
+        title: 'Art Deco Apartment',
+        description: 'A glamorous apartment that pays homage to the Art Deco era with bold geometrics and lavish details.',
+        longDescription: 'This project was a full-scale remodel to bring the glamour of the Roaring Twenties into a modern city apartment. We used a rich color palette of deep jewel tones, metallics, and high-contrast black and white. Key features include custom terrazzo flooring, fan-shaped motifs, and luxurious velvet upholstery. The lighting was a key focus, with statement chandeliers and sconces creating a dramatic and inviting atmosphere.',
+        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
+        aiHint: 'art deco apartment',
+        testimonial: {
+            text: "They brought our Gatsby-esque dreams to life! Every detail is exquisite.",
+            author: "The Fitzgeralds"
+        }
+    }
 ];
 
 export const projects: Project[] = [...projectsData].reverse();
