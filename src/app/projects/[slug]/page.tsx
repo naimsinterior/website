@@ -160,17 +160,17 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
       </div>
 
       {/* CTA */}
-      <div className="mt-16 flex justify-center items-center flex-wrap gap-4">
-        <Button size="lg" asChild>
+      <div className="mt-16 flex w-full flex-col sm:flex-row justify-center items-center gap-4">
+        <Button size="lg" asChild className="w-full sm:w-auto">
             <Link href="/contact">
                 Get a Similar Design
             </Link>
         </Button>
-        <Button size="lg" variant="outline" onClick={handleMoodboardClick}>
+        <Button size="lg" variant="outline" onClick={handleMoodboardClick} className="w-full sm:w-auto">
           <Heart className={cn("mr-2 h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
           {isInMoodboard ? 'Saved' : 'Save to Moodboard'}
         </Button>
-        <Button size="lg" variant="outline" onClick={handleShare}>
+        <Button size="lg" variant="outline" onClick={handleShare} className="w-full sm:w-auto">
           <Share2 className="mr-2 h-5 w-5" />
           Share
         </Button>
