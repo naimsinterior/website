@@ -27,7 +27,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
       {/* Header Section */}
-      <div className="relative h-[60vh] w-full mb-12">
+      <div className="relative h-[40vh] md:h-[60vh] w-full mb-12">
           <Image
               src={project.images[0]}
               alt={`${project.title} banner`}
