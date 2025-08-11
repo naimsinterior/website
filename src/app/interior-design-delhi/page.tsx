@@ -551,34 +551,6 @@ export default function InteriorDesignDelhiPage() {
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="bg-muted py-16 md:py-24">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center">
-                    <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
-                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                        Have questions? We have answers.
-                    </p>
-                </div>
-                <div className="mt-12 max-w-4xl mx-auto">
-                    <Accordion type="single" collapsible className="w-full space-y-4">
-                        {faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
-                                <Card>
-                                    <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="px-6 pb-6">
-                                        <p className="text-base text-muted-foreground">{faq.answer}</p>
-                                    </AccordionContent>
-                                </Card>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </div>
-        </section>
-
         {/* Brands Section */}
         <section className="py-16 md:py-24 bg-card">
           <div className="container mx-auto px-4 md:px-6 text-center">
@@ -614,6 +586,34 @@ export default function InteriorDesignDelhiPage() {
               </Carousel>
             </div>
           </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="bg-muted py-16 md:py-24">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Have questions? We have answers.
+                    </p>
+                </div>
+                <div className="mt-12 max-w-4xl mx-auto">
+                    <Accordion type="single" collapsible className="w-full space-y-4">
+                        {faqs.map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
+                                <Card>
+                                    <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
+                                        {faq.question}
+                                    </AccordionTrigger>
+                                    <AccordionContent className="px-6 pb-6">
+                                        <p className="text-base text-muted-foreground">{faq.answer}</p>
+                                    </AccordionContent>
+                                </Card>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            </div>
         </section>
 
       </main>
