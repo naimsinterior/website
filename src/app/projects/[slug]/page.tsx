@@ -6,10 +6,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { projects } from '../projects';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
-import { Star } from 'lucide-react';
+import { Star, Heart, Share2 } from 'lucide-react';
+import { useMoodboard } from '@/hooks/useMoodboard';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import type { Project } from '../projects';
 
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
@@ -17,6 +21,59 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   if (!project) {
     notFound();
   }
+  
+  const { moodboard, addToMoodboard, removeFromMoodboard } = useMoodboard();
+  const { toast } = useToast();
+
+  const isInMoodboard = moodboard.some(item => item.slug === project.slug);
+
+  const handleMoodboardClick = () => {
+    if (isInMoodboard) {
+      removeFromMoodboard(project.slug);
+      toast({
+        title: "Removed from Moodboard",
+        description: `${project.title} has been removed from your moodboard.`,
+      });
+    } else {
+      addToMoodboard(project);
+      toast({
+        title: "Added to Moodboard",
+        description: `${project.title} has been added to your moodboard.`,
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    const projectUrl = window.location.href;
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: project.title,
+                text: `Check out this interior design project: ${project.title}`,
+                url: projectUrl,
+            });
+            toast({
+                title: "Project Shared!",
+            });
+        } catch (error: any) {
+            if (error.name === 'AbortError') {
+                return;
+            }
+            console.error('Error sharing:', error);
+            navigator.clipboard.writeText(projectUrl);
+            toast({
+                title: "Link Copied!",
+                description: "Sharing failed, but the link is in your clipboard.",
+            });
+        }
+    } else {
+        navigator.clipboard.writeText(projectUrl);
+        toast({
+            title: "Link Copied!",
+            description: "Project link has been copied to your clipboard.",
+        });
+    }
+  };
 
   const projectDetails = [
       { label: "Client Name", value: project.testimonial?.author },
@@ -103,11 +160,19 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
       </div>
 
       {/* CTA */}
-      <div className="mt-16 text-center">
+      <div className="mt-16 flex justify-center items-center flex-wrap gap-4">
         <Button size="lg" asChild>
             <Link href="/contact">
                 Get a Similar Design
             </Link>
+        </Button>
+        <Button size="lg" variant="outline" onClick={handleMoodboardClick}>
+          <Heart className={cn("mr-2 h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
+          {isInMoodboard ? 'Saved' : 'Save to Moodboard'}
+        </Button>
+        <Button size="lg" variant="outline" onClick={handleShare}>
+          <Share2 className="mr-2 h-5 w-5" />
+          Share
         </Button>
       </div>
 
