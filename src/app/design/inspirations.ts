@@ -84,5 +84,17 @@ export const inspirations: Inspiration[] = [
         location: 'Lisbon, PT',
         projectType: 'Concept',
         designStyle: 'Bohemian',
+    },
+    {
+        slug: 'art-deco-revival-lounge',
+        title: 'Art Deco Revival',
+        description: 'A glamorous lounge embracing the geometric patterns and opulence of the Art Deco era.',
+        longDescription: 'Step back into the roaring twenties with this Art Deco-inspired lounge. This design features bold geometric patterns, rich materials like velvet and brass, and a symmetrical layout. Lacquered surfaces and a dramatic, sculptural chandelier create a sense of opulence and glamour, perfect for an entertainment space.',
+        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
+        aiHint: 'art deco lounge',
+        category: 'Living Room',
+        location: 'Miami, FL',
+        projectType: 'Concept',
+        designStyle: 'Art Deco',
     }
 ];
