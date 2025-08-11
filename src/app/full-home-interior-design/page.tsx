@@ -249,6 +249,88 @@ export default function FullHomeInteriorDesignPage() {
           </div>
         </section>
 
+        {/* Featured Projects Carousel */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-center font-headline text-3xl md:text-4xl">
+              Our Full Home Projects
+            </h2>
+            <div className="mt-12">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {featuredProjects.map((project) => (
+                    <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                        <Card>
+                          <CardHeader className="p-0">
+                            <div className="relative h-64 w-full">
+                                <Image
+                                    src={project.images[0]}
+                                    alt={project.title}
+                                    fill
+                                    className="rounded-t-lg object-cover"
+                                    data-ai-hint={project.aiHint}
+                                />
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6">
+                            <CardTitle className="font-headline">{project.title}</CardTitle>
+                            <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
+                          </CardContent>
+                          <CardFooter>
+                            <Button asChild variant="secondary" className="w-full">
+                                <Link href={`/projects/${project.slug}`}>View Project</Link>
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden sm:flex" />
+                <CarouselNext className="hidden sm:flex" />
+              </Carousel>
+            </div>
+          </div>
+        </section>
+
+        {/* Before and After Section */}
+        <section className="bg-muted py-16 md:py-24">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl md:text-4xl">Home Transformations: Before & After</h2>
+                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        Scratch to see the transformation we bring to every home.
+                    </p>
+                </div>
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {beforeAfterProjects.map((project, index) => (
+                        <Card key={index}>
+                            <CardContent className="p-4">
+                                <ScratchCard
+                                    beforeImage={project.before}
+                                    afterImage={project.after}
+                                    beforeHint={project.beforeHint}
+                                    afterHint={project.afterHint}
+                                    onScratchComplete={() => setIsQuoteFormOpen(true)}
+                                />
+                            </CardContent>
+                            <CardHeader className="pt-2">
+                                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
+                                <CardDescription>{project.description}</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
+
         {/* About Us Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
@@ -324,35 +406,8 @@ export default function FullHomeInteriorDesignPage() {
             </div>
         </section>
 
-        {/* Why Choose Us Section */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center mb-12">
-              <h2 className="font-headline text-3xl md:text-4xl">Why Choose Us For Your Full Home Interior?</h2>
-              <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                The trusted partner for complete home transformations.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {whyChooseUs.map((item, index) => (
-                <Card key={index} className="text-center">
-                  <CardHeader>
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
-                      {item.icon}
-                    </div>
-                    <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Our Process Section */}
-        <section className="py-16 md:py-24 bg-muted">
+        <section className="py-16 md:py-24 bg-card">
             <div 
                 className="container mx-auto px-4 md:px-6"
                 onMouseEnter={() => setIsProcessHovered(true)}
@@ -402,86 +457,31 @@ export default function FullHomeInteriorDesignPage() {
             </div>
         </section>
 
-        {/* Featured Projects Carousel */}
-        <section className="py-16 md:py-24">
+        {/* Why Choose Us Section */}
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-center font-headline text-3xl md:text-4xl">
-              Our Full Home Projects
-            </h2>
-            <div className="mt-12">
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent>
-                  {featuredProjects.map((project) => (
-                    <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1">
-                        <Card>
-                          <CardHeader className="p-0">
-                            <div className="relative h-64 w-full">
-                                <Image
-                                    src={project.images[0]}
-                                    alt={project.title}
-                                    fill
-                                    className="rounded-t-lg object-cover"
-                                    data-ai-hint={project.aiHint}
-                                />
-                            </div>
-                          </CardHeader>
-                          <CardContent className="p-6">
-                            <CardTitle className="font-headline">{project.title}</CardTitle>
-                            <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
-                          </CardContent>
-                          <CardFooter>
-                            <Button asChild variant="secondary" className="w-full">
-                                <Link href={`/projects/${project.slug}`}>View Project</Link>
-                            </Button>
-                          </CardFooter>
-                        </Card>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex" />
-                <CarouselNext className="hidden sm:flex" />
-              </Carousel>
+            <div className="text-center mb-12">
+              <h2 className="font-headline text-3xl md:text-4xl">Why Choose Us For Your Full Home Interior?</h2>
+              <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                The trusted partner for complete home transformations.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {whyChooseUs.map((item, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader>
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
+                      {item.icon}
+                    </div>
+                    <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{item.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
-        </section>
-        
-        {/* Before and After Section */}
-        <section className="bg-muted py-16 md:py-24">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center">
-                    <h2 className="font-headline text-3xl md:text-4xl">Home Transformations: Before & After</h2>
-                    <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                        Scratch to see the transformation we bring to every home.
-                    </p>
-                </div>
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {beforeAfterProjects.map((project, index) => (
-                        <Card key={index}>
-                            <CardContent className="p-4">
-                                <ScratchCard
-                                    beforeImage={project.before}
-                                    afterImage={project.after}
-                                    beforeHint={project.beforeHint}
-                                    afterHint={project.afterHint}
-                                    onScratchComplete={() => setIsQuoteFormOpen(true)}
-                                />
-                            </CardContent>
-                            <CardHeader className="pt-2">
-                                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
-                                <CardDescription>{project.description}</CardDescription>
-                            </CardHeader>
-                        </Card>
-                    ))}
-                </div>
-            </div>
         </section>
 
         {/* Testimonials Section */}
