@@ -14,8 +14,46 @@ import type { Project } from '@/app/projects/projects';
 import { Separator } from '@/components/ui/separator';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
+// This is a temporary solution to have different data for inspirations
+const inspirations = [
+    {
+        slug: 'modern-corporate-hub',
+        title: 'Modern Corporate Hub',
+        description: 'A sleek and professional office space designed for productivity and collaboration.',
+        longDescription: 'This project involved designing a new headquarters for a fast-growing tech firm. The goal was to create a modern, energizing workspace that encourages collaboration while also providing quiet areas for focused work. The design features a mix of open-plan workstations, private offices with glass walls, and comfortable lounge areas. We used a cool color palette of blues and grays, accented with the company\'s brand colors. Natural wood elements and biophilic design add warmth and a connection to nature.',
+        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
+        aiHint: 'modern office',
+        category: 'Commercial',
+        location: 'Seattle, WA',
+        projectType: 'Office HQ',
+        designStyle: 'Corporate Modern',
+        testimonial: {
+            text: "The new office is incredible. NAIMS INTERIOR perfectly captured our company culture in the design. It's a place our team loves coming to.",
+            author: "CEO of TechForward Inc."
+        }
+    },
+    {
+        slug: 'art-deco-apartment',
+        title: 'Art Deco Apartment',
+        description: 'A glamorous apartment that pays homage to the Art Deco era with bold geometrics and lavish details.',
+        longDescription: 'This project was a full-scale remodel to bring the glamour of the Roaring Twenties into a modern city apartment. We used a rich color palette of deep jewel tones, metallics, and high-contrast black and white. Key features include custom terrazzo flooring, fan-shaped motifs, and luxurious velvet upholstery. The lighting was a key focus, with statement chandeliers and sconces creating a dramatic and inviting atmosphere.',
+        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
+        aiHint: 'art deco apartment',
+        category: 'Bedroom',
+        location: 'Miami, FL',
+        projectType: 'Apartment',
+        designStyle: 'Art Deco',
+        testimonial: {
+            text: "They brought our Gatsby-esque dreams to life! Every detail is exquisite.",
+            author: "The Fitzgeralds"
+        }
+    },
+    ...projects
+];
+
+
 export default function DesignDetailPage({ params }: { params: { slug: string } }) {
-  const project = projects.find((p) => p.slug === params.slug);
+  const project = inspirations.find((p) => p.slug === params.slug);
   
   if (!project) {
     notFound();
@@ -74,11 +112,13 @@ export default function DesignDetailPage({ params }: { params: { slug: string } 
     }
   };
 
-  const relatedByCategory = projects.filter(p => p.category === project.category && p.slug !== project.slug);
+  const allInspirations = [...inspirations.filter(p => p.slug !== project.slug)];
+  
+  const relatedByCategory = allInspirations.filter(p => p.category === project.category);
   let relatedProjects = [...relatedByCategory];
 
   if (relatedProjects.length < 2) {
-      const otherProjects = projects.filter(p => p.category !== project.category && p.slug !== project.slug);
+      const otherProjects = allInspirations.filter(p => p.category !== project.category);
       const needed = 2 - relatedProjects.length;
       relatedProjects.push(...otherProjects.slice(0, needed));
   }
