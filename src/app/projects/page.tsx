@@ -10,10 +10,14 @@ import { useMoodboard } from "@/hooks/useMoodboard";
 import { useToast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+const PROJECTS_PER_PAGE = 6;
 
 export default function ProjectsPage() {
   const { moodboard, addToMoodboard, removeFromMoodboard } = useMoodboard();
   const { toast } = useToast();
+  const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
   const handleMoodboardClick = (project: (typeof projects)[0]) => {
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
@@ -32,6 +36,10 @@ export default function ProjectsPage() {
     }
   };
 
+  const handleViewMore = () => {
+    setVisibleCount(prevCount => prevCount + PROJECTS_PER_PAGE);
+  };
+
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
       <div className="text-center">
@@ -42,7 +50,7 @@ export default function ProjectsPage() {
       </div>
 
       <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => {
+        {projects.slice(0, visibleCount).map((project) => {
           const isInMoodboard = moodboard.some(item => item.slug === project.slug);
           return (
             <Card key={project.slug} className="flex flex-col overflow-hidden group">
@@ -81,6 +89,14 @@ export default function ProjectsPage() {
           )
         })}
       </div>
+      
+      {visibleCount < projects.length && (
+        <div className="mt-12 text-center">
+          <Button onClick={handleViewMore} size="lg">
+            View More
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
