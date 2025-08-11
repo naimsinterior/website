@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Heart, Menu, LogIn, UserPlus, UserCircle, Calculator } from 'lucide-react';
+import { Home, LayoutGrid, Heart, Menu, LogIn, UserPlus, UserCircle, Calculator, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -19,6 +19,7 @@ const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/design', label: 'Design', icon: LayoutGrid },
   { href: '/moodboard', label: 'Moodboard', icon: Heart },
+  { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
 ];
 
 const allNavLinks = [
@@ -28,6 +29,7 @@ const allNavLinks = [
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
+  { href: "/portfolio", label: "Portfolio" },
 ];
 
 const legalLinks = [
