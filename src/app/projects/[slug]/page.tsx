@@ -146,8 +146,8 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex -left-12" />
-            <CarouselNext className="hidden sm:flex -right-12" />
+            <CarouselPrevious className="left-[-1rem] sm:-left-12" />
+            <CarouselNext className="right-[-1rem] sm:-right-12" />
         </Carousel>
       </div>
       
@@ -178,7 +178,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
        {project.testimonial && (
           <div className="mt-16 max-w-2xl mx-auto">
-              <Separator />
+              <Separator className="my-8" />
               <div className="mt-16">
                   <h3 className="font-headline text-3xl text-center">Client Feedback</h3>
                   <Card className="mt-6 bg-muted border-l-4 border-primary">
