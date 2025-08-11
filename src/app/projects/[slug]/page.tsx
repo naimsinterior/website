@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
+import { Star } from 'lucide-react';
 
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
@@ -19,8 +20,8 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
   const projectDetails = [
       { label: "Client Name", value: project.testimonial?.author },
-      { label: "Project Type", value: project.projectType },
-      { label: "Completion Time", value: project.completionTime },
+      { label: "Property", value: project.projectType },
+      { label: "City", value: project.location },
       { label: "Design Style", value: project.designStyle },
   ].filter(detail => detail.value);
 
@@ -47,6 +48,26 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         <div className="md:col-span-2">
             <h2 className="font-headline text-3xl">About the Project</h2>
             <p className="mt-4 text-lg text-muted-foreground">{project.longDescription}</p>
+            
+            {project.testimonial && (
+                <div className="mt-8">
+                    <Separator />
+                    <div className="mt-8">
+                        <h3 className="font-headline text-2xl">Client Feedback</h3>
+                        <Card className="mt-4 bg-muted border-l-4 border-primary">
+                            <CardContent className="p-6">
+                                <div className="flex items-center mb-2">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />)}
+                                </div>
+                                <blockquote className="text-lg italic text-foreground">
+                                    "{project.testimonial.text}"
+                                </blockquote>
+                                <p className="mt-4 text-right font-semibold">— {project.testimonial.author}</p>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            )}
         </div>
         <div>
             <Card>

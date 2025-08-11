@@ -9,7 +9,6 @@ export interface Project {
     category: string;
     location: string;
     projectType: string;
-    completionTime: string;
     designStyle: string;
     testimonial?: {
         text: string;
@@ -28,10 +27,9 @@ export const projectsData: Project[] = [
         category: 'Full Home',
         location: 'New York, NY',
         projectType: 'Loft Apartment',
-        completionTime: '8 Weeks',
         designStyle: 'Industrial Minimalist',
         testimonial: {
-            text: "NAIMS INTERIOR captured our vision perfectly. Our loft is now our favorite place to be.",
+            text: "NAIMS INTERIOR captured our vision perfectly. Our loft is now our favorite place to be. Their attention to detail and commitment to quality was evident throughout the entire process. We couldn't be happier with the result.",
             author: "Alex & Jamie"
         }
     },
@@ -45,7 +43,6 @@ export const projectsData: Project[] = [
         category: 'Living Room',
         location: 'Malibu, CA',
         projectType: 'Villa',
-        completionTime: '12 Weeks',
         designStyle: 'Coastal',
     },
     {
@@ -58,10 +55,9 @@ export const projectsData: Project[] = [
         category: 'Full Home',
         location: 'Brooklyn, NY',
         projectType: 'Brownstone',
-        completionTime: '6 Months',
         designStyle: 'Transitional',
         testimonial: {
-            text: "They honored the history of our home while making it livable for a modern family. Incredible work.",
+            text: "They honored the history of our home while making it livable for a modern family. Incredible work from start to finish.",
             author: "The Chen Family"
         }
     },
@@ -75,7 +71,6 @@ export const projectsData: Project[] = [
         category: 'Bedroom',
         location: 'Copenhagen, DK',
         projectType: 'Apartment',
-        completionTime: '6 Weeks',
         designStyle: 'Scandinavian',
     },
     {
@@ -88,10 +83,9 @@ export const projectsData: Project[] = [
         category: 'Full Home',
         location: 'Austin, TX',
         projectType: 'Farmhouse',
-        completionTime: '4 Months',
         designStyle: 'Modern Farmhouse',
         testimonial: {
-            text: "It's the perfect blend of cozy and chic. We couldn't be happier with our new home.",
+            text: "It's the perfect blend of cozy and chic. We couldn't be happier with our new home. The team was professional and delivered beyond our expectations.",
             author: "David & Sarah"
         }
     },
@@ -105,7 +99,6 @@ export const projectsData: Project[] = [
         category: 'Commercial',
         location: 'San Francisco, CA',
         projectType: 'Office',
-        completionTime: '5 Months',
         designStyle: 'Modern & Biophilic',
     },
     {
@@ -118,7 +111,6 @@ export const projectsData: Project[] = [
         category: 'Commercial',
         location: 'Seattle, WA',
         projectType: 'Office HQ',
-        completionTime: '6 Months',
         designStyle: 'Corporate Modern',
         testimonial: {
             text: "The new office is incredible. NAIMS INTERIOR perfectly captured our company culture in the design. It's a place our team loves coming to.",
@@ -135,7 +127,6 @@ export const projectsData: Project[] = [
         category: 'Bedroom',
         location: 'Miami, FL',
         projectType: 'Apartment',
-        completionTime: '10 Weeks',
         designStyle: 'Art Deco',
         testimonial: {
             text: "They brought our Gatsby-esque dreams to life! Every detail is exquisite.",
