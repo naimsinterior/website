@@ -74,7 +74,17 @@ export default function DesignDetailPage({ params }: { params: { slug: string } 
     }
   };
 
-  const relatedProjects = projects.filter(p => p.category === project.category && p.slug !== project.slug).slice(0, 6);
+  const relatedByCategory = projects.filter(p => p.category === project.category && p.slug !== project.slug);
+  let relatedProjects = [...relatedByCategory];
+
+  if (relatedProjects.length < 2) {
+      const otherProjects = projects.filter(p => p.category !== project.category && p.slug !== project.slug);
+      const needed = 2 - relatedProjects.length;
+      relatedProjects.push(...otherProjects.slice(0, needed));
+  }
+  
+  relatedProjects = relatedProjects.slice(0, 6);
+
 
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
