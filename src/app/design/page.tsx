@@ -54,7 +54,7 @@ export default function DesignPage() {
         {projects.slice(0, visibleCount).map((project) => {
           const isInMoodboard = moodboard.some(item => item.slug === project.slug);
           return (
-            <Link key={project.slug} href={`/projects/${project.slug}`} className="group block">
+            <Link key={project.slug} href={`/design/${project.slug}`} className="group block">
               <Card className="flex flex-col overflow-hidden h-full">
                 <CardHeader className="p-0 relative">
                   <div className="relative h-60 w-full">
