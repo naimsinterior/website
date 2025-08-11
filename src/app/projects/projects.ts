@@ -1,3 +1,4 @@
+
 export interface Project {
     slug: string;
     title: string;
@@ -71,5 +72,17 @@ export const projects: Project[] = [
         longDescription: 'We designed this corporate headquarters to foster creativity and collaboration. The space includes a variety of work environments, from open-plan desks to quiet pods and informal meeting lounges. A bold color scheme, custom art installations, and biophilic design elements create a dynamic and energizing atmosphere.',
         images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
         aiHint: 'corporate office',
+    },
+    {
+        slug: 'modern-corporate-hub',
+        title: 'Modern Corporate Hub',
+        description: 'A sleek and professional office space designed for productivity and collaboration.',
+        longDescription: 'This project involved designing a new headquarters for a fast-growing tech firm. The goal was to create a modern, energizing workspace that encourages collaboration while also providing quiet areas for focused work. The design features a mix of open-plan workstations, private offices with glass walls, and comfortable lounge areas. We used a cool color palette of blues and grays, accented with the company\'s brand colors. Natural wood elements and biophilic design add warmth and a connection to nature.',
+        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
+        aiHint: 'modern office',
+        testimonial: {
+            text: "The new office is incredible. NAIMS INTERIOR perfectly captured our company culture in the design. It's a place our team loves coming to.",
+            author: "CEO of TechForward Inc."
+        }
     },
 ];
