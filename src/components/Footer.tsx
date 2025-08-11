@@ -86,8 +86,8 @@ export function Footer() {
                 </ul>
             </div>
         </div>
-        <div className="border-t text-sm text-muted-foreground">
-          <p className="m-0 text-center py-[6px]">&copy; {new Date().getFullYear()} NAIMS INTERIOR. All rights reserved.</p>
+        <div className="border-t text-sm text-muted-foreground flex items-center justify-center py-[6px]">
+          <p className="m-0">&copy; {new Date().getFullYear()} NAIMS INTERIOR. All rights reserved.</p>
         </div>
       </div>
     </footer>
