@@ -78,9 +78,6 @@ export function Footer() {
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Design Inspirations</h3>
             <div className="mt-4">
                 <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-2">
-                  <li className='text-sm text-muted-foreground'>
-                      <Link href="/full-home-interior-design" className="hover:text-primary">Full Home interior design</Link>
-                  </li>
                   {projects.map(project => (
                       <li key={project.slug} className='text-sm text-muted-foreground'>
                           <Link href={`/projects/${project.slug}`} className="hover:text-primary">
