@@ -589,7 +589,7 @@ export default function InteriorDesignNoidaPage() {
         </section>
 
          {/* FAQ Section */}
-        <section className="bg-muted py-16 md:py-24">
+        <section className="bg-muted py-12 md:py-16">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
