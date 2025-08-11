@@ -74,6 +74,12 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-8">
+            <h3 className="font-headline text-lg font-semibold text-center md:text-left">Design Inspirations/ Ideas</h3>
+            <div className="mt-4">
+                <p className="text-sm text-muted-foreground text-center md:text-left">We are Dealing in residential interior Design</p>
+            </div>
+        </div>
+        <div className="mt-8 border-t pt-8">
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Our Service Areas</h3>
             <div className="mt-4">
                 <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
