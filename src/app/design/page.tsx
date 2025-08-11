@@ -93,6 +93,10 @@ export default function DesignPage() {
           </Button>
         </div>
       )}
+      
+      <p className="mt-8 text-center text-sm text-muted-foreground">
+        Availability of products may vary. Prices are subject to change as per market dynamics.
+      </p>
     </div>
   );
 }
