@@ -447,11 +447,11 @@ export default function Home() {
             </div>
         </section>
 
-        {/* Featured Projects Carousel */}
+        {/* Home design Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-center font-headline text-3xl md:text-4xl">
-              Featured Projects
+              Home design
             </h2>
             <div className="mt-12">
               <Carousel
@@ -503,8 +503,60 @@ export default function Home() {
           </div>
         </section>
         
+        {/* Featured Projects Section */}
+        <section className="py-16 md:py-24 bg-muted">
+            <div className="container mx-auto px-4 md:px-6">
+                <h2 className="text-center font-headline text-3xl md:text-4xl">
+                    Featured Projects
+                </h2>
+                <div className="mt-12">
+                    <Carousel
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                        plugins={plugins}
+                        className="w-full"
+                    >
+                        <CarouselContent>
+                            {featuredProjects.map((project) => (
+                                <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-1">
+                                        <Card>
+                                            <CardHeader className="p-0">
+                                                <div className="relative h-64 w-full">
+                                                    <Image
+                                                        src={project.images[0]}
+                                                        alt={project.title}
+                                                        fill
+                                                        className="rounded-t-lg object-cover"
+                                                        data-ai-hint={project.aiHint}
+                                                    />
+                                                </div>
+                                            </CardHeader>
+                                            <CardContent className="p-6">
+                                                <CardTitle className="font-headline">{project.title}</CardTitle>
+                                                <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
+                                            </CardContent>
+                                            <CardFooter>
+                                                <Button asChild variant="secondary" className="w-full">
+                                                    <Link href={`/projects/${project.slug}`}>View Project</Link>
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious className="hidden sm:flex" />
+                        <CarouselNext className="hidden sm:flex" />
+                    </Carousel>
+                </div>
+            </div>
+        </section>
+
         {/* Before and After Section */}
-        <section className="bg-muted py-16 md:py-24">
+        <section className="py-16 md:py-24">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center">
                     <h2 className="font-headline text-3xl md:text-4xl">From Vision to Reality: Before & After</h2>
@@ -535,7 +587,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center">
               <h2 className="font-headline text-3xl md:text-4xl">What Our Clients Say</h2>
