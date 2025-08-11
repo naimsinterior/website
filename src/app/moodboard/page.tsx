@@ -20,10 +20,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function MoodboardPage() {
     const { moodboard, isLoaded, clearMoodboard, removeFromMoodboard } = useMoodboard();
     const { toast } = useToast();
+    const [deleteInput, setDeleteInput] = useState('');
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
 
     const handleShare = async (project: Project) => {
         const projectUrl = `${window.location.origin}/projects/${project.slug}`;
@@ -60,6 +65,12 @@ export default function MoodboardPage() {
         }
     };
 
+    const handleClearConfirm = () => {
+        clearMoodboard();
+        setDeleteInput('');
+        setIsAlertOpen(false);
+    }
+
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
@@ -77,7 +88,7 @@ export default function MoodboardPage() {
                                 <PlusCircle className="mr-2 h-4 w-4" /> Browse More Projects
                             </Link>
                         </Button>
-                        <AlertDialog>
+                        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                             <AlertDialogTrigger asChild>
                                 <Button variant="destructive">
                                     <Trash2 className="mr-2 h-4 w-4" /> Clear All
@@ -88,12 +99,24 @@ export default function MoodboardPage() {
                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
                                         This action cannot be undone. This will permanently delete all
-                                        items from your moodboard.
+                                        items from your moodboard. To confirm, please type <strong>delete</strong> below.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
+                                <div className="space-y-2">
+                                     <Label htmlFor="delete-confirm" className="sr-only">Confirm Deletion</Label>
+                                     <Input 
+                                        id="delete-confirm"
+                                        value={deleteInput}
+                                        onChange={(e) => setDeleteInput(e.target.value)}
+                                        placeholder='Type "delete" to confirm'
+                                     />
+                                </div>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={clearMoodboard}>
+                                    <AlertDialogCancel onClick={() => setDeleteInput('')}>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction 
+                                        onClick={handleClearConfirm} 
+                                        disabled={deleteInput.toLowerCase() !== 'delete'}
+                                    >
                                         Continue
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
