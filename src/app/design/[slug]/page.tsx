@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useMoodboard } from '@/hooks/useMoodboard';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { Heart, Share2, ArrowRight, Palette, Sofa, Lightbulb, Brick } from 'lucide-react';
+import { Heart, Share2, ArrowRight, Palette, ToyBrick } from 'lucide-react';
 import type { Project } from '@/app/projects/projects';
 import { Separator } from '@/components/ui/separator';
 
@@ -116,7 +116,7 @@ export default function DesignDetailPage({ params }: { params: { slug: string } 
                     </ul>
                 </div>
                  <div>
-                    <h3 className="font-headline text-xl mb-4 flex items-center"><Brick className="mr-2 h-5 w-5 text-primary" /> Materials & Textures</h3>
+                    <h3 className="font-headline text-xl mb-4 flex items-center"><ToyBrick className="mr-2 h-5 w-5 text-primary" /> Materials & Textures</h3>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                         <li>Polished Concrete & Hardwood</li>
                         <li>Linen and Wool Fabrics</li>
