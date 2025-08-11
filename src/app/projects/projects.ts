@@ -12,7 +12,7 @@ export interface Project {
     };
 }
 
-export const projects: Project[] = [
+export const projectsData: Project[] = [
     {
         slug: 'urban-oasis-loft',
         title: 'Urban Oasis Loft',
@@ -86,3 +86,5 @@ export const projects: Project[] = [
         }
     },
 ];
+
+export const projects: Project[] = [...projectsData].reverse();

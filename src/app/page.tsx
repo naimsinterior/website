@@ -103,7 +103,7 @@ const services = [
   {
     value: "residential",
     title: "Residential Design",
-    description: "We at Naims Interior, provide complete residential interior designing services including:",
+    description: "We at NAIMS INTERIOR, provide complete residential interior designing services including:",
     items: [
         "Living Room & Home Office Design",
         "Bedroom & Dinning Interior Design",
@@ -202,7 +202,7 @@ const processSteps = [
 
 const faqs = [
     {
-        question: "What is the first step to starting a project with Naims Interior?",
+        question: "What is the first step to starting a project with NAIMS INTERIOR?",
         answer: "The first step is to schedule a free consultation with one of our expert designers. You can do this by filling out the contact form on our website or by calling us directly. During this meeting, we'll discuss your vision, needs, and budget to see how we can best help you."
     },
     {
@@ -222,7 +222,7 @@ const faqs = [
         answer: "Yes! We provide detailed 3D visualizations of your project. This allows you to see exactly how your space will look and feel, and gives you the opportunity to make any changes before we start the execution phase."
     },
     {
-        question: "What makes Naims Interior different from other designers?",
+        question: "What makes NAIMS INTERIOR different from other designers?",
         answer: "Our key differentiators are our client-centric approach, commitment to quality, and transparent processes. We focus on creating personalized designs that reflect our clients' personalities and lifestyles, ensuring a seamless and enjoyable experience from start to finish."
     }
 ];
@@ -373,7 +373,7 @@ export default function Home() {
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-              <h2 className="font-headline text-3xl md:text-4xl">Why Choose Naims Interior?</h2>
+              <h2 className="font-headline text-3xl md:text-4xl">Why Choose NAIMS INTERIOR?</h2>
               <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
                 Over others?
               </p>
@@ -494,6 +494,11 @@ export default function Home() {
                 <CarouselPrevious className="hidden sm:flex" />
                 <CarouselNext className="hidden sm:flex" />
               </Carousel>
+            </div>
+             <div className="mt-12 text-center">
+                <Button asChild size="lg">
+                    <Link href="/projects">View All Projects</Link>
+                </Button>
             </div>
           </div>
         </section>
