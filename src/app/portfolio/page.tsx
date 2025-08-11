@@ -8,10 +8,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { useMoodboard } from "@/hooks/useMoodboard";
 import { useToast } from "@/hooks/use-toast";
-import { Heart } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import type { Project } from '@/app/projects/projects';
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -34,6 +35,38 @@ export default function PortfolioPage() {
         title: "Added to Moodboard",
         description: `${project.title} has been added to your moodboard.`,
       });
+    }
+  };
+
+  const handleShare = async (project: Project) => {
+    const projectUrl = `${window.location.origin}/projects/${project.slug}`;
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: project.title,
+                text: `Check out this interior design project: ${project.title}`,
+                url: projectUrl,
+            });
+            toast({
+                title: "Project Shared!",
+            });
+        } catch (error: any) {
+            if (error.name === 'AbortError') {
+                return;
+            }
+            console.error('Error sharing:', error);
+            navigator.clipboard.writeText(projectUrl);
+            toast({
+                title: "Link Copied!",
+                description: "Sharing failed, but the link is in your clipboard.",
+            });
+        }
+    } else {
+        navigator.clipboard.writeText(projectUrl);
+        toast({
+            title: "Link Copied!",
+            description: "Project link has been copied to your clipboard.",
+        });
     }
   };
 
@@ -65,17 +98,27 @@ export default function PortfolioPage() {
                             className="object-cover"
                             data-ai-hint={project.aiHint}
                         />
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                   </Link>
-                  <Button 
-                    size="icon" 
-                    variant="secondary"
-                    className="absolute top-3 right-3 z-10 h-9 w-9 opacity-80 group-hover:opacity-100 transition-opacity"
-                    onClick={() => handleMoodboardClick(project)}
-                    aria-label="Save to Moodboard"
-                  >
-                      <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
-                  </Button>
+                  <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+                    <Button 
+                      size="icon" 
+                      variant="secondary"
+                      onClick={() => handleMoodboardClick(project)}
+                      aria-label="Save to Moodboard"
+                    >
+                        <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
+                    </Button>
+                    <Button 
+                      size="icon" 
+                      variant="secondary"
+                      onClick={() => handleShare(project)}
+                      aria-label="Share Project"
+                    >
+                        <Share2 className="h-5 w-5" />
+                    </Button>
+                  </div>
                    <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.category}</Badge>
               </CardHeader>
               <CardContent className="flex-grow p-6">
