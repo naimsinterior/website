@@ -19,7 +19,8 @@ export default function DesignPage() {
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
-  const handleMoodboardClick = (project: (typeof projects)[0]) => {
+  const handleMoodboardClick = (e: React.MouseEvent, project: (typeof projects)[0]) => {
+    e.preventDefault(); // Prevent the Link from navigating
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
     if (isInMoodboard) {
       removeFromMoodboard(project.slug);
@@ -53,39 +54,34 @@ export default function DesignPage() {
         {projects.slice(0, visibleCount).map((project) => {
           const isInMoodboard = moodboard.some(item => item.slug === project.slug);
           return (
-            <Card key={project.slug} className="flex flex-col overflow-hidden group">
-              <CardHeader className="p-0 relative">
-                  <Link href={`/projects/${project.slug}`}>
-                    <div className="relative h-60 w-full">
-                        <Image
-                            src={project.images[0]}
-                            alt={project.title}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={project.aiHint}
-                        />
-                    </div>
-                  </Link>
+            <Link key={project.slug} href={`/projects/${project.slug}`} className="group block">
+              <Card className="flex flex-col overflow-hidden h-full">
+                <CardHeader className="p-0 relative">
+                  <div className="relative h-60 w-full">
+                      <Image
+                          src={project.images[0]}
+                          alt={project.title}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={project.aiHint}
+                      />
+                  </div>
                   <Button 
                     size="icon" 
                     variant="secondary"
                     className="absolute top-3 right-3 z-10 h-9 w-9 opacity-80 group-hover:opacity-100 transition-opacity"
-                    onClick={() => handleMoodboardClick(project)}
+                    onClick={(e) => handleMoodboardClick(e, project)}
                     aria-label="Save to Moodboard"
                   >
                       <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
                   </Button>
-              </CardHeader>
-              <CardContent className="flex-grow p-6">
-                <CardTitle className="font-headline text-2xl">{project.title}</CardTitle>
-                <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <Button asChild className="w-full">
-                  <Link href={`/projects/${project.slug}`}>View Project</Link>
-                </Button>
-              </CardFooter>
-            </Card>
+                </CardHeader>
+                <CardContent className="flex-grow p-6">
+                  <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                  <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
           )
         })}
       </div>
