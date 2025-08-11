@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/Header';
@@ -8,7 +9,7 @@ import { FloatingContactButtons } from '@/components/FloatingContactButtons';
 import { MobileFooter } from '@/components/MobileFooter';
 
 export const metadata: Metadata = {
-  title: 'Interiorscape',
+  title: 'NAIMS INTERIOR',
   description: 'Crafting timeless spaces for modern living.',
 };
 

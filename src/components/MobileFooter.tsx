@@ -79,7 +79,7 @@ export function MobileFooter() {
             <SheetContent side="bottom" className="h-full">
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Image src="/Naims_interior_logo.PNG" alt="Interiorscape Logo" width="150" height="40" className="object-contain" />
+                  <Image src="/Naims_interior_logo.PNG" alt="NAIMS INTERIOR Logo" width="150" height="40" className="object-contain" />
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {allNavLinks.map((link) => (

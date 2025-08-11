@@ -27,7 +27,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 items-start">
           <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start py-2.5">
              <Link href="/">
-                <Image src="/naimsinterior-logo-footer.png" alt="Interiorscape Logo" width="165" height="46" className="object-contain" />
+                <Image src="/naimsinterior-logo-footer.png" alt="NAIMS INTERIOR Logo" width="165" height="46" className="object-contain" />
             </Link>
             <div className="mt-4 text-sm text-muted-foreground text-center md:text-left">
                 <p>Reg.Office H-77, Silai Bara Gaon, Milak</p>

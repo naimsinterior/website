@@ -303,7 +303,7 @@ export default function Home() {
                   Where Vision Meets Design
                 </h2>
                 <p className="mt-4 text-muted-foreground">
-                  Interiorscape is a full-service interior design firm specializing in high-end residential and commercial projects. Our philosophy is rooted in the belief that design should be both functional and inspiring. We work closely with our clients to create personalized spaces that stand the test of time.
+                  NAIMS INTERIOR is a full-service interior design firm specializing in high-end residential and commercial projects. Our philosophy is rooted in the belief that design should be both functional and inspiring. We work closely with our clients to create personalized spaces that stand the test of time.
                 </p>
                 <Button asChild variant="link" className="mt-4 px-0">
                   <Link href="/contact">

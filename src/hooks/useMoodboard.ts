@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Project } from '@/app/projects/projects';
 
-const MOODBOARD_STORAGE_KEY = 'interiorscape-moodboard';
+const MOODBOARD_STORAGE_KEY = 'naimsinterior-moodboard';
 
 export const useMoodboard = () => {
     const [moodboard, setMoodboard] = useState<Project[]>([]);

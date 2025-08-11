@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-const POPUP_SESSION_KEY = 'interiorscape-popup-shown';
+const POPUP_SESSION_KEY = 'naimsinterior-popup-shown';
 
 export function OfferPopup() {
     const [isOpen, setIsOpen] = useState(false);

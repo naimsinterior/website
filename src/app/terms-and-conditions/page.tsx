@@ -46,7 +46,7 @@ export default function TermsAndConditionsPage() {
         <h2 className="font-headline text-2xl mt-8">Contact Us</h2>
         <p>If you have any questions about these Terms and Conditions, You can contact us:</p>
         <ul>
-          <li>By email: hello@interiorscape.com</li>
+          <li>By email: hello@naimsinterior.com</li>
           <li>By phone number: (555) 123-4567</li>
         </ul>
       </div>

@@ -20,7 +20,7 @@ export const projects: Project[] = [
         images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
         aiHint: 'minimalist loft',
         testimonial: {
-            text: "Interiorscape captured our vision perfectly. Our loft is now our favorite place to be.",
+            text: "NAIMS INTERIOR captured our vision perfectly. Our loft is now our favorite place to be.",
             author: "Alex & Jamie"
         }
     },
