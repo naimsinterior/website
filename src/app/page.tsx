@@ -582,31 +582,20 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="mt-12 max-w-4xl mx-auto">
-                    <div className="flex flex-col gap-4">
+                    <Accordion type="single" collapsible className="w-full space-y-4">
                         {faqs.map((faq, index) => (
-                           <button 
-                                key={index} 
-                                onClick={() => setActiveFaqIndex(index)}
-                                className={cn(
-                                    "p-4 rounded-lg text-left transition-all text-lg",
-                                    "flex items-center gap-4",
-                                    activeFaqIndex === index 
-                                      ? 'bg-primary text-primary-foreground shadow-lg' 
-                                      : 'bg-background hover:bg-background/80'
-                                )}
-                            >
-                                <MessageCircleQuestion className="h-6 w-6 flex-shrink-0" />
-                                <span className="font-headline flex-grow">{faq.question}</span>
-                           </button>
+                            <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
+                                <Card>
+                                    <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
+                                        {faq.question}
+                                    </AccordionTrigger>
+                                    <AccordionContent className="px-6 pb-6">
+                                        <p className="text-base text-muted-foreground">{faq.answer}</p>
+                                    </AccordionContent>
+                                </Card>
+                            </AccordionItem>
                         ))}
-                    </div>
-                     <div className="mt-6">
-                        <Card className="h-full min-h-[150px] flex flex-col justify-center transition-all duration-300">
-                            <CardContent className="p-8">
-                                <p className="text-muted-foreground text-lg">{faqs[activeFaqIndex].answer}</p>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    </Accordion>
                 </div>
             </div>
         </section>
