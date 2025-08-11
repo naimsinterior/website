@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { Heart, Share2, ArrowRight, Palette, ToyBrick } from 'lucide-react';
 import type { Project } from '@/app/projects/projects';
 import { Separator } from '@/components/ui/separator';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 export default function DesignDetailPage({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
@@ -83,18 +84,30 @@ export default function DesignDetailPage({ params }: { params: { slug: string } 
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">{project.description}</p>
       </div>
       
-      {/* Image Gallery */}
+      {/* Image Gallery Carousel */}
       <div className="mb-12">
-        <div className="relative aspect-video w-full">
-            <Image
-                src={project.images[0]}
-                alt={`${project.title} - main view`}
-                fill
-                className="rounded-lg object-cover shadow-lg"
-                data-ai-hint={project.aiHint}
-                priority={true}
-            />
-        </div>
+        <Carousel className="w-full max-w-4xl mx-auto">
+            <CarouselContent>
+              {project.images.map((img, index) => (
+                <CarouselItem key={index}>
+                    <div className="p-1">
+                        <div className="relative aspect-video w-full">
+                            <Image
+                                src={img}
+                                alt={`${project.title} - view ${index + 1}`}
+                                fill
+                                className="rounded-md object-cover shadow-lg"
+                                data-ai-hint={project.aiHint}
+                                priority={index === 0}
+                            />
+                        </div>
+                    </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-[-1rem] sm:-left-12" />
+            <CarouselNext className="right-[-1rem] sm:-right-12" />
+        </Carousel>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
