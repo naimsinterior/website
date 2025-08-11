@@ -12,6 +12,7 @@ import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
+const inspirations = [...projects].slice(2, 8); // Use a different subset of projects for variety
 const PROJECTS_PER_PAGE = 6;
 
 export default function DesignPage() {
@@ -19,7 +20,7 @@ export default function DesignPage() {
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
-  const handleMoodboardClick = (e: React.MouseEvent, project: (typeof projects)[0]) => {
+  const handleMoodboardClick = (e: React.MouseEvent, project: (typeof inspirations)[0]) => {
     e.preventDefault(); // Prevent the Link from navigating
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
     if (isInMoodboard) {
@@ -51,7 +52,7 @@ export default function DesignPage() {
       </div>
 
       <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.slice(0, visibleCount).map((project) => {
+        {inspirations.slice(0, visibleCount).map((project) => {
           const isInMoodboard = moodboard.some(item => item.slug === project.slug);
           return (
             <Link key={project.slug} href={`/design/${project.slug}`} className="group block">
@@ -86,7 +87,7 @@ export default function DesignPage() {
         })}
       </div>
       
-      {visibleCount < projects.length && (
+      {visibleCount < inspirations.length && (
         <div className="mt-12 text-center">
           <Button onClick={handleViewMore} size="lg">
             View More
