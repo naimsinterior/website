@@ -43,12 +43,10 @@ export default function MoodboardPage() {
                     title: "Project Shared!",
                 });
             } catch (error: any) {
-                // Ignore AbortError which is triggered when the user cancels the share dialog
                 if (error.name === 'AbortError') {
                     return;
                 }
                 console.error('Error sharing:', error);
-                 // Fallback to clipboard for other errors
                 navigator.clipboard.writeText(projectUrl);
                 toast({
                     title: "Link Copied!",
@@ -56,7 +54,6 @@ export default function MoodboardPage() {
                 });
             }
         } else {
-            // Fallback for browsers that don't support navigator.share
             navigator.clipboard.writeText(projectUrl);
             toast({
                 title: "Link Copied!",
@@ -74,7 +71,7 @@ export default function MoodboardPage() {
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
-            <div className="flex justify-between items-start mb-12 gap-4">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-12 gap-8">
                 <div>
                     <h1 className="font-headline text-4xl md:text-5xl">Your Moodboard</h1>
                     <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
@@ -82,15 +79,15 @@ export default function MoodboardPage() {
                     </p>
                 </div>
                 {isLoaded && moodboard.length > 0 && (
-                    <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
-                        <Button asChild variant="outline">
+                    <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 w-full sm:w-auto">
+                        <Button asChild variant="outline" className="w-full sm:w-auto">
                             <Link href="/projects">
                                 <PlusCircle className="mr-2 h-4 w-4" /> Browse More Projects
                             </Link>
                         </Button>
                         <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive">
+                                <Button variant="destructive" className="w-full sm:w-auto">
                                     <Trash2 className="mr-2 h-4 w-4" /> Clear All
                                 </Button>
                             </AlertDialogTrigger>
