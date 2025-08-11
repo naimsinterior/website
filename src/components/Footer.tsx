@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { projects } from '@/app/projects/projects';
+import { inspirations } from '@/app/design/inspirations';
 
 const serviceAreas = [
     { name: "Delhi", href: "/interior-design-delhi" },
@@ -78,9 +78,9 @@ export function Footer() {
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Design Inspirations</h3>
             <div className="mt-4">
                 <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-2">
-                  {projects.map(project => (
+                  {inspirations.map(project => (
                       <li key={project.slug} className='text-sm text-muted-foreground'>
-                          <Link href={`/projects/${project.slug}`} className="hover:text-primary">
+                          <Link href={`/design/${project.slug}`} className="hover:text-primary">
                               {project.title}
                           </Link>
                       </li>
