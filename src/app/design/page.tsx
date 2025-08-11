@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 const inspirations = [...projects].slice(2, 8); // Use a different subset of projects for variety
 const PROJECTS_PER_PAGE = 6;
@@ -63,7 +64,7 @@ export default function DesignPage() {
                           src={project.images[0]}
                           alt={project.title}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
                           data-ai-hint={project.aiHint}
                       />
                   </div>
@@ -76,6 +77,7 @@ export default function DesignPage() {
                   >
                       <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
                   </Button>
+                   <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.category}</Badge>
                 </CardHeader>
                 <CardContent className="flex-grow p-6">
                   <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
