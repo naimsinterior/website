@@ -17,13 +17,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/projects', label: 'Projects', icon: LayoutGrid },
+  { href: '/design', label: 'Design', icon: LayoutGrid },
   { href: '/moodboard', label: 'Moodboard', icon: Heart },
 ];
 
 const allNavLinks = [
   { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
+  { href: "/design", label: "Design" },
   { href: "/style-tool", label: "Style Tool" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },

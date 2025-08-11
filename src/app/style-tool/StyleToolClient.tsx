@@ -134,7 +134,7 @@ export function StyleToolClient() {
                       const project = projects.find(p => link.includes(p.slug));
                       return (
                          <li key={linkIndex}>
-                           <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
+                           <Link href={link.replace('/projects/', '/design/')} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
                              <span>{project ? project.title : 'Project Link'}</span>
                              <ArrowRight className="h-4 w-4 text-muted-foreground"/>
                            </Link>

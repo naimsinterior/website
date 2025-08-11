@@ -497,7 +497,7 @@ export default function Home() {
             </div>
              <div className="mt-12 text-center">
                 <Button asChild size="lg">
-                    <Link href="/projects">View All Projects</Link>
+                    <Link href="/design">View All Projects</Link>
                 </Button>
             </div>
           </div>

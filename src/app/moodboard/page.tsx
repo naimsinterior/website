@@ -81,7 +81,7 @@ export default function MoodboardPage() {
                 {isLoaded && moodboard.length > 0 && (
                     <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 w-full sm:w-auto">
                         <Button asChild variant="outline" className="w-full sm:w-auto">
-                            <Link href="/projects">
+                            <Link href="/design">
                                 <PlusCircle className="mr-2 h-4 w-4" /> Browse More Projects
                             </Link>
                         </Button>
@@ -141,7 +141,7 @@ export default function MoodboardPage() {
                     <h2 className="font-headline text-2xl">Your Moodboard is Empty</h2>
                     <p className="mt-2 text-muted-foreground">Start exploring our projects to find your inspiration.</p>
                     <Button asChild className="mt-6">
-                        <Link href="/projects">Browse Projects</Link>
+                        <Link href="/design">Browse Projects</Link>
                     </Button>
                 </div>
             )}
