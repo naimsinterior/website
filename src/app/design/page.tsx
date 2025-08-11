@@ -43,9 +43,9 @@ export default function DesignPage() {
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
       <div className="text-center">
-        <h1 className="font-headline text-4xl md:text-5xl">Our Portfolio</h1>
+        <h1 className="font-headline text-4xl md:text-5xl">Design Inspirations</h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          Explore a selection of our finest work, showcasing our commitment to quality, creativity, and craftsmanship.
+          Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea.
         </p>
       </div>
 
