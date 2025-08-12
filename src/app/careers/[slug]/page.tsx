@@ -26,6 +26,7 @@ import { Progress } from '@/components/ui/progress';
 const applicationSchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
   email: z.string().email("A valid email is required."),
+  countryCode: z.string(),
   phone: z.string().min(10, "A valid 10-digit phone number is required."),
   dob: z.date().optional(),
   gender: z.string().optional(),
@@ -62,7 +63,7 @@ type ApplicationFormValues = z.infer<typeof applicationSchema>;
 const STEPS = [
     {
         title: "Personal & Position Details",
-        fields: ["fullName", "email", "phone", "dob", "gender", "jobTitle", "preferredLocation", "expectedSalary", "availableFrom"]
+        fields: ["fullName", "email", "phone", "countryCode", "dob", "gender", "jobTitle", "preferredLocation", "expectedSalary", "availableFrom"]
     },
     {
         title: "Education & Experience",
@@ -74,17 +75,27 @@ const STEPS = [
     },
 ];
 
+const countryCodes = [
+    { code: '+91', country: 'India' },
+    { code: '+1', country: 'USA' },
+    { code: '+44', country: 'UK' },
+];
+
+
 export default function JobDetailPage({ params }: { params: { slug: string } }) {
     const router = useRouter();
     const job = jobs.find(j => String(j.id) === params.slug);
     const { toast } = useToast();
     const [currentStep, setCurrentStep] = useState(0);
+    const [isDobOpen, setIsDobOpen] = useState(false);
+    const [isAvailableFromOpen, setIsAvailableFromOpen] = useState(false);
 
     const form = useForm<ApplicationFormValues>({
         resolver: zodResolver(applicationSchema),
         defaultValues: {
             jobTitle: job?.title,
             declaration: false,
+            countryCode: "+91",
         }
     });
 
@@ -93,7 +104,9 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
     }
     
     const onSubmit: SubmitHandler<ApplicationFormValues> = (data) => {
-        console.log("Form Submitted", data);
+        const fullPhoneNumber = `${data.countryCode} ${data.phone}`;
+        const submissionData = {...data, phone: fullPhoneNumber};
+        console.log("Form Submitted", submissionData);
         toast({
             title: "Application Sent!",
             description: "Thank you for your interest. We will contact shortlisted candidates.",
@@ -192,39 +205,53 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                 {currentStep === 0 && (
                                     <div className="space-y-4">
                                         <p className="font-semibold text-sm">1. Personal Details</p>
-                                        <FormField control={form.control} name="fullName" render={({ field }) => (
-                                           <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                        <FormField control={form.control} name="email" render={({ field }) => (
-                                           <FormItem><FormControl><Input type="email" placeholder="Email Address" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                        <FormField control={form.control} name="phone" render={({ field }) => (
-                                            <FormItem><FormControl><Input type="tel" placeholder="Phone Number" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                            <FormField control={form.control} name="fullName" render={({ field }) => (
+                                               <FormItem className="sm:col-span-1"><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <FormField control={form.control} name="email" render={({ field }) => (
+                                               <FormItem className="sm:col-span-1"><FormControl><Input type="email" placeholder="Email Address" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <div className="sm:col-span-1 flex gap-2">
+                                                <FormField control={form.control} name="countryCode" render={({ field }) => (
+                                                    <FormItem className="w-2/5">
+                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                            <FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl>
+                                                            <SelectContent>
+                                                                {countryCodes.map(c => <SelectItem key={c.code} value={c.code}>{c.code}</SelectItem>)}
+                                                            </SelectContent>
+                                                        </Select>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}/>
+                                                <FormField control={form.control} name="phone" render={({ field }) => (
+                                                    <FormItem className="flex-1"><FormControl><Input type="tel" placeholder="Phone" {...field} /></FormControl><FormMessage /></FormItem>
+                                                )}/>
+                                            </div>
+                                        </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <FormField control={form.control} name="dob" render={({ field }) => (
                                                 <FormItem className="flex flex-col">
-                                                    <FormLabel>Date of Birth (Optional)</FormLabel>
-                                                    <Popover>
+                                                    <Popover open={isDobOpen} onOpenChange={setIsDobOpen}>
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
                                                                 <Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                                                                    {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                                                    {field.value ? format(field.value, "PPP") : <span>Date of Birth (Opt)</span>}
                                                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                                 </Button>
                                                             </FormControl>
                                                         </PopoverTrigger>
                                                         <PopoverContent className="w-auto p-0" align="start">
-                                                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
+                                                            <Calendar mode="single" selected={field.value} onSelect={(date) => {field.onChange(date); setIsDobOpen(false);}} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
                                                         </PopoverContent>
                                                     </Popover>
                                                     <FormMessage />
                                                 </FormItem>
                                             )}/>
                                             <FormField control={form.control} name="gender" render={({ field }) => (
-                                            <FormItem><FormLabel>Gender (Optional)</FormLabel>
+                                            <FormItem>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <FormControl><SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger></FormControl>
+                                                    <FormControl><SelectTrigger><SelectValue placeholder="Gender (Opt)" /></SelectTrigger></FormControl>
                                                     <SelectContent>
                                                         <SelectItem value="male">Male</SelectItem>
                                                         <SelectItem value="female">Female</SelectItem>
@@ -249,7 +276,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                         <FormField control={form.control} name="availableFrom" render={({ field }) => (
                                             <FormItem className="flex flex-col">
                                                 <FormLabel>Available From</FormLabel>
-                                                 <Popover>
+                                                 <Popover open={isAvailableFromOpen} onOpenChange={setIsAvailableFromOpen}>
                                                     <PopoverTrigger asChild>
                                                         <FormControl>
                                                             <Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
@@ -262,7 +289,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                         <Calendar 
                                                             mode="single" 
                                                             selected={field.value} 
-                                                            onSelect={field.onChange} 
+                                                            onSelect={(date) => {field.onChange(date); setIsAvailableFromOpen(false);}} 
                                                             disabled={(date) => date < new Date() || date.getDay() === 0}
                                                             initialFocus 
                                                         />
@@ -427,5 +454,3 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
         </div>
     );
 }
-
-    
