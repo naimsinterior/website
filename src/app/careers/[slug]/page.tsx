@@ -46,7 +46,8 @@ const applicationSchema = z.object({
   noticePeriod: z.string().optional(),
 
   resume: z.any().refine(files => files?.length >= 1, "Resume is required."),
-  portfolio: z.any().optional(),
+  portfolioFile: z.any().optional(),
+  portfolioUrl: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   photo: z.any().optional(),
 
   whyHire: z.string().optional(),
@@ -56,6 +57,9 @@ const applicationSchema = z.object({
   declaration: z.boolean().refine(val => val === true, {
     message: "You must agree to the declaration."
   }),
+}).refine(data => data.portfolioFile?.length > 0 || !!data.portfolioUrl, {
+    message: "Please either upload a portfolio or provide a URL.",
+    path: ["portfolioUrl"],
 });
 
 type ApplicationFormValues = z.infer<typeof applicationSchema>;
@@ -71,7 +75,7 @@ const STEPS = [
     },
     {
         title: "Documents & Final Declaration",
-        fields: ["resume", "portfolio", "photo", "whyHire", "linkedin", "reference", "declaration"]
+        fields: ["resume", "portfolioFile", "portfolioUrl", "photo", "whyHire", "linkedin", "reference", "declaration"]
     },
 ];
 
@@ -163,27 +167,29 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                         <p className="text-muted-foreground leading-relaxed">{job.desc}</p>
                     </div>
                      {job.images.length > 1 && (
-                        <div className="grid grid-cols-2 gap-4">
-                            {job.images[1] && (
-                                <div className="relative aspect-video w-full rounded-lg overflow-hidden">
-                                     <Image src={job.images[1]} alt={`${job.title} gallery 1`} layout="fill" objectFit="cover" data-ai-hint={job.aiHint}/>
-                                </div>
-                            )}
-                             {job.images[2] && (
-                                <div className="relative aspect-video w-full rounded-lg overflow-hidden">
-                                     <Image src={job.images[2]} alt={`${job.title} gallery 2`} layout="fill" objectFit="cover" data-ai-hint={job.aiHint}/>
-                                </div>
-                            )}
+                        <div>
+                            <h2 className="font-headline text-2xl mb-3">Responsibilities</h2>
+                            <div className="grid grid-cols-2 gap-4 mb-4">
+                                {job.images[1] && (
+                                    <div className="relative aspect-video w-full rounded-lg overflow-hidden">
+                                        <Image src={job.images[1]} alt={`${job.title} gallery 1`} layout="fill" objectFit="cover" data-ai-hint={job.aiHint}/>
+                                    </div>
+                                )}
+                                {job.images[2] && (
+                                    <div className="relative aspect-video w-full rounded-lg overflow-hidden">
+                                        <Image src={job.images[2]} alt={`${job.title} gallery 2`} layout="fill" objectFit="cover" data-ai-hint={job.aiHint}/>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
                      <div>
-                        <h2 className="font-headline text-2xl mb-3">Responsibilities</h2>
                         <ul className="list-disc list-inside text-muted-foreground space-y-2">
                            {job.responsibilities.map((item, index) => <li key={index}>{item}</li>)}
                         </ul>
                     </div>
                      <div>
-                        <h2 className="font-headline text-2xl mb-3">Key Skills</h2>
+                        <h2 className="font-headline text-2xl mb-3 mt-8">Key Skills</h2>
                         <div className="flex flex-wrap gap-2">
                             {job.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
                         </div>
@@ -204,7 +210,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                 
                                 {currentStep === 0 && (
                                     <div className="space-y-4">
-                                        <p className="font-semibold text-sm">1. Personal Details</p>
+                                        <p className="font-semibold text-sm">Personal Details</p>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <FormField control={form.control} name="fullName" render={({ field }) => (
                                                <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
@@ -263,7 +269,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                             )}/>
                                         </div>
 
-                                        <p className="font-semibold pt-4 text-sm">2. Position Details</p>
+                                        <p className="font-semibold pt-4 text-sm">Position Details</p>
                                         <FormField control={form.control} name="jobTitle" render={({ field }) => (
                                            <FormItem><FormLabel>Applying For</FormLabel><FormControl><Input {...field} disabled /></FormControl><FormMessage /></FormItem>
                                         )}/>
@@ -303,7 +309,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
 
                                 {currentStep === 1 && (
                                     <div className="space-y-4">
-                                        <p className="font-semibold text-sm">3. Education & Skills</p>
+                                        <p className="font-semibold text-sm">Education & Skills</p>
                                         <FormField control={form.control} name="highestQualification" render={({ field }) => (
                                           <FormItem><FormLabel>Highest Qualification</FormLabel>
                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -325,7 +331,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                           <FormItem><FormLabel>Key Skills</FormLabel><FormControl><Input {...field} placeholder="e.g. AutoCAD, Sales, Project Management" /></FormControl><FormMessage /></FormItem>
                                        )}/>
 
-                                       <p className="font-semibold pt-4 text-sm">4. Experience Details</p>
+                                       <p className="font-semibold pt-4 text-sm">Experience Details</p>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <FormField control={form.control} name="totalExperience" render={({ field }) => (
                                               <FormItem><FormLabel>Total Work Experience</FormLabel>
@@ -369,7 +375,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                 
                                 {currentStep === 2 && (
                                     <div className="space-y-4">
-                                        <p className="font-semibold text-sm">5. Document Upload</p>
+                                        <p className="font-semibold text-sm">Document Upload</p>
                                         <FormField control={form.control} name="resume" render={({ field: { value, onChange, ...fieldProps} }) => (
                                            <FormItem>
                                                <FormLabel>Upload Resume</FormLabel>
@@ -377,13 +383,23 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                <FormMessage />
                                            </FormItem>
                                        )}/>
-                                       <FormField control={form.control} name="portfolio" render={({ field: { value, onChange, ...fieldProps} }) => (
-                                           <FormItem>
-                                               <FormLabel>Upload Portfolio (Optional)</FormLabel>
-                                               <FormControl><Input type="file" accept="image/*,.pdf" onChange={(e) => onChange(e.target.files)} {...fieldProps} /></FormControl>
-                                               <FormMessage />
-                                           </FormItem>
-                                       )}/>
+                                       <FormItem>
+                                            <FormLabel>Portfolio (Optional)</FormLabel>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <FormField control={form.control} name="portfolioFile" render={({ field: { value, onChange, ...fieldProps} }) => (
+                                                    <FormItem>
+                                                        <FormControl><Input type="file" accept="image/*,.pdf" placeholder="Choose file" onChange={(e) => onChange(e.target.files)} {...fieldProps} /></FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}/>
+                                                <FormField control={form.control} name="portfolioUrl" render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormControl><Input placeholder="Or paste a URL" {...field} /></FormControl>
+                                                    </FormItem>
+                                                )}/>
+                                            </div>
+                                            <FormMessage>{form.formState.errors.portfolioUrl?.message}</FormMessage>
+                                        </FormItem>
                                         <FormField control={form.control} name="photo" render={({ field: { value, onChange, ...fieldProps} }) => (
                                            <FormItem>
                                                <FormLabel>Upload Passport Size Photo (Optional)</FormLabel>
@@ -392,7 +408,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                            </FormItem>
                                        )}/>
 
-                                       <p className="font-semibold pt-4 text-sm">6. Additional Information</p>
+                                       <p className="font-semibold pt-4 text-sm">Additional Information</p>
                                        <FormField control={form.control} name="whyHire" render={({ field }) => (
                                            <FormItem>
                                                <FormLabel>Why should we hire you? (Optional)</FormLabel>
@@ -408,12 +424,12 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                        )}/>
 
 
-                                       <p className="font-semibold pt-4 text-sm">7. Final Step</p>
+                                       
                                         <FormField
                                             control={form.control}
                                             name="declaration"
                                             render={({ field }) => (
-                                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 bg-background">
+                                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 bg-background mt-4">
                                                 <FormControl>
                                                     <Checkbox
                                                         checked={field.value}
@@ -458,3 +474,4 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
         </div>
     );
 }
+
