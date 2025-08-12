@@ -18,8 +18,10 @@ import { Progress } from "@/components/ui/progress";
 import { ScratchCard } from "@/components/ScratchCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { inspirations } from "./design/inspirations";
 
 const featuredProjects = projects.slice(0, 5);
+const featuredInspirations = inspirations.slice(0, 6);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
 const beforeAfterProjects = [
@@ -462,28 +464,28 @@ export default function Home() {
                 className="w-full"
               >
                 <CarouselContent>
-                  {featuredProjects.map((project) => (
-                    <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                  {featuredInspirations.map((inspiration) => (
+                    <CarouselItem key={inspiration.slug} className="md:basis-1/2 lg:basis-1/3">
                       <div className="p-1">
                         <Card>
                           <CardHeader className="p-0">
                             <div className="relative h-64 w-full">
                                 <Image
-                                    src={project.images[0]}
-                                    alt={project.title}
+                                    src={inspiration.images[0]}
+                                    alt={inspiration.title}
                                     fill
                                     className="rounded-t-lg object-cover"
-                                    data-ai-hint={project.aiHint}
+                                    data-ai-hint={inspiration.aiHint}
                                 />
                             </div>
                           </CardHeader>
                           <CardContent className="p-6">
-                            <CardTitle className="font-headline">{project.title}</CardTitle>
-                            <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
+                            <CardTitle className="font-headline">{inspiration.title}</CardTitle>
+                            <CardDescription className="mt-2 h-20 overflow-hidden">{inspiration.description}</CardDescription>
                           </CardContent>
                           <CardFooter>
                             <Button asChild variant="secondary" className="w-full">
-                                <Link href={`/projects/${project.slug}`}>View Project</Link>
+                                <Link href={`/design/${inspiration.slug}`}>View Inspiration</Link>
                             </Button>
                           </CardFooter>
                         </Card>
@@ -497,7 +499,7 @@ export default function Home() {
             </div>
              <div className="mt-12 text-center">
                 <Button asChild size="lg">
-                    <Link href="/design">View All Projects</Link>
+                    <Link href="/design">View All Inspirations</Link>
                 </Button>
             </div>
           </div>
