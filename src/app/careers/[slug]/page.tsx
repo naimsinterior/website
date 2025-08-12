@@ -213,8 +213,8 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                <FormItem><FormControl><Input type="email" placeholder="Email Address" {...field} /></FormControl><FormMessage /></FormItem>
                                             )}/>
                                         </div>
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            <div className="sm:col-span-1 flex gap-2">
+                                        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                                            <div className="sm:col-span-2 flex gap-2">
                                                 <FormField control={form.control} name="countryCode" render={({ field }) => (
                                                     <FormItem className="w-2/5">
                                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -231,7 +231,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                 )}/>
                                             </div>
                                             <FormField control={form.control} name="gender" render={({ field }) => (
-                                            <FormItem>
+                                            <FormItem className="sm:col-span-1">
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl><SelectTrigger><SelectValue placeholder="Gender (Opt)" /></SelectTrigger></FormControl>
                                                     <SelectContent>
@@ -244,7 +244,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                             <FormMessage /></FormItem>
                                             )}/>
                                             <FormField control={form.control} name="dob" render={({ field }) => (
-                                                <FormItem className="flex flex-col">
+                                                <FormItem className="flex flex-col sm:col-span-2">
                                                     <Popover open={isDobOpen} onOpenChange={setIsDobOpen}>
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
