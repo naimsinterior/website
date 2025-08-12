@@ -14,7 +14,7 @@ import { useState } from "react";
 const whyChooseUs = [
     {
         icon: <Smile className="h-8 w-8 text-primary" />,
-        title: "100% Customer Satisfaction",
+        title: "Customer Satisfaction",
         description: "Your experience really matters to us! We aim for total satisfaction by delivering outstanding interior design services.",
     },
     {

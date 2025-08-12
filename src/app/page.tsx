@@ -71,8 +71,8 @@ const brands = [
 const whyChooseUs = [
     {
         icon: <Smile className="h-8 w-8 text-primary" />,
-        title: "100% Customer Satisfaction",
-        description: "100% Customer satisfaction is the main motto of our company. We love to see happy and satisfied customers by delivering outstanding interior designing services. Your experience really matters to us!",
+        title: "Customer Satisfaction",
+        description: "Customer satisfaction is the main motto of our company. We love to see happy and satisfied customers by delivering outstanding interior designing services. Your experience really matters to us!",
     },
     {
         icon: <Users className="h-8 w-8 text-primary" />,

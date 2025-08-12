@@ -49,8 +49,8 @@ const brands = [
 const whyChooseUs = [
     {
         icon: <Smile className="h-8 w-8 text-primary" />,
-        title: "100% Customer Satisfaction in Noida",
-        description: "Our main motto is achieving 100% customer satisfaction for our interior design projects across Noida. We love to see happy clients by delivering outstanding services.",
+        title: "Customer Satisfaction in Noida",
+        description: "Our main motto is achieving customer satisfaction for our interior design projects across Noida. We love to see happy clients by delivering outstanding services.",
     },
     {
         icon: <Users className="h-8 w-8 text-primary" />,
