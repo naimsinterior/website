@@ -276,10 +276,29 @@ export default function CareerPage() {
               </DialogHeader>
               <div className="grid md:grid-cols-3 gap-8 overflow-y-auto pr-4 -mr-4">
                 <div className="md:col-span-2 space-y-6">
+                    {selectedJob.images[0] && (
+                        <div className="relative aspect-video w-full rounded-lg overflow-hidden mb-6">
+                            <Image src={selectedJob.images[0]} alt={`${selectedJob.title} main image`} layout="fill" objectFit="cover" data-ai-hint={selectedJob.aiHint}/>
+                        </div>
+                    )}
                     <div>
                         <h3 className="font-headline text-xl mb-2">Job Description</h3>
                         <p className="text-muted-foreground">{selectedJob.desc}</p>
                     </div>
+                     {selectedJob.images.length > 1 && (
+                        <div className="grid grid-cols-2 gap-4 my-6">
+                            {selectedJob.images[1] && (
+                                <div className="relative aspect-video w-full rounded-lg overflow-hidden">
+                                     <Image src={selectedJob.images[1]} alt={`${selectedJob.title} gallery 1`} layout="fill" objectFit="cover" data-ai-hint={selectedJob.aiHint}/>
+                                </div>
+                            )}
+                             {selectedJob.images[2] && (
+                                <div className="relative aspect-video w-full rounded-lg overflow-hidden">
+                                     <Image src={selectedJob.images[2]} alt={`${selectedJob.title} gallery 2`} layout="fill" objectFit="cover" data-ai-hint={selectedJob.aiHint}/>
+                                </div>
+                            )}
+                        </div>
+                    )}
                      <div>
                         <h3 className="font-headline text-xl mb-2">Responsibilities</h3>
                         <ul className="list-disc list-inside text-muted-foreground space-y-1">
@@ -290,14 +309,6 @@ export default function CareerPage() {
                         <h3 className="font-headline text-xl mb-2">Key Skills</h3>
                         <div className="flex flex-wrap gap-2">
                             {selectedJob.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
-                        </div>
-                    </div>
-                    <div>
-                        <h3 className="font-headline text-xl mb-2">Gallery</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {selectedJob.images.map((img, i) => (
-                                <Image key={i} src={img} alt={`${selectedJob.title} gallery ${i+1}`} width={120} height={80} className="rounded-md object-cover" data-ai-hint={selectedJob.aiHint}/>
-                            ))}
                         </div>
                     </div>
                 </div>
