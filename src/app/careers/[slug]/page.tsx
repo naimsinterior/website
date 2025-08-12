@@ -32,18 +32,20 @@ const applicationSchema = z.object({
   gender: z.string().optional(),
   
   jobTitle: z.string(),
-  preferredLocation: z.string().optional(),
-  expectedSalary: z.string().optional(),
-  availableFrom: z.date().optional(),
+  preferredLocation: z.string().min(1, "Preferred location is required."),
+  expectedSalary: z.string().min(1, "Expected salary is required."),
+  availableFrom: z.date({
+    required_error: "Please select a date.",
+  }),
   
   highestQualification: z.string().min(1, "Highest qualification is required."),
   specialization: z.string().optional(),
-  keySkills: z.string().optional(),
+  keySkills: z.string().min(1, "Key skills are required."),
   
   totalExperience: z.string().min(1, "Work experience is required."),
-  lastCompany: z.string().optional(),
-  lastJobTitle: z.string().optional(),
-  noticePeriod: z.string().optional(),
+  lastCompany: z.string().min(1, "Last company is required."),
+  lastJobTitle: z.string().min(1, "Last job title is required."),
+  noticePeriod: z.string().min(1, "Notice period is required."),
 
   resume: z.any().refine(files => files?.length >= 1, "Resume is required."),
   portfolioFile: z.any().optional(),
@@ -384,7 +386,7 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                            </FormItem>
                                        )}/>
                                        <FormItem>
-                                            <FormLabel>Portfolio (Optional)</FormLabel>
+                                            <FormLabel>Portfolio</FormLabel>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <FormField control={form.control} name="portfolioFile" render={({ field: { value, onChange, ...fieldProps} }) => (
                                                     <FormItem>
