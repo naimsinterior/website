@@ -142,8 +142,8 @@ type ApplicationFormValues = z.infer<typeof applicationSchema>;
 
 export default function CareerPage() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [locationFilter, setLocationFilter] = useState('');
-    const [typeFilter, setTypeFilter] = useState('');
+    const [locationFilter, setLocationFilter] = useState('all-locations');
+    const [typeFilter, setTypeFilter] = useState('all-types');
     const [selectedJob, setSelectedJob] = useState<(typeof jobs[0]) | null>(null);
     
     const { toast } = useToast();
@@ -157,16 +157,16 @@ export default function CareerPage() {
             const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 job.short.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 job.skills.join(' ').toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesLocation = !locationFilter || job.location === locationFilter;
-            const matchesType = !typeFilter || job.type === typeFilter;
+            const matchesLocation = locationFilter === 'all-locations' || job.location === locationFilter;
+            const matchesType = typeFilter === 'all-types' || job.type === typeFilter;
             return matchesSearch && matchesLocation && matchesType;
         });
     }, [searchQuery, locationFilter, typeFilter]);
 
     const handleClearFilters = () => {
         setSearchQuery('');
-        setLocationFilter('');
-        setTypeFilter('');
+        setLocationFilter('all-locations');
+        setTypeFilter('all-types');
     };
 
     const onSubmit: SubmitHandler<ApplicationFormValues> = (data) => {
@@ -207,7 +207,7 @@ export default function CareerPage() {
                         <SelectValue placeholder="All locations" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="">All locations</SelectItem>
+                        <SelectItem value="all-locations">All locations</SelectItem>
                         {uniqueLocations.map(loc => <SelectItem key={loc} value={loc}>{loc}</SelectItem>)}
                     </SelectContent>
                 </Select>
@@ -216,7 +216,7 @@ export default function CareerPage() {
                         <SelectValue placeholder="All types" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="">All types</SelectItem>
+                        <SelectItem value="all-types">All types</SelectItem>
                         {uniqueTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
                     </SelectContent>
                 </Select>
