@@ -17,8 +17,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/about', label: 'About', icon: Info },
   { href: '/design', label: 'Design', icon: LayoutGrid },
+  { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
   { href: '/moodboard', label: 'Moodboard', icon: Heart },
 ];
 
