@@ -39,10 +39,19 @@ export default function CareerPage() {
     
   return (
     <>
-      <header className="bg-muted text-foreground">
-          <div className="container mx-auto px-4 py-16 md:px-6 text-center">
+      <header className="relative h-64 md:h-80 w-full">
+          <Image
+            src="https://placehold.co/1600x600.png"
+            alt="Careers at Interiorscape"
+            layout="fill"
+            objectFit="cover"
+            className="z-0"
+            data-ai-hint="office workspace"
+          />
+          <div className="absolute inset-0 bg-black/50 z-10" />
+          <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white p-4">
               <h1 className="font-headline text-4xl md:text-5xl">Careers at Interiorscape</h1>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-background/90">
                   Explore open roles, learn about our culture and apply in seconds.
               </p>
           </div>
