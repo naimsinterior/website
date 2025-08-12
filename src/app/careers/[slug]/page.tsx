@@ -205,13 +205,15 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                 {currentStep === 0 && (
                                     <div className="space-y-4">
                                         <p className="font-semibold text-sm">1. Personal Details</p>
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <FormField control={form.control} name="fullName" render={({ field }) => (
-                                               <FormItem className="sm:col-span-1"><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
+                                               <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
                                             )}/>
                                             <FormField control={form.control} name="email" render={({ field }) => (
-                                               <FormItem className="sm:col-span-1"><FormControl><Input type="email" placeholder="Email Address" {...field} /></FormControl><FormMessage /></FormItem>
+                                               <FormItem><FormControl><Input type="email" placeholder="Email Address" {...field} /></FormControl><FormMessage /></FormItem>
                                             )}/>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                             <div className="sm:col-span-1 flex gap-2">
                                                 <FormField control={form.control} name="countryCode" render={({ field }) => (
                                                     <FormItem className="w-2/5">
@@ -228,8 +230,19 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                     <FormItem className="flex-1"><FormControl><Input type="tel" placeholder="Phone" {...field} /></FormControl><FormMessage /></FormItem>
                                                 )}/>
                                             </div>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4">
+                                            <FormField control={form.control} name="gender" render={({ field }) => (
+                                            <FormItem>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl><SelectTrigger><SelectValue placeholder="Gender (Opt)" /></SelectTrigger></FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="male">Male</SelectItem>
+                                                        <SelectItem value="female">Female</SelectItem>
+                                                        <SelectItem value="other">Other</SelectItem>
+                                                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            <FormMessage /></FormItem>
+                                            )}/>
                                             <FormField control={form.control} name="dob" render={({ field }) => (
                                                 <FormItem className="flex flex-col">
                                                     <Popover open={isDobOpen} onOpenChange={setIsDobOpen}>
@@ -247,19 +260,6 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                                     </Popover>
                                                     <FormMessage />
                                                 </FormItem>
-                                            )}/>
-                                            <FormField control={form.control} name="gender" render={({ field }) => (
-                                            <FormItem>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <FormControl><SelectTrigger><SelectValue placeholder="Gender (Opt)" /></SelectTrigger></FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="male">Male</SelectItem>
-                                                        <SelectItem value="female">Female</SelectItem>
-                                                        <SelectItem value="other">Other</SelectItem>
-                                                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            <FormMessage /></FormItem>
                                             )}/>
                                         </div>
 
