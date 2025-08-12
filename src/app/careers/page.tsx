@@ -25,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import React from 'react';
 
 const applicationFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -98,9 +99,9 @@ const jobOpenings = [
 ];
 
 const companyPerks = [
-    { icon: Trophy, title: "Competitive Salaries", description: "We offer competitive compensation packages to attract and retain the best talent." },
-    { icon: CheckCircle, title: "Comprehensive Benefits", description: "Our benefits include health, dental, and vision insurance, plus a robust 401(k) plan." },
-    { icon: Sparkles, title: "Growth Opportunities", description: "We invest in our team's growth with professional development and mentorship programs." },
+    { icon: <Trophy />, title: "Competitive Salaries", description: "We offer competitive compensation packages to attract and retain the best talent." },
+    { icon: <CheckCircle />, title: "Comprehensive Benefits", description: "Our benefits include health, dental, and vision insurance, plus a robust 401(k) plan." },
+    { icon: <Sparkles />, title: "Growth Opportunities", description: "We invest in our team's growth with professional development and mentorship programs." },
 ];
 
 const employeeTestimonials = [
