@@ -19,7 +19,6 @@ const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/design', label: 'Design', icon: LayoutGrid },
   { href: '/moodboard', label: 'Moodboard', icon: Heart },
-  { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
 ];
 
 const allNavLinks = [
@@ -71,6 +70,10 @@ export function MobileFooter() {
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <div className="flex h-full items-center justify-around">
                 {mainNavLinks.map(link => <NavLink key={link.href} {...link} />)}
+                <Link href="/portfolio" className={cn("flex flex-col items-center gap-1 text-xs transition-colors hover:text-primary", pathname === '/portfolio' ? "text-primary" : "text-muted-foreground")}>
+                  <Briefcase className="h-5 w-5" />
+                  <span>Portfolio</span>
+                </Link>
                 <SheetTrigger asChild>
                     <button className="flex flex-col items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-primary">
                         <Menu className="h-5 w-5" />

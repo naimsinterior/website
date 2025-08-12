@@ -1,19 +1,32 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import type { Project } from '@/app/projects/projects';
+import type { Inspiration } from '@/app/design/inspirations';
 
 const MOODBOARD_STORAGE_KEY = 'naimsinterior-moodboard';
 
+type MoodboardItem = (Project | Inspiration) & {itemType: 'project' | 'inspiration'};
+
+const isInspiration = (item: Project | Inspiration): item is Inspiration => {
+    return 'category' in item && 'longDescription' in item && 'projectType' in item && 'designStyle' in item && !('testimonial' in item);
+}
+
 export const useMoodboard = () => {
-    const [moodboard, setMoodboard] = useState<Project[]>([]);
+    const [moodboard, setMoodboard] = useState<MoodboardItem[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         try {
-            const items = window.localStorage.getItem(MOODBOARD_STORAGE_KEY);
-            if (items) {
-                setMoodboard(JSON.parse(items));
+            const itemsJSON = window.localStorage.getItem(MOODBOARD_STORAGE_KEY);
+            if (itemsJSON) {
+                const items = JSON.parse(itemsJSON);
+                const typedItems = items.map((item: Project | Inspiration) => ({
+                    ...item,
+                    itemType: isInspiration(item) ? 'inspiration' : 'project'
+                })) as MoodboardItem[];
+                setMoodboard(typedItems);
             }
         } catch (error) {
             console.error("Failed to load moodboard from localStorage", error);
@@ -22,7 +35,7 @@ export const useMoodboard = () => {
         setIsLoaded(true);
     }, []);
 
-    const saveToLocalStorage = (items: Project[]) => {
+    const saveToLocalStorage = (items: (Project | Inspiration)[]) => {
         try {
             window.localStorage.setItem(MOODBOARD_STORAGE_KEY, JSON.stringify(items));
         } catch (error) {
@@ -30,9 +43,18 @@ export const useMoodboard = () => {
         }
     };
 
-    const addToMoodboard = useCallback((project: Project) => {
+    const addToMoodboard = useCallback((item: Project | Inspiration) => {
         setMoodboard((prev) => {
-            const newMoodboard = [...prev, project];
+            const newItem: MoodboardItem = {
+                ...item,
+                itemType: isInspiration(item) ? 'inspiration' : 'project'
+            };
+            
+            if (prev.some(i => i.slug === newItem.slug)) {
+                return prev;
+            }
+
+            const newMoodboard = [...prev, newItem];
             saveToLocalStorage(newMoodboard);
             return newMoodboard;
         });

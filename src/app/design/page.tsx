@@ -11,7 +11,7 @@ import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { inspirations } from "./inspirations";
+import { inspirations, Inspiration } from "./inspirations";
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -20,7 +20,7 @@ export default function DesignPage() {
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
-  const handleMoodboardClick = (e: React.MouseEvent, project: (typeof inspirations)[0]) => {
+  const handleMoodboardClick = (e: React.MouseEvent, project: Inspiration) => {
     e.preventDefault(); // Prevent the Link from navigating
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
     if (isInMoodboard) {

@@ -21,7 +21,7 @@ export default function PortfolioPage() {
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
 
-  const handleMoodboardClick = (project: (typeof projects)[0]) => {
+  const handleMoodboardClick = (project: Project) => {
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
     if (isInMoodboard) {
       removeFromMoodboard(project.slug);
@@ -119,7 +119,7 @@ export default function PortfolioPage() {
                         <Share2 className="h-5 w-5" />
                     </Button>
                   </div>
-                   <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.category}</Badge>
+                   <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.projectType}</Badge>
               </CardHeader>
               <CardContent className="flex-grow p-6">
                 <CardTitle className="font-headline text-2xl">{project.title}</CardTitle>

@@ -9,7 +9,7 @@ import { useMoodboard } from '@/hooks/useMoodboard';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Heart, Share2, ArrowRight, Palette, ToyBrick } from 'lucide-react';
-import type { Project } from '@/app/projects/projects';
+import type { Inspiration } from '@/app/design/inspirations';
 import { Separator } from '@/components/ui/separator';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { inspirations } from '../inspirations';
@@ -34,7 +34,7 @@ export default function DesignDetailPage({ params }: { params: { slug: string } 
         description: `${project.title} has been removed from your moodboard.`,
       });
     } else {
-      addToMoodboard(project as Project);
+      addToMoodboard(project);
       toast({
         title: "Added to Moodboard",
         description: `${project.title} has been added to your moodboard.`,
