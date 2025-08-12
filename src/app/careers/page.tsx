@@ -42,7 +42,7 @@ export default function CareerPage() {
       <header className="relative h-64 md:h-80 w-full">
           <Image
             src="https://placehold.co/1600x600.png"
-            alt="Careers at Interiorscape"
+            alt="Careers at NAIMS INTERIOR"
             layout="fill"
             objectFit="cover"
             className="z-0"
@@ -50,7 +50,7 @@ export default function CareerPage() {
           />
           <div className="absolute inset-0 bg-black/50 z-10" />
           <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white p-4">
-              <h1 className="font-headline text-4xl md:text-5xl">Careers at Interiorscape</h1>
+              <h1 className="font-headline text-4xl md:text-5xl">Careers at NAIMS INTERIOR</h1>
               <p className="mt-4 max-w-2xl mx-auto text-lg text-background/90">
                   Explore open roles, learn about our culture and apply in seconds.
               </p>
@@ -122,8 +122,8 @@ export default function CareerPage() {
         )}
          <footer className="text-center text-muted-foreground text-sm mt-12">
             Can’t find the right role? Send your resume to{' '}
-            <a href="mailto:careers@interiorscape.com" className="font-semibold text-primary hover:underline">
-                careers@interiorscape.com
+            <a href="mailto:careers@naimsinterior.com" className="font-semibold text-primary hover:underline">
+                careers@naimsinterior.com
             </a>
         </footer>
       </main>
