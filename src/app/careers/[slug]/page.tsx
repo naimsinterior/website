@@ -326,40 +326,44 @@ export default function JobDetailPage({ params }: { params: { slug: string } }) 
                                        )}/>
 
                                        <p className="font-semibold pt-4 text-sm">4. Experience Details</p>
-                                       <FormField control={form.control} name="totalExperience" render={({ field }) => (
-                                          <FormItem><FormLabel>Total Work Experience</FormLabel>
-                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                               <FormControl><SelectTrigger><SelectValue placeholder="Select Experience Level" /></SelectTrigger></FormControl>
-                                               <SelectContent>
-                                                   <SelectItem value="fresher">Fresher</SelectItem>
-                                                   <SelectItem value="0-1">0-1 year</SelectItem>
-                                                   <SelectItem value="1-3">1-3 years</SelectItem>
-                                                   <SelectItem value="3-5">3-5 years</SelectItem>
-                                                   <SelectItem value="5+">5+ years</SelectItem>
-                                               </SelectContent>
-                                           </Select>
-                                          <FormMessage /></FormItem>
-                                       )}/>
-                                        <FormField control={form.control} name="lastCompany" render={({ field }) => (
-                                          <FormItem><FormLabel>Last Company Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                       )}/>
-                                        <FormField control={form.control} name="lastJobTitle" render={({ field }) => (
-                                          <FormItem><FormLabel>Last Job Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                                       )}/>
-                                       <FormField control={form.control} name="noticePeriod" render={({ field }) => (
-                                          <FormItem><FormLabel>Notice Period</FormLabel>
-                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                               <FormControl><SelectTrigger><SelectValue placeholder="Select Notice Period" /></SelectTrigger></FormControl>
-                                               <SelectContent>
-                                                   <SelectItem value="immediate">Immediate</SelectItem>
-                                                   <SelectItem value="15-days">15 Days</SelectItem>
-                                                   <SelectItem value="1-month">1 Month</SelectItem>
-                                                   <SelectItem value="2-months">2 Months</SelectItem>
-                                                   <SelectItem value="3-months">3+ Months</SelectItem>
-                                               </SelectContent>
-                                           </Select>
-                                          <FormMessage /></FormItem>
-                                       )}/>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <FormField control={form.control} name="totalExperience" render={({ field }) => (
+                                              <FormItem><FormLabel>Total Work Experience</FormLabel>
+                                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                   <FormControl><SelectTrigger><SelectValue placeholder="Select Experience" /></SelectTrigger></FormControl>
+                                                   <SelectContent>
+                                                       <SelectItem value="fresher">Fresher</SelectItem>
+                                                       <SelectItem value="0-1">0-1 year</SelectItem>
+                                                       <SelectItem value="1-3">1-3 years</SelectItem>
+                                                       <SelectItem value="3-5">3-5 years</SelectItem>
+                                                       <SelectItem value="5+">5+ years</SelectItem>
+                                                   </SelectContent>
+                                               </Select>
+                                              <FormMessage /></FormItem>
+                                           )}/>
+                                           <FormField control={form.control} name="noticePeriod" render={({ field }) => (
+                                              <FormItem><FormLabel>Notice Period</FormLabel>
+                                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                   <FormControl><SelectTrigger><SelectValue placeholder="Select Notice Period" /></SelectTrigger></FormControl>
+                                                   <SelectContent>
+                                                       <SelectItem value="immediate">Immediate</SelectItem>
+                                                       <SelectItem value="15-days">15 Days</SelectItem>
+                                                       <SelectItem value="1-month">1 Month</SelectItem>
+                                                       <SelectItem value="2-months">2 Months</SelectItem>
+                                                       <SelectItem value="3-months">3+ Months</SelectItem>
+                                                   </SelectContent>
+                                               </Select>
+                                              <FormMessage /></FormItem>
+                                           )}/>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <FormField control={form.control} name="lastCompany" render={({ field }) => (
+                                              <FormItem><FormControl><Input placeholder="Last Company Name" {...field} /></FormControl><FormMessage /></FormItem>
+                                           )}/>
+                                            <FormField control={form.control} name="lastJobTitle" render={({ field }) => (
+                                              <FormItem><FormControl><Input placeholder="Last Job Title" {...field} /></FormControl><FormMessage /></FormItem>
+                                           )}/>
+                                        </div>
                                     </div>
                                 )}
                                 
