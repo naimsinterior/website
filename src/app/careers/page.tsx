@@ -9,13 +9,19 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { X, MapPin, Briefcase, Calendar, Search } from 'lucide-react';
+import { X, MapPin, Briefcase, Calendar as CalendarIcon, Search, Check, Info } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { Checkbox } from '@/components/ui/checkbox';
 
 
 const jobs = [
@@ -127,15 +133,37 @@ const uniqueLocations = Array.from(new Set(jobs.map(j => j.location)));
 const uniqueTypes = Array.from(new Set(jobs.map(j => j.type)));
 
 const applicationSchema = z.object({
-  name: z.string().min(2, "Full name is required"),
-  email: z.string().email("A valid email is required"),
-  phone: z.string().min(10, "A valid phone number is required"),
-  currentCity: z.string().optional(),
-  experience: z.string().optional(),
+  fullName: z.string().min(2, "Full name is required."),
+  email: z.string().email("A valid email is required."),
+  phone: z.string().min(10, "A valid 10-digit phone number is required."),
+  dob: z.date().optional(),
+  gender: z.string().optional(),
+  
+  jobTitle: z.string(),
+  preferredLocation: z.string().optional(),
+  expectedSalary: z.string().optional(),
+  availableFrom: z.date().optional(),
+  
+  highestQualification: z.string().min(1, "Highest qualification is required."),
+  specialization: z.string().optional(),
+  keySkills: z.string().optional(),
+  
+  totalExperience: z.string().min(1, "Work experience is required."),
+  lastCompany: z.string().optional(),
+  lastJobTitle: z.string().optional(),
+  noticePeriod: z.string().optional(),
+
   resume: z.any().refine(files => files?.length == 1, "Resume is required."),
   portfolio: z.any().optional(),
-  note: z.string().optional(),
-  jobId: z.number()
+  photo: z.any().optional(),
+
+  whyHire: z.string().optional(),
+  linkedin: z.string().url().optional().or(z.literal('')),
+  reference: z.string().optional(),
+
+  declaration: z.boolean().refine(val => val === true, {
+    message: "You must agree to the declaration."
+  }),
 });
 
 type ApplicationFormValues = z.infer<typeof applicationSchema>;
@@ -150,6 +178,9 @@ export default function CareerPage() {
 
     const form = useForm<ApplicationFormValues>({
         resolver: zodResolver(applicationSchema),
+        defaultValues: {
+            declaration: false,
+        }
     });
     
     const filteredJobs = useMemo(() => {
@@ -168,6 +199,14 @@ export default function CareerPage() {
         setLocationFilter('all-locations');
         setTypeFilter('all-types');
     };
+    
+    const handleOpenDialog = (job: typeof jobs[0]) => {
+        form.reset({
+            jobTitle: job.title,
+            declaration: false
+        });
+        setSelectedJob(job);
+    }
 
     const onSubmit: SubmitHandler<ApplicationFormValues> = (data) => {
         console.log("Form Submitted", data);
@@ -181,10 +220,10 @@ export default function CareerPage() {
 
   return (
     <>
-      <header className="bg-[#0f1724] text-white">
+      <header className="bg-muted text-foreground">
           <div className="container mx-auto px-4 py-16 md:px-6 text-center">
-              <h1 className="font-headline text-4xl md:text-5xl">Careers at NAIMS INTERIOR</h1>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-300">
+              <h1 className="font-headline text-4xl md:text-5xl">Careers at Interiorscape</h1>
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                   Explore open roles, learn about our culture and apply in seconds.
               </p>
           </div>
@@ -240,10 +279,7 @@ export default function CareerPage() {
                   </CardContent>
                   <CardFooter className="p-4 flex justify-between items-center">
                     <Badge variant="secondary">{job.skills[0]}</Badge>
-                    <Button onClick={() => {
-                        form.setValue('jobId', job.id);
-                        setSelectedJob(job);
-                    }}>View & Apply</Button>
+                    <Button onClick={() => handleOpenDialog(job)}>View & Apply</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -256,8 +292,8 @@ export default function CareerPage() {
         )}
          <footer className="text-center text-muted-foreground text-sm mt-12">
             Can’t find the right role? Send your resume to{' '}
-            <a href="mailto:careers@naimsinterior.com" className="font-semibold text-primary hover:underline">
-                careers@naimsinterior.com
+            <a href="mailto:careers@interiorscape.com" className="font-semibold text-primary hover:underline">
+                careers@interiorscape.com
             </a>
         </footer>
       </main>
@@ -271,7 +307,7 @@ export default function CareerPage() {
                 <div className="flex flex-wrap gap-x-4 gap-y-2 text-muted-foreground pt-2">
                     <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /> {selectedJob.location}</div>
                     <div className="flex items-center gap-2"><Briefcase className="h-4 w-4" /> {selectedJob.type}</div>
-                    <div className="flex items-center gap-2"><Calendar className="h-4 w-4" /> Posted: {selectedJob.posted}</div>
+                    <div className="flex items-center gap-2"><CalendarIcon className="h-4 w-4" /> Posted: {selectedJob.posted}</div>
                 </div>
               </DialogHeader>
               <div className="grid md:grid-cols-3 gap-8 overflow-y-auto pr-4 -mr-4">
@@ -316,29 +352,199 @@ export default function CareerPage() {
                    <h3 className="font-headline text-xl mb-4">Apply for this role</h3>
                    <Form {...form}>
                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                           <FormField control={form.control} name="name" render={({ field }) => (
+                            
+                            <p className="font-semibold">1. Personal Details</p>
+                            <FormField control={form.control} name="fullName" render={({ field }) => (
                                <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                           )} />
-                           <FormField control={form.control} name="email" render={({ field }) => (
+                            )}/>
+                            <FormField control={form.control} name="email" render={({ field }) => (
                                <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
-                           )} />
-                           <FormField control={form.control} name="phone" render={({ field }) => (
-                               <FormItem><FormLabel>Phone</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>
-                           )} />
-                           <FormField control={form.control} name="resume" render={({ field: { value, onChange, ...fieldProps} }) => (
+                            )}/>
+                            <FormField control={form.control} name="phone" render={({ field }) => (
+                                <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <FormField control={form.control} name="dob" render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Date of Birth (Optional)</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                                    {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}/>
+                            <FormField control={form.control} name="gender" render={({ field }) => (
+                               <FormItem><FormLabel>Gender (Optional)</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl><SelectTrigger><SelectValue placeholder="Select Gender" /></SelectTrigger></FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="male">Male</SelectItem>
+                                        <SelectItem value="female">Female</SelectItem>
+                                        <SelectItem value="other">Other</SelectItem>
+                                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                               <FormMessage /></FormItem>
+                            )}/>
+
+                            <p className="font-semibold pt-4">2. Position Details</p>
+                            <FormField control={form.control} name="jobTitle" render={({ field }) => (
+                               <FormItem><FormLabel>Applying For</FormLabel><FormControl><Input {...field} disabled /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <FormField control={form.control} name="preferredLocation" render={({ field }) => (
+                               <FormItem><FormLabel>Preferred Location</FormLabel><FormControl><Input {...field} placeholder="e.g. Chennai, Remote"/></FormControl><FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={form.control} name="expectedSalary" render={({ field }) => (
+                               <FormItem><FormLabel>Expected Salary (Annual)</FormLabel><FormControl><Input {...field} placeholder="e.g. 5,00,000" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <FormField control={form.control} name="availableFrom" render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Available From</FormLabel>
+                                     <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                                    {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}/>
+
+                             <p className="font-semibold pt-4">3. Education & Skills</p>
+                             <FormField control={form.control} name="highestQualification" render={({ field }) => (
+                               <FormItem><FormLabel>Highest Qualification</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl><SelectTrigger><SelectValue placeholder="Select Qualification" /></SelectTrigger></FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="post-graduate">Post Graduate</SelectItem>
+                                        <SelectItem value="graduate">Graduate</SelectItem>
+                                        <SelectItem value="diploma">Diploma</SelectItem>
+                                        <SelectItem value="12th">12th</SelectItem>
+                                        <SelectItem value="10th">10th</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                               <FormMessage /></FormItem>
+                            )}/>
+                            <FormField control={form.control} name="specialization" render={({ field }) => (
+                               <FormItem><FormLabel>Specialization / Stream</FormLabel><FormControl><Input {...field} placeholder="e.g. B.Tech in Civil" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={form.control} name="keySkills" render={({ field }) => (
+                               <FormItem><FormLabel>Key Skills</FormLabel><FormControl><Input {...field} placeholder="e.g. AutoCAD, Sales, Project Management" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+
+                            <p className="font-semibold pt-4">4. Experience Details</p>
+                            <FormField control={form.control} name="totalExperience" render={({ field }) => (
+                               <FormItem><FormLabel>Total Work Experience</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl><SelectTrigger><SelectValue placeholder="Select Experience Level" /></SelectTrigger></FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="fresher">Fresher</SelectItem>
+                                        <SelectItem value="0-1">0-1 year</SelectItem>
+                                        <SelectItem value="1-3">1-3 years</SelectItem>
+                                        <SelectItem value="3-5">3-5 years</SelectItem>
+                                        <SelectItem value="5+">5+ years</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                               <FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={form.control} name="lastCompany" render={({ field }) => (
+                               <FormItem><FormLabel>Last Company Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={form.control} name="lastJobTitle" render={({ field }) => (
+                               <FormItem><FormLabel>Last Job Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <FormField control={form.control} name="noticePeriod" render={({ field }) => (
+                               <FormItem><FormLabel>Notice Period</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl><SelectTrigger><SelectValue placeholder="Select Notice Period" /></SelectTrigger></FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="immediate">Immediate</SelectItem>
+                                        <SelectItem value="15-days">15 Days</SelectItem>
+                                        <SelectItem value="1-month">1 Month</SelectItem>
+                                        <SelectItem value="2-months">2 Months</SelectItem>
+                                        <SelectItem value="3-months">3+ Months</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                               <FormMessage /></FormItem>
+                            )}/>
+
+                            <p className="font-semibold pt-4">5. Document Upload</p>
+                            <FormField control={form.control} name="resume" render={({ field: { value, onChange, ...fieldProps} }) => (
                                <FormItem>
-                                   <FormLabel>Resume</FormLabel>
+                                   <FormLabel>Upload Resume</FormLabel>
                                    <FormControl><Input type="file" accept=".pdf,.doc,.docx" onChange={(e) => onChange(e.target.files)} {...fieldProps} /></FormControl>
                                    <FormMessage />
                                </FormItem>
-                           )} />
-                            <FormField control={form.control} name="note" render={({ field }) => (
+                           )}/>
+                           <FormField control={form.control} name="portfolio" render={({ field: { value, onChange, ...fieldProps} }) => (
                                <FormItem>
-                                   <FormLabel>Cover Note <span className="text-muted-foreground">(Optional)</span></FormLabel>
-                                   <FormControl><Textarea rows={3} placeholder="Why should we hire you?" {...field} /></FormControl>
+                                   <FormLabel>Upload Portfolio (Optional)</FormLabel>
+                                   <FormControl><Input type="file" accept="image/*,.pdf" onChange={(e) => onChange(e.target.files)} {...fieldProps} /></FormControl>
                                    <FormMessage />
                                </FormItem>
-                           )} />
+                           )}/>
+                            <FormField control={form.control} name="photo" render={({ field: { value, onChange, ...fieldProps} }) => (
+                               <FormItem>
+                                   <FormLabel>Upload Passport Size Photo (Optional)</FormLabel>
+                                   <FormControl><Input type="file" accept="image/jpeg,image/png" onChange={(e) => onChange(e.target.files)} {...fieldProps} /></FormControl>
+                                   <FormMessage />
+                               </FormItem>
+                           )}/>
+
+                           <p className="font-semibold pt-4">6. Additional Information</p>
+                           <FormField control={form.control} name="whyHire" render={({ field }) => (
+                               <FormItem>
+                                   <FormLabel>Why should we hire you? (Optional)</FormLabel>
+                                   <FormControl><Textarea rows={3} placeholder="Tell us about your strengths" {...field} /></FormControl>
+                                   <FormMessage />
+                               </FormItem>
+                           )}/>
+                           <FormField control={form.control} name="linkedin" render={({ field }) => (
+                               <FormItem><FormLabel>LinkedIn Profile (Optional)</FormLabel><FormControl><Input {...field} placeholder="https://linkedin.com/in/..."/></FormControl><FormMessage /></FormItem>
+                           )}/>
+                           <FormField control={form.control} name="reference" render={({ field }) => (
+                               <FormItem><FormLabel>Any Reference? (Optional)</FormLabel><FormControl><Input {...field} placeholder="Reference name and contact" /></FormControl><FormMessage /></FormItem>
+                           )}/>
+
+
+                           <p className="font-semibold pt-4">7. Final Step</p>
+                            <FormField
+                                control={form.control}
+                                name="declaration"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                        I hereby declare that the above information is true to the best of my knowledge.
+                                        </FormLabel>
+                                        <FormMessage />
+                                    </div>
+                                    </FormItem>
+                                )}
+                            />
+
                            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                                 {form.formState.isSubmitting ? 'Submitting...' : 'Submit Application'}
                            </Button>
@@ -353,3 +559,5 @@ export default function CareerPage() {
     </>
   );
 }
+
+    
