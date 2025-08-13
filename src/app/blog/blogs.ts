@@ -42,7 +42,7 @@ export const blogs: Blog[] = [
         title: 'Think Big: 10 Smart Ways to Maximize Small Spaces',
         description: 'Ingenious tips and tricks to make even the smallest apartment feel spacious and airy.',
         longDescription: 'Living in a small space doesn\'t mean you have to compromise on style or functionality. With a few clever design strategies, you can transform a compact room into a comfortable and efficient home. This guide provides ten practical tips for making the most of every square inch, from smart storage solutions to optical illusions that create a sense of openness.',
-        images: ['https://placehold.co/1200x800.png', 'https://placehold.co/800x600.png'],
+        images: ['https://placehold.co/1200x800.png', 'https://placehold.co/800x600.png', 'https://placehold.co/600x400.png'],
         aiHint: 'small apartment living room',
         category: 'Tips & Tricks',
         author: 'John Smith',
