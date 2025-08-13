@@ -10,13 +10,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card';
 import { blogs, Blog } from '../blogs';
 import { LeadForm } from '@/components/LeadForm';
-import { Facebook, Twitter, Linkedin, Link2, ArrowRight } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Link2, ArrowRight, Heart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 
 export default function BlogDetailPage({ params }: { params: { slug: string } }) {
   const post = blogs.find((p) => p.slug === params.slug);
   const { toast } = useToast();
+  const [isLiked, setIsLiked] = useState(false);
   
   if (!post) {
     notFound();
@@ -49,6 +52,14 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
       }
       window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
+
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    toast({
+        title: isLiked ? "Unliked!" : "Liked!",
+        description: `You've ${isLiked ? 'unliked' : 'liked'} this post.`,
+    });
+  }
 
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
@@ -95,20 +106,25 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                 </CardHeader>
             </Card>
 
-            <div className="my-8 flex items-center justify-end gap-2">
-                <p className="text-sm text-muted-foreground mr-2">Share this post:</p>
-                <Button variant="outline" size="icon" onClick={() => handleShare('facebook')} aria-label="Share on Facebook">
-                    <Facebook className="h-5 w-5" />
+            <div className="my-8 flex items-center justify-between gap-2">
+                <Button variant="outline" size="icon" onClick={handleLike} aria-label="Like post">
+                    <Heart className={cn("h-5 w-5", isLiked && "fill-destructive text-destructive")} />
                 </Button>
-                 <Button variant="outline" size="icon" onClick={() => handleShare('twitter')} aria-label="Share on Twitter">
-                    <Twitter className="h-5 w-5" />
-                </Button>
-                 <Button variant="outline" size="icon" onClick={() => handleShare('linkedin')} aria-label="Share on LinkedIn">
-                    <Linkedin className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="icon" onClick={() => handleShare('copy')} aria-label="Copy Link">
-                    <Link2 className="h-5 w-5" />
-                </Button>
+                <div className="flex items-center gap-2">
+                    <p className="text-sm text-muted-foreground mr-2">Share this post:</p>
+                    <Button variant="outline" size="icon" onClick={() => handleShare('facebook')} aria-label="Share on Facebook">
+                        <Facebook className="h-5 w-5" />
+                    </Button>
+                     <Button variant="outline" size="icon" onClick={() => handleShare('twitter')} aria-label="Share on Twitter">
+                        <Twitter className="h-5 w-5" />
+                    </Button>
+                     <Button variant="outline" size="icon" onClick={() => handleShare('linkedin')} aria-label="Share on LinkedIn">
+                        <Linkedin className="h-5 w-5" />
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={() => handleShare('copy')} aria-label="Copy Link">
+                        <Link2 className="h-5 w-5" />
+                    </Button>
+                </div>
             </div>
         </article>
 
