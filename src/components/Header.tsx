@@ -28,6 +28,8 @@ const navLinks = [
   { href: "/portfolio", label: "Portfolio" },
 ];
 
+const desktopNavLinks = navLinks.filter(link => link.href !== '/about');
+
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,7 +57,7 @@ export function Header() {
         </div>
 
         <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
+          {desktopNavLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
         </nav>
