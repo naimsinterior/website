@@ -25,7 +25,10 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
     notFound();
   }
   
-  const relatedPosts = blogs.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+  const relatedPosts = blogs
+    .filter(p => p.category === post.category && p.slug !== post.slug)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
 
   const handleShare = async (platform: 'facebook' | 'twitter' | 'linkedin' | 'copy') => {
       const url = window.location.href;
