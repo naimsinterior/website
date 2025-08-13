@@ -110,30 +110,29 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                     <Link2 className="h-5 w-5" />
                 </Button>
             </div>
-
-            {relatedPosts.length > 0 && (
-                <div className="mt-16">
-                <h2 className="font-headline text-3xl md:text-4xl">Related Posts</h2>
-                 <div className="mt-8 space-y-4">
-                    {relatedPosts.map((relatedPost) => (
-                    <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="group block">
-                        <Card className="p-4 hover:bg-muted transition-colors">
-                           <div className="flex items-center justify-between">
-                                <h3 className="font-headline text-xl group-hover:text-primary">{relatedPost.title}</h3>
-                                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                           </div>
-                        </Card>
-                    </Link>
-                    ))}
-                </div>
-                </div>
-            )}
-
         </article>
 
         <aside className="lg:col-span-1">
             <div className="sticky top-24 space-y-8">
                 <LeadForm />
+
+                {relatedPosts.length > 0 && (
+                    <div>
+                        <h2 className="font-headline text-2xl md:text-3xl mb-4">Related Posts</h2>
+                         <div className="space-y-4">
+                            {relatedPosts.map((relatedPost) => (
+                            <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="group block">
+                                <Card className="p-4 hover:bg-muted transition-colors">
+                                   <div className="flex items-center justify-between">
+                                        <h3 className="font-headline text-lg group-hover:text-primary">{relatedPost.title}</h3>
+                                        <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                                   </div>
+                                </Card>
+                            </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </aside>
 
