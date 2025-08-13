@@ -81,4 +81,64 @@ export const blogs: Blog[] = [
             <p>Kitchens are often the heart of the home, so you can be a bit more playful here. Yellows can stimulate appetite and create a cheerful vibe, while classic white or light gray promotes a sense of cleanliness and order.</p>
         `,
     },
+    {
+        slug: 'creating-a-luxurious-bedroom-on-a-budget',
+        title: 'Creating a Luxurious Bedroom on a Budget',
+        description: 'Achieve a high-end look without the high-end price tag. Discover our secrets to affordable luxury.',
+        longDescription: 'A luxurious bedroom doesn\'t have to break the bank. With strategic choices in textiles, lighting, and decor, you can create a space that feels opulent and inviting. This post will guide you through smart shopping, DIY hacks, and design principles to help you craft the master suite of your dreams, affordably.',
+        images: ['https://placehold.co/1200x800.png'],
+        aiHint: 'luxurious bedroom',
+        category: 'DIY',
+        author: 'Jane Doe',
+        authorImage: 'https://placehold.co/100x100.png',
+        authorRole: 'Lead Designer',
+        date: 'August 05, 2024',
+        content: `
+            <p>Everyone deserves a bedroom that feels like a five-star hotel suite. The good news is, you can achieve that vibe with some clever planning.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Focus on Textiles</h3>
+            <p>High-quality bedding is a non-negotiable. Look for high thread count sheets during sales. Add a plush duvet, a variety of pillows, and a soft throw blanket at the foot of the bed to create layers of comfort and visual appeal.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Lighting is Key</h3>
+            <p>Swap out harsh overhead lighting for softer, layered options. A statement ceiling fixture (even an affordable one) can serve as a focal point, while bedside lamps and dimmers create a warm, relaxing ambiance.</p>
+        `,
+    },
+    {
+        slug: 'why-hiring-an-interior-designer-saves-you-money',
+        title: 'The Surprising Way an Interior Designer Can Save You Money',
+        description: 'Think hiring a designer is just an added expense? Think again. Learn how professional design can be a smart investment.',
+        longDescription: 'It might seem counterintuitive, but hiring an interior designer can prevent costly mistakes and increase the value of your home. From budget management to access to trade discounts, a designer is a valuable asset for any home project. We\'ll break down the financial benefits of bringing in a pro.',
+        images: ['https://placehold.co/1200x800.png'],
+        aiHint: 'designer with client',
+        category: 'Tips & Tricks',
+        author: 'John Smith',
+        authorImage: 'https://placehold.co/100x100.png',
+        authorRole: 'Project Manager',
+        date: 'August 12, 2024',
+        content: `
+            <p>Many homeowners view interior designers as a luxury, but the reality is that their expertise can lead to significant savings in the long run.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Avoiding Costly Mistakes</h3>
+            <p>A designer can help you create a solid plan from the start, preventing mistakes like buying furniture that\'s the wrong size or choosing a paint color that you end up hating. These errors can be expensive to fix down the line.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Budgeting and Planning</h3>
+            <p>Designers are skilled at managing budgets. They know where to splurge and where to save, ensuring you get the most impact for your money. They can help you allocate funds effectively across your entire project.</p>
+        `,
+    },
+    {
+        slug: 'eco-friendly-decorating',
+        title: 'Sustainable & Stylish: A Guide to Eco-Friendly Decorating',
+        description: 'Create a beautiful home that\'s also kind to the planet. Explore sustainable materials, brands, and practices.',
+        longDescription: 'Sustainable design is more than just a trend; it\'s a movement towards a healthier planet and home. This guide offers practical tips for making eco-conscious choices in your interior design, from choosing non-toxic paints to investing in furniture made from reclaimed or renewable materials.',
+        images: ['https://placehold.co/1200x800.png'],
+        aiHint: 'eco friendly living room',
+        category: 'Trends',
+        author: 'Emily White',
+        authorImage: 'https://placehold.co/100x100.png',
+        authorRole: 'Marketing Head',
+        date: 'August 19, 2024',
+        content: `
+            <p>You can have a stunning home that doesn't cost the earth. Eco-friendly decorating is all about making mindful choices.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Choose Sustainable Materials</h3>
+            <p>Look for furniture made from reclaimed wood, bamboo, or recycled metal. For textiles, opt for organic cotton, linen, or hemp. These materials are not only better for the environment but also bring natural beauty into your home.</p>
+            <h3 class="font-headline text-2xl mt-8 mb-4">Shop Vintage & Second-Hand</h3>
+            <p>Thrift stores, flea markets, and online marketplaces are treasure troves of unique, pre-loved pieces. Giving an old item a new life is one of the most sustainable things you can do, and it adds character to your space.</p>
+        `,
+    },
 ];
