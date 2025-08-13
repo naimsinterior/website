@@ -10,15 +10,45 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card';
 import { blogs, Blog } from '../blogs';
 import { LeadForm } from '@/components/LeadForm';
+import { Facebook, Twitter, Linkedin, Link2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function BlogDetailPage({ params }: { params: { slug: string } }) {
   const post = blogs.find((p) => p.slug === params.slug);
+  const { toast } = useToast();
   
   if (!post) {
     notFound();
   }
   
   const relatedPosts = blogs.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 2);
+
+  const handleShare = async (platform: 'facebook' | 'twitter' | 'linkedin' | 'copy') => {
+      const url = window.location.href;
+      const text = `Check out this blog post: ${post.title}`;
+      let shareUrl = '';
+
+      switch(platform) {
+          case 'facebook':
+              shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+              break;
+          case 'twitter':
+              shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+              break;
+          case 'linkedin':
+              shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(post.title)}&summary=${encodeURIComponent(post.description)}`;
+              break;
+          case 'copy':
+              navigator.clipboard.writeText(url);
+              toast({
+                title: "Link Copied!",
+                description: "Blog post link has been copied to your clipboard.",
+              });
+              return;
+      }
+      window.open(shareUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
@@ -65,8 +95,24 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                 </CardHeader>
             </Card>
 
+            <div className="my-8 flex items-center justify-end gap-2">
+                <p className="text-sm text-muted-foreground mr-2">Share this post:</p>
+                <Button variant="outline" size="icon" onClick={() => handleShare('facebook')} aria-label="Share on Facebook">
+                    <Facebook className="h-5 w-5" />
+                </Button>
+                 <Button variant="outline" size="icon" onClick={() => handleShare('twitter')} aria-label="Share on Twitter">
+                    <Twitter className="h-5 w-5" />
+                </Button>
+                 <Button variant="outline" size="icon" onClick={() => handleShare('linkedin')} aria-label="Share on LinkedIn">
+                    <Linkedin className="h-5 w-5" />
+                </Button>
+                <Button variant="outline" size="icon" onClick={() => handleShare('copy')} aria-label="Copy Link">
+                    <Link2 className="h-5 w-5" />
+                </Button>
+            </div>
+
             {relatedPosts.length > 0 && (
-                <div className="mt-24">
+                <div className="mt-16">
                 <h2 className="font-headline text-3xl md:text-4xl">Related Posts</h2>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                     {relatedPosts.map((relatedPost) => (
