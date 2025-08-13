@@ -76,8 +76,9 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
               priority
           />
           <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
-              <p className="text-lg font-semibold uppercase tracking-widest text-primary">{post.category}</p>
-              <h1 className="font-headline text-4xl md:text-6xl mt-2 max-w-4xl">{post.title}</h1>
+              <h1 className="font-headline text-4xl md:text-6xl max-w-4xl">{post.title}</h1>
+              <p className="mt-4 max-w-2xl text-lg md:text-xl">{post.description}</p>
+              <p className="mt-4 text-lg font-semibold uppercase tracking-widest text-primary">{post.category}</p>
           </div>
       </section>
 
