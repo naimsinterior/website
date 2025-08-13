@@ -86,7 +86,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
         <div className="grid lg:grid-cols-3 gap-12">
           <article className="lg:col-span-2">
               <header className="mb-8">
-                  <Badge variant="secondary" className="mb-4 inline-block">{post.category}</Badge>
+                  <Badge variant="destructive" className="mb-4 inline-block">{post.category}</Badge>
                    <p className="text-lg text-muted-foreground">{post.longDescription}</p>
               </header>
               
