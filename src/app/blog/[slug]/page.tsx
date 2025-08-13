@@ -14,6 +14,7 @@ import { Facebook, Twitter, Linkedin, Link2, ArrowRight, Heart } from 'lucide-re
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 
 export default function BlogDetailPage({ params }: { params: { slug: string } }) {
@@ -78,8 +79,8 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
           <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
               <h1 className="font-headline text-4xl md:text-6xl max-w-4xl">{post.title}</h1>
               <p className="mt-4 max-w-2xl text-lg md:text-xl">{post.description}</p>
-              <p className="mt-4 text-lg font-semibold uppercase tracking-widest text-primary">{post.category}</p>
           </div>
+           <Badge variant="secondary" className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-lg py-2 px-4">{post.category}</Badge>
       </section>
 
       <div className="container mx-auto px-4 py-16 md:px-6">
