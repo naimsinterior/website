@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card';
 import { blogs, Blog } from '../blogs';
 import { LeadForm } from '@/components/LeadForm';
-import { Facebook, Twitter, Linkedin, Link2 } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Link2, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 
@@ -22,7 +22,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
     notFound();
   }
   
-  const relatedPosts = blogs.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 2);
+  const relatedPosts = blogs.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
 
   const handleShare = async (platform: 'facebook' | 'twitter' | 'linkedin' | 'copy') => {
       const url = window.location.href;
@@ -114,25 +114,14 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
             {relatedPosts.length > 0 && (
                 <div className="mt-16">
                 <h2 className="font-headline text-3xl md:text-4xl">Related Posts</h2>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="mt-8 space-y-4">
                     {relatedPosts.map((relatedPost) => (
                     <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`} className="group block">
-                        <Card className="flex flex-col overflow-hidden h-full">
-                            <CardHeader className="p-0 relative">
-                            <div className="relative h-60 w-full">
-                                <Image
-                                    src={relatedPost.images[0]}
-                                    alt={relatedPost.title}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    data-ai-hint={relatedPost.aiHint}
-                                />
-                            </div>
-                            </CardHeader>
-                            <CardContent className="p-6">
-                            <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{relatedPost.title}</CardTitle>
-                            <p className="mt-2 text-base text-muted-foreground">{relatedPost.description}</p>
-                            </CardContent>
+                        <Card className="p-4 hover:bg-muted transition-colors">
+                           <div className="flex items-center justify-between">
+                                <h3 className="font-headline text-xl group-hover:text-primary">{relatedPost.title}</h3>
+                                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                           </div>
                         </Card>
                     </Link>
                     ))}
