@@ -80,13 +80,13 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
               <h1 className="font-headline text-4xl md:text-6xl max-w-4xl">{post.title}</h1>
               <p className="mt-4 max-w-2xl text-lg md:text-xl">{post.description}</p>
           </div>
-           <Badge variant="secondary" className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-lg py-2 px-4">{post.category}</Badge>
       </section>
 
       <div className="container mx-auto px-4 py-16 md:px-6">
         <div className="grid lg:grid-cols-3 gap-12">
           <article className="lg:col-span-2">
               <header className="mb-8">
+                  <Badge variant="secondary" className="mb-4 inline-block">{post.category}</Badge>
                    <p className="text-lg text-muted-foreground">{post.longDescription}</p>
               </header>
               
