@@ -9,9 +9,10 @@ import { useMoodboard } from "@/hooks/useMoodboard";
 import { useToast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { inspirations, Inspiration } from "./inspirations";
+import { useSearchParams } from "next/navigation";
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -19,6 +20,17 @@ export default function DesignPage() {
   const { moodboard, addToMoodboard, removeFromMoodboard } = useMoodboard();
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
+
+  const searchParams = useSearchParams();
+  const categoryFilter = searchParams.get('category');
+
+  const filteredInspirations = useMemo(() => {
+    if (!categoryFilter) {
+      return inspirations;
+    }
+    return inspirations.filter(i => i.category === categoryFilter);
+  }, [categoryFilter]);
+
 
   const handleMoodboardClick = (e: React.MouseEvent, project: Inspiration) => {
     e.preventDefault(); // Prevent the Link from navigating
@@ -45,14 +57,17 @@ export default function DesignPage() {
   return (
     <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
       <div className="text-center">
-        <h1 className="font-headline text-4xl md:text-5xl">Design Inspirations</h1>
+        <h1 className="font-headline text-4xl md:text-5xl">{categoryFilter ? `${categoryFilter} Designs` : 'Design Inspirations'}</h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea.
+          {categoryFilter 
+            ? `Explore our collection of ${categoryFilter.toLowerCase()} designs.`
+            : "Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea."
+          }
         </p>
       </div>
 
       <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {inspirations.slice(0, visibleCount).map((project) => {
+        {filteredInspirations.slice(0, visibleCount).map((project) => {
           const isInMoodboard = moodboard.some(item => item.slug === project.slug);
           return (
             <Link key={project.slug} href={`/design/${project.slug}`} className="group block">
@@ -88,7 +103,7 @@ export default function DesignPage() {
         })}
       </div>
       
-      {visibleCount < inspirations.length && (
+      {visibleCount < filteredInspirations.length && (
         <div className="mt-12 text-center">
           <Button onClick={handleViewMore} size="lg">
             View More

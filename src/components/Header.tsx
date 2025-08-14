@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, UserPlus, UserCircle, Calculator } from "lucide-react";
+import { Menu, LogIn, UserPlus, UserCircle, Calculator, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -16,11 +16,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { GetQuoteForm } from "./GetQuoteForm";
 import Image from "next/image";
+import { inspirations } from "@/app/design/inspirations";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/design", label: "Design" },
+  // Design link is handled separately
   { href: "/style-tool", label: "Style Tool" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
@@ -28,7 +35,7 @@ const navLinks = [
   { href: "/portfolio", label: "Portfolio" },
 ];
 
-const desktopNavLinks = navLinks.filter(link => link.href !== '/about');
+const designCategories = Array.from(new Set(inspirations.map(i => i.category)));
 
 export function Header() {
   const pathname = usePathname();
@@ -57,7 +64,31 @@ export function Header() {
         </div>
 
         <nav className="hidden items-center gap-6 md:flex">
-          {desktopNavLinks.map((link) => (
+          <NavLink href="/" label="Home" />
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className={cn(
+                "flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary focus:outline-none",
+                pathname.startsWith('/design') ? "text-primary" : "text-muted-foreground"
+              )}>
+                Design <ChevronDown className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/design">All Inspirations</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {designCategories.map(category => (
+                <DropdownMenuItem key={category} asChild>
+                  <Link href={`/design?category=${encodeURIComponent(category)}`}>{category}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {navLinks.filter(l => !["/", "/about", "/design"].includes(l.href)).map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
         </nav>
@@ -115,7 +146,22 @@ export function Header() {
                     </Link>
                   </div>
                   <nav className="flex flex-col gap-4">
-                    {navLinks.map((link) => (
+                    <NavLink href="/" label="Home" />
+                    <NavLink href="/about" label="About" />
+                    <Collapsible>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-medium [&[data-state=open]>svg]:rotate-180">
+                         <NavLink href="/design" label="Design" />
+                         <ChevronDown className="h-4 w-4 transition-transform" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="flex flex-col gap-2 pl-4 mt-2">
+                           {designCategories.map(category => (
+                            <NavLink key={category} href={`/design?category=${encodeURIComponent(category)}`} label={category} />
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                    {navLinks.filter(l => !["/", "/about", "/design"].includes(l.href)).map((link) => (
                       <NavLink key={link.href} {...link} />
                     ))}
                   </nav>
