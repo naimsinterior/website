@@ -88,10 +88,10 @@ export function Footer() {
                       </li>
                   ))}
                    <li className='text-sm text-muted-foreground'>
-                          <Link href="/kitchen-design" className="hover:text-primary">
-                              Kitchen Design
-                          </Link>
-                      </li>
+                        <Link href="/kitchen-design" className="hover:text-primary">
+                            Kitchen Design
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
