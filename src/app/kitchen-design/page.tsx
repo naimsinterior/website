@@ -15,13 +15,6 @@ import Autoplay from "embla-carousel-autoplay";
 import { ScratchCard } from "@/components/ScratchCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-    title: 'Best Kitchen Interior Design | Modular Kitchen Solutions',
-    description: 'Transform your home with our expert kitchen interior design services. Discover innovative modular kitchen designs that blend functionality and style, tailored for every taste. Maximize your space today!',
-};
-
 
 const featuredProjects = projects.filter(p => p.category === 'Kitchen').slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial && p.category === 'Kitchen').slice(0, 3);
@@ -595,4 +588,3 @@ export default function KitchenDesignPage() {
     </div>
   );
 }
-
