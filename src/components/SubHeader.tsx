@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -17,7 +18,7 @@ export function SubHeader() {
         <p className="flex-1 text-center pr-8">
           <span className="hidden sm:inline">Refer a friend and join our network for exclusive offers! </span>
           <span className="sm:hidden">Refer a friend & get exclusive offers!</span>
-          <Link href="/contact" className="underline font-bold hover:opacity-80 transition-opacity ml-1">
+          <Link href="/refer" className="underline font-bold hover:opacity-80 transition-opacity ml-1">
             Learn More
           </Link>
         </p>
