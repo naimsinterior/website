@@ -62,7 +62,6 @@ export function Footer() {
               <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
               <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
               <li><Link href="/feedback" className="text-sm text-muted-foreground hover:text-primary">Feedback</Link></li>
-              <li><Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">Kitchen Design</Link></li>
             </ul>
           </div>
            <div>
@@ -90,8 +89,8 @@ export function Footer() {
                 </ul>
             </div>
         </div>
-        <div className="mt-8 border-t pt-8">
-            <div className="mt-4">
+        <div className="mt-4 border-t pt-4">
+            <div className="mt-2">
                 <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
                     <li>
                         <Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">
