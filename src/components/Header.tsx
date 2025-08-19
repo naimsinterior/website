@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogIn, UserPlus, UserCircle, Calculator, ChevronDown } from "lucide-react";
+import { Menu, LogIn, UserPlus, UserCircle, Calculator, ChevronDown, LayoutDashboard, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -120,6 +120,19 @@ export function Header() {
                     Sign Up
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/client-dashboard">
+                    <User className="mr-2 h-4 w-4" />
+                    Client Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/agent-dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    Agent Dashboard
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -185,6 +198,19 @@ export function Header() {
                               Sign Up
                             </Link>
                           </DropdownMenuItem>
+                           <DropdownMenuSeparator />
+                           <DropdownMenuItem asChild>
+                              <Link href="/client-dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                                <User className="mr-2 h-4 w-4" />
+                                Client Dashboard
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href="/agent-dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                Agent Dashboard
+                              </Link>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                   </div>

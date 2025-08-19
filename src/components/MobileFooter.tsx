@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Heart, Menu, LogIn, UserPlus, UserCircle, Calculator, Briefcase, Info } from 'lucide-react';
+import { Home, LayoutGrid, Heart, Menu, LogIn, UserPlus, UserCircle, Calculator, Briefcase, Info, LayoutDashboard, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { Button } from './ui/button';
 import Image from 'next/image';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -111,6 +111,19 @@ export function MobileFooter() {
                             <UserPlus className="mr-2 h-4 w-4" />
                             Sign Up
                           </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/client-dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                                <User className="mr-2 h-4 w-4" />
+                                Client Dashboard
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/agent-dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                Agent Dashboard
+                            </Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
