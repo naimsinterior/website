@@ -89,18 +89,14 @@ export function Footer() {
                 </ul>
             </div>
         </div>
-        <div className="mt-4 border-t pt-4">
-            <div className="mt-2">
-                <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
-                    <li>
-                        <Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">
-                            Kitchen Design
-                        </Link>
-                    </li>
-                </ul>
+        <div className="mt-8 border-t pt-4 pb-4">
+            <div className="flex justify-center md:justify-start">
+                 <Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">
+                    Kitchen Design
+                </Link>
             </div>
         </div>
-        <div className="mt-8 border-t pt-8">
+        <div className="border-t pt-8">
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Our Service Areas</h3>
             <div className="mt-4">
                 <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
