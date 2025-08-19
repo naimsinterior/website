@@ -87,11 +87,17 @@ export function Footer() {
                           </Link>
                       </li>
                   ))}
-                  <li className='text-sm text-muted-foreground'>
-                      <Link href="/kitchen-design" className="hover:text-primary">
-                          Kitchen Design
-                      </Link>
-                  </li>
+                </ul>
+            </div>
+        </div>
+        <div className="mt-8 border-t pt-8">
+            <div className="mt-4">
+                <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
+                    <li>
+                        <Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">
+                            Kitchen Design
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
