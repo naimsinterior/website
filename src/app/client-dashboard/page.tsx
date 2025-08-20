@@ -5,11 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
-import { BarChartBig, Calendar, Target, Briefcase, Hourglass, CalendarCheck, CalendarClock } from "lucide-react";
+import { BarChartBig, Calendar, Target, Briefcase, Hourglass, CalendarCheck, CalendarClock, GanttChartSquare } from "lucide-react";
 
 
 const projectOverview = {
-    progress: 0,
+    progress: 65,
     startDate: "10/10/2023",
     targetDate: "28/11/2023",
     workingDays: 42,
@@ -33,11 +33,11 @@ export default function ClientDashboardPage() {
       </div>
       
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
+        <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle className="flex items-center text-2xl font-headline">
                     <BarChartBig className="mr-3 h-6 w-6 text-primary" />
-                    Overview
+                    Project Overview
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -87,30 +87,39 @@ export default function ClientDashboardPage() {
                         <span className="font-bold text-destructive">{projectOverview.overDays}</span>
                     </li>
                 </ul>
+                 <Button asChild className="w-full mt-4">
+                    <Link href="/site-progress">
+                        <GanttChartSquare className="mr-2 h-4 w-4" /> View Detailed Progress
+                    </Link>
+                </Button>
             </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader>
-            <CardTitle>My Moodboard</CardTitle>
-            <CardDescription>Access your saved design inspirations.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>You have 15 items in your moodboard.</p>
-             <Button variant="outline" asChild className="mt-4">
-                <Link href="/moodboard">View Moodboard</Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Details</CardTitle>
-            <CardDescription>Update your personal information and password.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Manage your account settings.</p>
-          </CardContent>
-        </Card>
+        <div className="space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>My Moodboard</CardTitle>
+                <CardDescription>Access your saved design inspirations.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p>You have 15 items in your moodboard.</p>
+                 <Button variant="outline" asChild className="mt-4">
+                    <Link href="/moodboard">View Moodboard</Link>
+                </Button>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Account Details</CardTitle>
+                <CardDescription>Update your personal information and password.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" asChild>
+                    <Link href="#">Manage Account</Link>
+                </Button>
+              </CardContent>
+            </Card>
+        </div>
       </div>
     </div>
   );
