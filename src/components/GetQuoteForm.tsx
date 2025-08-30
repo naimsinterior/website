@@ -45,6 +45,7 @@ type QuoteFormValues = z.infer<typeof quoteFormSchema>;
 interface GetQuoteFormProps {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
+    children?: React.ReactNode;
 }
 
 const purposes = ["For Rent", "For Own Use", "Resale", "Other"];
@@ -58,7 +59,7 @@ const scopeItems = [
     { id: 'decor', label: 'Home Decor' },
 ]
 
-export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
+export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps) {
     const [step, setStep] = useState(1);
     
     const { toast } = useToast();
@@ -96,7 +97,6 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
     function onSubmit(data: QuoteFormValues) {
         console.log("Quote Request Submitted:", data);
         setStep(5); // Go to success step
-        form.reset();
         toast({
             title: "Quote Request Sent!",
             description: `Thank you, ${data.name}. We'll be in touch shortly.`,
@@ -105,13 +105,16 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
 
     const resetAndClose = () => {
       setStep(1);
+      form.reset();
       onOpenChange?.(false);
     }
 
     const handleOpenChange = (isOpen: boolean) => {
-        if (isOpen) {
-          setStep(1);
-          form.reset();
+        if (!isOpen) {
+          setTimeout(() => {
+            setStep(1);
+            form.reset();
+          }, 500)
         }
         onOpenChange?.(isOpen);
     }
@@ -129,7 +132,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                             control={form.control}
                             name="purpose"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
+                                <FormItem>
                                     <FormControl>
                                         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
                                             {purposes.map(type => (
@@ -137,7 +140,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                                     <FormControl>
                                                         <RadioGroupItem value={type} id={type} className="sr-only peer" />
                                                     </FormControl>
-                                                    <label htmlFor={type} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                                    <label htmlFor={type} className="flex text-xs items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
                                                         {type}
                                                     </label>
                                                 </FormItem>
@@ -161,7 +164,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                             control={form.control}
                             name="propertyType"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
+                                <FormItem>
                                     <FormControl>
                                         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
                                             {propertyTypes.map(type => (
@@ -169,7 +172,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                                     <FormControl>
                                                         <RadioGroupItem value={type} id={type} className="sr-only peer" />
                                                     </FormControl>
-                                                    <label htmlFor={type} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
+                                                    <label htmlFor={type} className="flex text-xs items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
                                                         {type}
                                                     </label>
                                                 </FormItem>
@@ -219,7 +222,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                               }}
                                             />
                                           </FormControl>
-                                          <label className="font-normal">
+                                          <label className="font-normal text-sm">
                                             {item.label}
                                           </label>
                                         </FormItem>
@@ -291,20 +294,21 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
-                <Button>Get a Quote</Button>
+                {children ? children : <Button>Get a Quote</Button>}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[480px]">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        {renderContent()}
-                        <div className="mt-6">
-                            {renderFooter()}
-                        </div>
-                    </form>
-                </Form>
+                {step < 5 && (
+                  <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                          {renderContent()}
+                          <div className="mt-6">
+                              {renderFooter()}
+                          </div>
+                      </form>
+                  </Form>
+                )}
+                {step === 5 && renderContent()}
             </DialogContent>
         </Dialog>
     );
 }
-
-    
