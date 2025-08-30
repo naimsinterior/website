@@ -21,6 +21,7 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -134,15 +135,13 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
+                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="space-y-2">
                                             {purposes.map(type => (
-                                                <FormItem key={type}>
+                                                <FormItem key={type} className="flex items-center space-x-3 space-y-0">
                                                     <FormControl>
-                                                        <RadioGroupItem value={type} id={type} className="sr-only peer" />
+                                                        <RadioGroupItem value={type} />
                                                     </FormControl>
-                                                    <label htmlFor={type} className="flex text-xs items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
-                                                        {type}
-                                                    </label>
+                                                    <FormLabel className="font-normal">{type}</FormLabel>
                                                 </FormItem>
                                             ))}
                                         </RadioGroup>
@@ -166,15 +165,13 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
+                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-x-4 gap-y-2">
                                             {propertyTypes.map(type => (
-                                                <FormItem key={type} className="flex-1">
+                                                <FormItem key={type} className="flex items-center space-x-3 space-y-0">
                                                     <FormControl>
-                                                        <RadioGroupItem value={type} id={type} className="sr-only peer" />
+                                                        <RadioGroupItem value={type} />
                                                     </FormControl>
-                                                    <label htmlFor={type} className="flex text-xs items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
-                                                        {type}
-                                                    </label>
+                                                    <FormLabel className="font-normal">{type}</FormLabel>
                                                 </FormItem>
                                             ))}
                                         </RadioGroup>
@@ -222,9 +219,9 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                               }}
                                             />
                                           </FormControl>
-                                          <label className="font-normal text-sm">
+                                          <FormLabel className="font-normal">
                                             {item.label}
-                                          </label>
+                                          </FormLabel>
                                         </FormItem>
                                       )
                                     }}
