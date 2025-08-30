@@ -126,8 +126,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
         const isValid = await form.trigger(["name", "email", "phone"]);
         if (!isValid) return;
         
-        const finalData = form.getValues();
-        console.log("Quote Request Submitted:", finalData);
+        console.log("Quote Request Submitted:", data);
         setStep(5);
     }
 
@@ -168,14 +167,14 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                     key={type}
                                                     onClick={() => field.onChange(type)}
                                                     className={cn(
-                                                        "flex flex-row items-center justify-start p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full gap-4",
+                                                        "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
                                                         field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
                                                     )}
                                                 >
+                                                    <Label htmlFor={`purpose-${type}`} className="font-normal cursor-pointer">{type}</Label>
                                                     <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
                                                         {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
                                                     </div>
-                                                    <Label htmlFor={`purpose-${type}`} className="font-bold cursor-pointer text-center">{type}</Label>
                                                 </div>
                                             ))}
                                         </div>
@@ -205,14 +204,14 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                     key={type}
                                                     onClick={() => field.onChange(type)}
                                                     className={cn(
-                                                        "flex flex-row items-center justify-start p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full gap-4",
+                                                        "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
                                                         field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
                                                     )}
                                                 >
+                                                    <Label htmlFor={`property-${type}`} className="font-normal cursor-pointer">{type}</Label>
                                                     <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
                                                         {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
                                                     </div>
-                                                    <Label htmlFor={`property-${type}`} className="font-bold cursor-pointer text-center">{type}</Label>
                                                 </div>
                                             ))}
                                         </div>
