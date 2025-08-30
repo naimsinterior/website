@@ -139,7 +139,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                                     <FormControl>
                                                         <RadioGroupItem value={type} className="sr-only" />
                                                     </FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
                                                         {type}
                                                     </FormLabel>
                                                 </FormItem>
@@ -169,7 +169,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                             {propertyTypes.map(type => (
                                                 <FormItem key={type} className="flex-1">
                                                     <FormControl><RadioGroupItem value={type} className="sr-only" /></FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
+                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
                                                         {type}
                                                     </FormLabel>
                                                 </FormItem>
