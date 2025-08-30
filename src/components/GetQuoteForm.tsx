@@ -283,12 +283,13 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                                         {item.label}
                                                                         <Tooltip>
                                                                             <TooltipTrigger asChild>
-                                                                                <button type="button">
+                                                                                <button type="button" onClick={(e) => e.preventDefault()} className="flex items-center">
                                                                                     <Info className="h-4 w-4 text-muted-foreground" />
                                                                                 </button>
                                                                             </TooltipTrigger>
-                                                                            <TooltipContent>
-                                                                                <p>{item.description}</p>
+                                                                            <TooltipContent className="w-64 bg-accent text-accent-foreground border-primary">
+                                                                                <p className="font-bold text-base mb-2">{item.label}</p>
+                                                                                <p className="text-sm">{item.description}</p>
                                                                             </TooltipContent>
                                                                         </Tooltip>
                                                                     </Label>
