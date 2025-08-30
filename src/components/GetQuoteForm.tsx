@@ -21,14 +21,14 @@ import {
   FormField,
   FormItem,
   FormMessage,
-  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Checkbox } from "./ui/checkbox";
 import { MailCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Label } from "./ui/label";
 
 const quoteFormSchema = z.object({
     purpose: z.string({ required_error: "Please select a purpose." }),
@@ -135,16 +135,31 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="space-y-2">
+                                        <div className="grid grid-cols-2 gap-4">
                                             {purposes.map(type => (
-                                                <FormItem key={type} className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value={type} />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">{type}</FormLabel>
-                                                </FormItem>
+                                                <div key={type}>
+                                                     <input 
+                                                        type="radio" 
+                                                        id={`purpose-${type}`} 
+                                                        value={type}
+                                                        checked={field.value === type}
+                                                        onChange={field.onChange}
+                                                        className="sr-only"
+                                                     />
+                                                     <Label 
+                                                        htmlFor={`purpose-${type}`}
+                                                        className={cn(
+                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs",
+                                                            field.value === type 
+                                                                ? "bg-accent text-accent-foreground border-primary" 
+                                                                : "bg-background hover:bg-muted"
+                                                        )}
+                                                     >
+                                                        {type}
+                                                     </Label>
+                                                </div>
                                             ))}
-                                        </RadioGroup>
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -162,19 +177,34 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         <FormField
                             control={form.control}
                             name="propertyType"
-                            render={({ field }) => (
+                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                         <div className="grid grid-cols-2 gap-4">
                                             {propertyTypes.map(type => (
-                                                <FormItem key={type} className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value={type} />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">{type}</FormLabel>
-                                                </FormItem>
+                                                <div key={type}>
+                                                     <input 
+                                                        type="radio" 
+                                                        id={`property-${type}`} 
+                                                        value={type}
+                                                        checked={field.value === type}
+                                                        onChange={field.onChange}
+                                                        className="sr-only"
+                                                     />
+                                                      <Label 
+                                                        htmlFor={`property-${type}`}
+                                                        className={cn(
+                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors h-full text-xs",
+                                                            field.value === type 
+                                                                ? "bg-accent text-accent-foreground border-primary" 
+                                                                : "bg-background hover:bg-muted"
+                                                        )}
+                                                     >
+                                                        {type}
+                                                     </Label>
+                                                </div>
                                             ))}
-                                        </RadioGroup>
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -192,40 +222,36 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         <FormField
                           control={form.control}
                           name="scope"
-                          render={() => (
+                          render={({ field }) => (
                             <FormItem>
                               <div className="grid grid-cols-2 gap-4">
                                 {scopeItems.map((item) => (
-                                  <FormField
-                                    key={item.id}
-                                    control={form.control}
-                                    name="scope"
-                                    render={({ field }) => {
-                                      return (
-                                        <FormItem
-                                          key={item.id}
-                                          className="flex flex-row items-start space-x-3 space-y-0"
-                                        >
-                                          <FormControl>
-                                            <Checkbox
-                                              checked={field.value?.includes(item.id)}
-                                              onCheckedChange={(checked) => {
-                                                const updatedValue = checked
-                                                  ? [...(field.value || []), item.id]
-                                                  : field.value?.filter(
-                                                      (value) => value !== item.id
-                                                    );
-                                                field.onChange(updatedValue);
-                                              }}
-                                            />
-                                          </FormControl>
-                                          <FormLabel className="font-normal">
+                                    <div key={item.id}>
+                                         <input 
+                                            type="checkbox" 
+                                            id={`scope-${item.id}`} 
+                                            value={item.id}
+                                            checked={field.value?.includes(item.id)}
+                                            onChange={(e) => {
+                                                const newScopes = e.target.checked 
+                                                    ? [...(field.value || []), item.id] 
+                                                    : field.value?.filter(v => v !== item.id);
+                                                field.onChange(newScopes);
+                                            }}
+                                            className="sr-only"
+                                         />
+                                          <Label 
+                                            htmlFor={`scope-${item.id}`}
+                                            className={cn(
+                                                "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs",
+                                                field.value?.includes(item.id)
+                                                    ? "bg-accent text-accent-foreground border-primary" 
+                                                    : "bg-background hover:bg-muted"
+                                            )}
+                                         >
                                             {item.label}
-                                          </FormLabel>
-                                        </FormItem>
-                                      )
-                                    }}
-                                  />
+                                          </Label>
+                                    </div>
                                 ))}
                               </div>
                               <FormMessage />
