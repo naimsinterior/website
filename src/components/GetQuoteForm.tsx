@@ -2,7 +2,7 @@
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldName } from "react-hook-form";
 import * as z from "zod";
 import { useState } from "react";
 
@@ -100,7 +100,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     });
 
     const handleNext = async () => {
-        let fieldsToValidate: (keyof QuoteFormValues)[] = [];
+        let fieldsToValidate: FieldName<QuoteFormValues>[] = [];
         switch (step) {
             case 1:
                 fieldsToValidate = ['purpose'];
@@ -127,11 +127,15 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     }
 
     async function onSubmit(data: QuoteFormValues) {
-        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
-        if (!isValid) return;
-        
         console.log("Quote Request Submitted:", data);
         setStep(5);
+    }
+
+    const handleFinalSubmit = async () => {
+        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
+        if (isValid) {
+            onSubmit(form.getValues());
+        }
     }
 
     const resetAndClose = () => {
@@ -151,6 +155,30 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     }
     
     const renderContent = () => {
+        if (step === 4) {
+            return (
+                <div className="space-y-4">
+                    <DialogHeader>
+                        <DialogTitle>Almost there!</DialogTitle>
+                        <DialogDescription>Please provide your contact information.</DialogDescription>
+                    </DialogHeader>
+                    <FormField control={form.control} name="name" render={({ field }) => (
+                        <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="email" render={({ field }) => (
+                        <FormItem><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="phone" render={({ field }) => (
+                        <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                     <FormField control={form.control} name="propertyName" render={({ field }) => (
+                        <FormItem><FormControl><Input placeholder="Address; P-4 2003, Arihant Adobe, New Delhi" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                </div>
+            )
+        }
+
+
         switch (step) {
             case 1:
                 return (
@@ -295,27 +323,6 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         />
                     </>
                 );
-            case 4:
-                return (
-                    <>
-                        <DialogHeader>
-                            <DialogTitle>Almost there!</DialogTitle>
-                            <DialogDescription>Please provide your contact information.</DialogDescription>
-                        </DialogHeader>
-                        <FormField control={form.control} name="name" render={({ field }) => (
-                            <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
-                        )}/>
-                        <FormField control={form.control} name="email" render={({ field }) => (
-                            <FormItem><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                        )}/>
-                        <FormField control={form.control} name="phone" render={({ field }) => (
-                            <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
-                        )}/>
-                         <FormField control={form.control} name="propertyName" render={({ field }) => (
-                            <FormItem><FormControl><Input placeholder="Address; P-4 2003, Arihant Adobe, New Delhi" {...field} /></FormControl><FormMessage /></FormItem>
-                        )}/>
-                    </>
-                );
             case 5:
                 return (
                    <div className="flex flex-col items-center justify-center text-center p-8">
@@ -345,7 +352,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             return (
                  <div className="flex justify-between">
                     <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
-                    <Button type="button" onClick={form.handleSubmit(onSubmit)}>Submit Request</Button>
+                    <Button type="button" onClick={handleFinalSubmit}>Submit Request</Button>
                 </div>
             )
         }
