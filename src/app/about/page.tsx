@@ -121,6 +121,13 @@ export default function AboutPage() {
                                 <p className="mt-4 text-muted-foreground leading-relaxed">
                                     Our journey is one of continuous evolution, driven by a passion for innovation and a deep understanding of our clients' needs. We believe that a well-designed space can enhance quality of life, and this belief is at the core of everything we do.
                                 </p>
+                                <div className="mt-6">
+                                    <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen}>
+                                        <Button>
+                                            Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
+                                        </Button>
+                                    </GetQuoteForm>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,3 +223,5 @@ export default function AboutPage() {
         </div>
     );
 }
+
+    

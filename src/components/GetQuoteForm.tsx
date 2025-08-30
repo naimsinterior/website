@@ -18,10 +18,8 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -137,11 +135,11 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                             {purposes.map(type => (
                                                 <FormItem key={type}>
                                                     <FormControl>
-                                                        <RadioGroupItem value={type} className="sr-only" />
+                                                        <RadioGroupItem value={type} id={type} className="sr-only peer" />
                                                     </FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                                    <label htmlFor={type} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
                                                         {type}
-                                                    </FormLabel>
+                                                    </label>
                                                 </FormItem>
                                             ))}
                                         </RadioGroup>
@@ -168,10 +166,12 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
                                             {propertyTypes.map(type => (
                                                 <FormItem key={type} className="flex-1">
-                                                    <FormControl><RadioGroupItem value={type} className="sr-only" /></FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
+                                                    <FormControl>
+                                                        <RadioGroupItem value={type} id={type} className="sr-only peer" />
+                                                    </FormControl>
+                                                    <label htmlFor={type} className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
                                                         {type}
-                                                    </FormLabel>
+                                                    </label>
                                                 </FormItem>
                                             ))}
                                         </RadioGroup>
@@ -210,19 +210,18 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                             <Checkbox
                                               checked={field.value?.includes(item.id)}
                                               onCheckedChange={(checked) => {
-                                                return checked
-                                                  ? field.onChange([...(field.value || []), item.id])
-                                                  : field.onChange(
-                                                      field.value?.filter(
-                                                        (value) => value !== item.id
-                                                      )
-                                                    )
+                                                const updatedValue = checked
+                                                  ? [...(field.value || []), item.id]
+                                                  : field.value?.filter(
+                                                      (value) => value !== item.id
+                                                    );
+                                                field.onChange(updatedValue);
                                               }}
                                             />
                                           </FormControl>
-                                          <FormLabel className="font-normal">
+                                          <label className="font-normal">
                                             {item.label}
-                                          </FormLabel>
+                                          </label>
                                         </FormItem>
                                       )
                                     }}
@@ -307,3 +306,5 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
         </Dialog>
     );
 }
+
+    
