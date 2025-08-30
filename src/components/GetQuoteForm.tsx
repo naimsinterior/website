@@ -161,22 +161,24 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            {purposes.map(type => (
-                                                <div 
-                                                    key={type}
-                                                    onClick={() => field.onChange(type)}
-                                                    className={cn(
-                                                        "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
-                                                        field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
-                                                    )}
-                                                >
-                                                    <Label htmlFor={`purpose-${type}`} className="font-normal cursor-pointer">{type}</Label>
-                                                    <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
-                                                        {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                        <div className="mx-auto max-w-sm">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                {purposes.map(type => (
+                                                    <div 
+                                                        key={type}
+                                                        onClick={() => field.onChange(type)}
+                                                        className={cn(
+                                                            "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
+                                                            field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
+                                                        )}
+                                                    >
+                                                        <Label htmlFor={`purpose-${type}`} className="font-normal cursor-pointer">{type}</Label>
+                                                        <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
+                                                            {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -198,22 +200,24 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                              render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                         <div className="grid grid-cols-2 gap-4">
-                                            {propertyTypes.map(type => (
-                                                 <div 
-                                                    key={type}
-                                                    onClick={() => field.onChange(type)}
-                                                    className={cn(
-                                                        "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
-                                                        field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
-                                                    )}
-                                                >
-                                                    <Label htmlFor={`property-${type}`} className="font-normal cursor-pointer">{type}</Label>
-                                                    <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
-                                                        {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                        <div className="mx-auto max-w-sm">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                {propertyTypes.map(type => (
+                                                     <div 
+                                                        key={type}
+                                                        onClick={() => field.onChange(type)}
+                                                        className={cn(
+                                                            "flex flex-row items-center justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
+                                                            field.value === type ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
+                                                        )}
+                                                    >
+                                                        <Label htmlFor={`property-${type}`} className="font-normal cursor-pointer">{type}</Label>
+                                                        <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", field.value === type ? "border-primary bg-primary" : "border-muted-foreground/50")}>
+                                                            {field.value === type && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
