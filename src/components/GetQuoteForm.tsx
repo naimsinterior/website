@@ -52,12 +52,24 @@ interface GetQuoteFormProps {
 const purposes = ["For Rent", "For Own Use", "Resale", "Other"];
 const propertyTypes = ["1 BHK", "2 BHK", "3 BHK", "4 BHK+", "Villa / Bungalow", "Penthouse"];
 const scopeItems = [
-    { id: 'wardrobe', label: 'Wardrobe' },
-    { id: 'kitchen', label: 'Modular Kitchen' },
-    { id: 'painting', label: 'Painting' },
-    { id: 'ceiling', label: 'False Ceiling' },
-    { id: 'furniture', label: 'Furniture' },
-    { id: 'decor', label: 'Home Decor' },
+    { id: 'wardrobe', label: 'Wardrobe – Storage for clothes' },
+    { id: 'kitchen', label: 'Modular Kitchen – Cabinets, chimney, hob, sink setup' },
+    { id: 'painting', label: 'Painting & Wall Finishes – Emulsion, texture, wallpaper' },
+    { id: 'ceiling', label: 'False Ceiling – POP, gypsum, wooden ceiling designs' },
+    { id: 'furniture', label: 'Furniture – Sofa, bed, dining, chairs, tables' },
+    { id: 'decor', label: 'Home Décor – Showpieces, rugs, lamps, wall art' },
+    { id: 'lighting', label: 'Lighting – Ceiling lights, chandeliers, spotlights, wall lights' },
+    { id: 'flooring', label: 'Flooring – Tiles, wooden flooring, marble, vinyl' },
+    { id: 'doors', label: 'Doors & Windows – Wooden doors, sliding glass, UPVC windows' },
+    { id: 'electrical', label: 'Electrical & Switchboards – Modular switches, concealed wiring' },
+    { id: 'bathroom', label: 'Bathroom Fittings – Vanity units, shower partitions, storage' },
+    { id: 'storage', label: 'Storage Units – Crockery unit, shoe rack, bookshelves' },
+    { id: 'partitions', label: 'Partitions & Panels – Wooden/Glass partitions, room dividers' },
+    { id: 'furnishings', label: 'Soft Furnishings – Curtains, blinds, cushions, bedsheets' },
+    { id: 'tv_unit', label: 'TV & Entertainment Unit – Wall-mounted units, storage cabinets' },
+    { id: 'pooja_unit', label: 'Pooja Unit – Mandir setup' },
+    { id: 'wall_paneling', label: 'Wall Paneling & Cladding – Wooden/stone panels' },
+    { id: 'balcony', label: 'Balcony Setup – Seating, artificial grass, planters' },
 ]
 
 export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps) {
@@ -224,7 +236,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                           name="scope"
                           render={({ field }) => (
                             <FormItem>
-                              <div className="grid grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-64 overflow-y-auto p-1">
                                 {scopeItems.map((item) => (
                                     <div key={item.id}>
                                          <input 
@@ -243,7 +255,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                           <Label 
                                             htmlFor={`scope-${item.id}`}
                                             className={cn(
-                                                "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs",
+                                                "flex items-center justify-center text-center p-4 border rounded-md cursor-pointer transition-colors text-xs h-full",
                                                 field.value?.includes(item.id)
                                                     ? "bg-accent text-accent-foreground border-primary" 
                                                     : "bg-background hover:bg-muted"
@@ -319,7 +331,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             <DialogTrigger asChild>
                 {children ? children : <Button>Get a Quote</Button>}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[480px]">
+            <DialogContent className="sm:max-w-[480px] md:sm:max-w-[600px]">
                 {step < 5 && (
                   <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
