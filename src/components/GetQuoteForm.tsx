@@ -30,8 +30,8 @@ import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 
 const quoteFormSchema = z.object({
-    purpose: z.string({ required_error: "Please select a purpose." }),
-    propertyType: z.string({ required_error: "Please select a property type." }),
+    purpose: z.string({ required_error: "Please select a purpose." }).min(1, "Please select a purpose."),
+    propertyType: z.string({ required_error: "Please select a property type." }).min(1, "Please select a property type."),
     scope: z.array(z.string()).refine((value) => value.some((item) => item), {
         message: "You have to select at least one item.",
     }),
@@ -89,6 +89,8 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     const form = useForm<QuoteFormValues>({
         resolver: zodResolver(quoteFormSchema),
         defaultValues: {
+            purpose: "",
+            propertyType: "",
             scope: [],
             name: "",
             email: "",
