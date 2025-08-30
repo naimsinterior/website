@@ -30,11 +30,6 @@ export function Footer() {
              <Link href="/">
                 <Image src="/naimsinterior-logo-footer.png" alt="NAIMS INTERIOR Logo" width="165" height="46" className="object-contain" />
             </Link>
-            <div className="mt-4 text-sm text-muted-foreground text-center md:text-left">
-                <p>Reg.Office H-77, Silai Bara Gaon, Milak</p>
-                <p>Rampur, Uttar Pradesh (244701)</p>
-                <p>WeCare@Naimsinterior.com</p>
-            </div>
              <div className="mt-4 flex gap-4">
                 {socialLinks.map(social => (
                     <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
@@ -89,14 +84,14 @@ export function Footer() {
                 </ul>
             </div>
         </div>
-        <div className="mt-8 border-t pt-4 pb-4">
+        <div className="border-t pt-8">
             <div className="flex justify-center md:justify-start">
                  <Link href="/kitchen-design" className="text-sm text-muted-foreground hover:text-primary">
                     Kitchen Design
                 </Link>
             </div>
         </div>
-        <div className="border-t pt-8">
+        <div className="mt-8 border-t pt-8">
             <h3 className="font-headline text-lg font-semibold text-center md:text-left">Our Service Areas</h3>
             <div className="mt-4">
                 <ul className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2">
