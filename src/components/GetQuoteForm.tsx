@@ -28,6 +28,7 @@ import React from "react";
 import { MailCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
+import { Checkbox } from "./ui/checkbox";
 
 const quoteFormSchema = z.object({
     purpose: z.string({ required_error: "Please select a purpose." }),
@@ -243,7 +244,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         <FormField
                           control={form.control}
                           name="scope"
-                          render={({ field }) => (
+                          render={() => (
                             <FormItem>
                               <div className="space-y-4 max-h-72 overflow-y-auto p-1">
                                 {Object.entries(scopeItems).map(([category, items]) => (
@@ -251,32 +252,37 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                         <p className="font-semibold mb-2 text-sm">{category}</p>
                                         <div className="grid grid-cols-1 gap-2">
                                             {items.map((item) => (
-                                                <div key={item.id}>
-                                                    <input 
-                                                        type="checkbox" 
-                                                        id={`scope-${item.id}`} 
-                                                        value={item.id}
-                                                        checked={field.value?.includes(item.id)}
-                                                        onChange={(e) => {
-                                                            const newScopes = e.target.checked 
-                                                                ? [...(field.value || []), item.id] 
-                                                                : field.value?.filter(v => v !== item.id);
-                                                            field.onChange(newScopes);
-                                                        }}
-                                                        className="sr-only"
-                                                    />
-                                                    <Label 
-                                                        htmlFor={`scope-${item.id}`}
-                                                        className={cn(
-                                                            "flex w-full items-center justify-start text-left p-3 border rounded-md cursor-pointer transition-colors text-xs",
-                                                            field.value?.includes(item.id)
-                                                                ? "bg-accent text-accent-foreground border-primary" 
-                                                                : "bg-background hover:bg-muted"
-                                                        )}
-                                                    >
-                                                        {item.label}
-                                                    </Label>
-                                                </div>
+                                                <FormField
+                                                    key={item.id}
+                                                    control={form.control}
+                                                    name="scope"
+                                                    render={({ field }) => {
+                                                        return (
+                                                            <FormItem
+                                                                key={item.id}
+                                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                                            >
+                                                                <FormControl>
+                                                                    <Checkbox
+                                                                        checked={field.value?.includes(item.id)}
+                                                                        onCheckedChange={(checked) => {
+                                                                            return checked
+                                                                                ? field.onChange([...field.value, item.id])
+                                                                                : field.onChange(
+                                                                                    field.value?.filter(
+                                                                                        (value) => value !== item.id
+                                                                                    )
+                                                                                )
+                                                                        }}
+                                                                    />
+                                                                </FormControl>
+                                                                <Label className="text-sm font-normal">
+                                                                    {item.label}
+                                                                </Label>
+                                                            </FormItem>
+                                                        )
+                                                    }}
+                                                />
                                             ))}
                                         </div>
                                     </div>
