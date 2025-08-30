@@ -350,7 +350,10 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             <DialogTrigger asChild>
                 {children ? children : <Button>Get a Quote</Button>}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[480px] md:sm:max-w-[600px]">
+            <DialogContent className={cn(
+                "transition-all duration-300",
+                step < 3 ? "sm:max-w-[425px]" : "sm:max-w-[480px] md:sm:max-w-[600px]"
+            )}>
                 {step < 5 && (
                   <Form {...form}>
                       <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
