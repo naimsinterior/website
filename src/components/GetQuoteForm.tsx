@@ -50,7 +50,7 @@ interface GetQuoteFormProps {
 }
 
 const purposes = ["For Rent", "For Own Use", "Resale", "Other"];
-const propertyTypes = ["1 BHK", "2 BHK", "3 BHK", "4 BHK+", "Villa / Bungalow"];
+const propertyTypes = ["1 BHK", "2 BHK", "3 BHK", "4 BHK+", "Villa / Bungalow", "Penthouse"];
 const scopeItems = [
     { id: 'wardrobe', label: 'Wardrobe' },
     { id: 'kitchen', label: 'Modular Kitchen' },
