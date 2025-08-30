@@ -25,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { MailCheck, Info } from "lucide-react";
+import { MailCheck, Info, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
@@ -244,68 +244,70 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             <DialogDescription>Select all that apply. This helps us tailor your quote.</DialogDescription>
                         </DialogHeader>
                         <FormField
-                          control={form.control}
-                          name="scope"
-                          render={() => (
-                            <FormItem>
-                               <TooltipProvider>
-                                  <div className="space-y-4 max-h-72 overflow-y-auto p-1">
-                                    {Object.entries(scopeItems).map(([category, items]) => (
-                                        <div key={category}>
-                                            <p className="font-semibold mb-2 text-sm">{category}</p>
-                                            <div className="grid grid-cols-1 gap-2">
-                                                {items.map((item) => (
-                                                    <FormField
-                                                        key={item.id}
-                                                        control={form.control}
-                                                        name="scope"
-                                                        render={({ field }) => {
+                            control={form.control}
+                            name="scope"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <div className="max-h-72 overflow-y-auto p-1 space-y-4">
+                                        {Object.entries(scopeItems).map(([category, items]) => (
+                                            <div key={category}>
+                                                <p className="font-semibold mb-2 text-sm">{category}</p>
+                                                <TooltipProvider>
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        {items.map((item) => {
+                                                            const isSelected = field.value?.includes(item.id);
                                                             return (
-                                                                <FormItem
-                                                                    key={item.id}
-                                                                    className="flex flex-row items-center space-x-3 space-y-0"
-                                                                >
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(item.id)}
-                                                                            onCheckedChange={(checked) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, item.id])
-                                                                                    : field.onChange(
-                                                                                        field.value?.filter(
-                                                                                            (value) => value !== item.id
-                                                                                        )
-                                                                                    )
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <Label className="text-sm font-normal flex items-center gap-2">
-                                                                        {item.label}
-                                                                        <Tooltip>
-                                                                            <TooltipTrigger asChild>
-                                                                                <button type="button" onClick={(e) => e.preventDefault()} className="flex items-center">
-                                                                                    <Info className="h-4 w-4 text-muted-foreground" />
-                                                                                </button>
-                                                                            </TooltipTrigger>
-                                                                            <TooltipContent className="w-64 bg-accent text-accent-foreground border-primary">
-                                                                                <p className="font-bold text-base mb-2">{item.label}</p>
-                                                                                <p className="text-sm">{item.description}</p>
-                                                                            </TooltipContent>
-                                                                        </Tooltip>
+                                                                <div key={item.id}>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={item.id}
+                                                                        className="sr-only"
+                                                                        checked={isSelected}
+                                                                        onChange={(e) => {
+                                                                            const newScope = e.target.checked
+                                                                                ? [...(field.value ?? []), item.id]
+                                                                                : field.value?.filter(value => value !== item.id);
+                                                                            field.onChange(newScope);
+                                                                        }}
+                                                                    />
+                                                                    <Label
+                                                                        htmlFor={item.id}
+                                                                        className={cn(
+                                                                            "flex flex-col p-3 border rounded-md cursor-pointer transition-all text-sm h-full",
+                                                                            isSelected ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
+                                                                        )}
+                                                                    >
+                                                                        <div className="flex items-center justify-between">
+                                                                            <span className="font-medium">{item.label}</span>
+                                                                            <div className="flex items-center gap-2">
+                                                                                <Tooltip>
+                                                                                    <TooltipTrigger asChild>
+                                                                                        <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} className="flex items-center">
+                                                                                            <Info className="h-4 w-4 text-muted-foreground hover:text-primary" />
+                                                                                        </button>
+                                                                                    </TooltipTrigger>
+                                                                                    <TooltipContent className="w-64 bg-accent text-accent-foreground border-primary">
+                                                                                        <p className="font-bold text-base mb-2">{item.label}</p>
+                                                                                        <p className="text-sm">{item.description}</p>
+                                                                                    </TooltipContent>
+                                                                                </Tooltip>
+                                                                                <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", isSelected ? "border-primary bg-primary" : "border-muted-foreground/50")}>
+                                                                                    {isSelected && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </Label>
-                                                                </FormItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </TooltipProvider>
                                             </div>
-                                        </div>
-                                    ))}
-                                  </div>
-                               </TooltipProvider>
-                              <FormMessage />
-                            </FormItem>
-                          )}
+                                        ))}
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
                     </>
                 );
