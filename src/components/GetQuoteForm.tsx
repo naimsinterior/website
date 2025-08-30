@@ -132,7 +132,6 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                             name="purpose"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
-                                    <FormLabel className="font-semibold">Select purpose:</FormLabel>
                                     <FormControl>
                                         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
                                             {purposes.map(type => (
@@ -140,7 +139,7 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                                                     <FormControl>
                                                         <RadioGroupItem value={type} className="sr-only" />
                                                     </FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground [&:has([data-state=checked])]:border-primary cursor-pointer">
                                                         {type}
                                                     </FormLabel>
                                                 </FormItem>
@@ -165,13 +164,12 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                             name="propertyType"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
-                                    <FormLabel className="font-semibold">Select property type:</FormLabel>
                                     <FormControl>
                                         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2 gap-4">
                                             {propertyTypes.map(type => (
                                                 <FormItem key={type} className="flex-1">
                                                     <FormControl><RadioGroupItem value={type} className="sr-only" /></FormControl>
-                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
+                                                    <FormLabel className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 font-normal hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground [&:has([data-state=checked])]:border-primary cursor-pointer text-center h-full">
                                                         {type}
                                                     </FormLabel>
                                                 </FormItem>
@@ -245,13 +243,13 @@ export function GetQuoteForm({ open, onOpenChange }: GetQuoteFormProps) {
                             <DialogDescription>Please provide your contact information.</DialogDescription>
                         </DialogHeader>
                         <FormField control={form.control} name="name" render={({ field }) => (
-                            <FormItem><FormLabel>Your Name</FormLabel><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                         <FormField control={form.control} name="email" render={({ field }) => (
-                            <FormItem><FormLabel>Email</FormLabel><FormControl><Input placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormControl><Input placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                         <FormField control={form.control} name="phone" render={({ field }) => (
-                            <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                     </>
                 );
