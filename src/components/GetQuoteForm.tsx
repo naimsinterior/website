@@ -28,8 +28,6 @@ import React from "react";
 import { MailCheck, Info, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
-import { Checkbox } from "./ui/checkbox";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 
 const quoteFormSchema = z.object({
@@ -252,56 +250,42 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                         {Object.entries(scopeItems).map(([category, items]) => (
                                             <div key={category}>
                                                 <p className="font-semibold mb-2 text-sm">{category}</p>
-                                                <TooltipProvider>
-                                                    <div className="grid grid-cols-2 gap-2">
-                                                        {items.map((item) => {
-                                                            const isSelected = field.value?.includes(item.id);
-                                                            return (
-                                                                <div key={item.id}>
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        id={item.id}
-                                                                        className="sr-only"
-                                                                        checked={isSelected}
-                                                                        onChange={(e) => {
-                                                                            const newScope = e.target.checked
-                                                                                ? [...(field.value ?? []), item.id]
-                                                                                : field.value?.filter(value => value !== item.id);
-                                                                            field.onChange(newScope);
-                                                                        }}
-                                                                    />
-                                                                    <Label
-                                                                        htmlFor={item.id}
-                                                                        className={cn(
-                                                                            "flex flex-col p-3 border rounded-md cursor-pointer transition-all text-sm h-full",
-                                                                            isSelected ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
-                                                                        )}
-                                                                    >
-                                                                        <div className="flex items-center justify-between">
-                                                                            <span className="font-medium">{item.label}</span>
-                                                                            <div className="flex items-center gap-2">
-                                                                                <Tooltip>
-                                                                                    <TooltipTrigger asChild>
-                                                                                        <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} className="flex items-center">
-                                                                                            <Info className="h-4 w-4 text-muted-foreground hover:text-primary" />
-                                                                                        </button>
-                                                                                    </TooltipTrigger>
-                                                                                    <TooltipContent className="w-64 bg-accent text-accent-foreground border-primary">
-                                                                                        <p className="font-bold text-base mb-2">{item.label}</p>
-                                                                                        <p className="text-sm">{item.description}</p>
-                                                                                    </TooltipContent>
-                                                                                </Tooltip>
-                                                                                <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0", isSelected ? "border-primary bg-primary" : "border-muted-foreground/50")}>
-                                                                                    {isSelected && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
-                                                                                </div>
-                                                                            </div>
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    {items.map((item) => {
+                                                        const isSelected = field.value?.includes(item.id);
+                                                        return (
+                                                            <div key={item.id}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={item.id}
+                                                                    className="sr-only"
+                                                                    checked={isSelected}
+                                                                    onChange={(e) => {
+                                                                        const newScope = e.target.checked
+                                                                            ? [...(field.value ?? []), item.id]
+                                                                            : field.value?.filter(value => value !== item.id);
+                                                                        field.onChange(newScope);
+                                                                    }}
+                                                                />
+                                                                <Label
+                                                                    htmlFor={item.id}
+                                                                    className={cn(
+                                                                        "flex flex-col justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full",
+                                                                        isSelected ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
+                                                                    )}
+                                                                >
+                                                                    <div className="flex items-start justify-between gap-2">
+                                                                        <span className="font-medium">{item.label}</span>
+                                                                        <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5", isSelected ? "border-primary bg-primary" : "border-muted-foreground/50")}>
+                                                                            {isSelected && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
                                                                         </div>
-                                                                    </Label>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                </TooltipProvider>
+                                                                    </div>
+                                                                    <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                                                                </Label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
