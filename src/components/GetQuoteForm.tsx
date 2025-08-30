@@ -310,7 +310,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                          <FormField control={form.control} name="propertyName" render={({ field }) => (
-                            <FormItem><FormControl><Input placeholder="Enter your property name" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormControl><Input placeholder="Address; P-4 2003, Arihant Adobe, New Delhi" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                     </>
                 );
