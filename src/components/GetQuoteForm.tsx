@@ -96,14 +96,16 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     });
 
     const handleNext = async () => {
-        let isValid = false;
-        if (step === 1) {
-            isValid = await form.trigger("purpose");
-        } else if (step === 2) {
-            isValid = await form.trigger("propertyType");
-        } else if (step === 3) {
-            isValid = await form.trigger("scope");
-        }
+        const fields: (keyof QuoteFormValues)[] = (() => {
+            switch (step) {
+                case 1: return ['purpose'];
+                case 2: return ['propertyType'];
+                case 3: return ['scope'];
+                default: return [];
+            }
+        })();
+
+        const isValid = await form.trigger(fields);
         
         if (isValid) {
             setStep(step + 1);
@@ -122,10 +124,6 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
 
         console.log("Quote Request Submitted:", data);
         setStep(5);
-        toast({
-            title: "Quote Request Sent!",
-            description: `Thank you, ${data.name}. We'll be in touch shortly.`,
-        });
     }
 
     const resetAndClose = () => {
@@ -376,3 +374,5 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
         </Dialog>
     );
 }
+
+    
