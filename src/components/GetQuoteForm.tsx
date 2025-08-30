@@ -352,7 +352,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             </DialogTrigger>
             <DialogContent className={cn(
                 "transition-all duration-300",
-                step < 3 ? "sm:max-w-[425px]" : "sm:max-w-[480px] md:sm:max-w-[600px]"
+                step === 3 ? "sm:max-w-xl md:sm:max-w-2xl" : "sm:max-w-md"
             )}>
                 {step < 5 && (
                   <Form {...form}>
