@@ -25,10 +25,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { MailCheck, Info, CheckCircle } from "lucide-react";
+import { MailCheck, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
-
 
 const quoteFormSchema = z.object({
     purpose: z.string({ required_error: "Please select a purpose." }),
@@ -117,9 +116,12 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
         }
     }
 
-    function onSubmit(data: QuoteFormValues) {
+    async function onSubmit(data: QuoteFormValues) {
+        const isValid = await form.trigger(["name", "email", "phone"]);
+        if (!isValid) return;
+
         console.log("Quote Request Submitted:", data);
-        setStep(5); // Go to success step
+        setStep(5);
         toast({
             title: "Quote Request Sent!",
             description: `Thank you, ${data.name}. We'll be in touch shortly.`,
@@ -244,47 +246,51 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         <FormField
                             control={form.control}
                             name="scope"
-                            render={({ field }) => (
+                            render={() => (
                                 <FormItem>
                                     <div className="max-h-72 overflow-y-auto p-1 space-y-4">
                                         {Object.entries(scopeItems).map(([category, items]) => (
                                             <div key={category}>
                                                 <p className="font-semibold mb-2 text-sm">{category}</p>
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    {items.map((item) => {
-                                                        const isSelected = field.value?.includes(item.id);
-                                                        return (
-                                                            <div key={item.id}>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={item.id}
-                                                                    className="sr-only"
-                                                                    checked={isSelected}
-                                                                    onChange={(e) => {
-                                                                        const newScope = e.target.checked
-                                                                            ? [...(field.value ?? []), item.id]
-                                                                            : field.value?.filter(value => value !== item.id);
-                                                                        field.onChange(newScope);
-                                                                    }}
-                                                                />
-                                                                <Label
-                                                                    htmlFor={item.id}
-                                                                    className={cn(
-                                                                        "flex flex-col justify-between p-3 border rounded-md cursor-pointer transition-all text-sm h-full",
-                                                                        isSelected ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
-                                                                    )}
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                    {items.map((item) => (
+                                                        <FormField
+                                                            key={item.id}
+                                                            control={form.control}
+                                                            name="scope"
+                                                            render={({ field }) => {
+                                                                return (
+                                                                <FormItem
+                                                                    key={item.id}
+                                                                    className="flex flex-row items-start space-x-3 space-y-0"
                                                                 >
-                                                                    <div className="flex items-start justify-between gap-2">
-                                                                        <span className="font-medium">{item.label}</span>
-                                                                        <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5", isSelected ? "border-primary bg-primary" : "border-muted-foreground/50")}>
-                                                                            {isSelected && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                                                    <FormControl>
+                                                                    <div
+                                                                        className={cn(
+                                                                            "flex flex-col p-3 border rounded-md cursor-pointer transition-all text-sm h-full w-full",
+                                                                            field.value?.includes(item.id) ? "border-primary bg-primary/5" : "bg-background hover:bg-muted"
+                                                                        )}
+                                                                        onClick={() => {
+                                                                            const newScope = field.value?.includes(item.id)
+                                                                                ? field.value?.filter(value => value !== item.id)
+                                                                                : [...(field.value ?? []), item.id];
+                                                                            field.onChange(newScope);
+                                                                        }}
+                                                                    >
+                                                                        <div className="flex items-start justify-between gap-2">
+                                                                            <Label htmlFor={item.id} className="font-medium cursor-pointer">{item.label}</Label>
+                                                                            <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5", field.value?.includes(item.id) ? "border-primary bg-primary" : "border-muted-foreground/50")}>
+                                                                                {field.value?.includes(item.id) && <CheckCircle className="h-4 w-4 text-primary-foreground" />}
+                                                                            </div>
                                                                         </div>
+                                                                         <p className="text-xs text-muted-foreground mt-1 cursor-pointer">{item.description}</p>
                                                                     </div>
-                                                                    <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
-                                                                </Label>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                                )
+                                                            }}
+                                                            />
+                                                    ))}
                                                 </div>
                                             </div>
                                         ))}
@@ -306,7 +312,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                             <FormItem><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                         <FormField control={form.control} name="email" render={({ field }) => (
-                            <FormItem><FormControl><Input placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                         <FormField control={form.control} name="phone" render={({ field }) => (
                             <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
@@ -342,7 +348,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             return (
                  <div className="flex justify-between">
                     <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
-                    <Button type="submit">Submit Request</Button>
+                    <Button type="button" onClick={form.handleSubmit(onSubmit)}>Submit Request</Button>
                 </div>
             )
         }
@@ -357,7 +363,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             <DialogContent className="sm:max-w-[480px] md:sm:max-w-[600px]">
                 {step < 5 && (
                   <Form {...form}>
-                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                           {renderContent()}
                           <div className="mt-6">
                               {renderFooter()}
