@@ -171,7 +171,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                      <Label 
                                                         htmlFor={`purpose-${type}`}
                                                         className={cn(
-                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs",
+                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs font-bold",
                                                             field.value === type 
                                                                 ? "bg-accent text-accent-foreground border-primary" 
                                                                 : "bg-background hover:bg-muted"
@@ -216,7 +216,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                       <Label 
                                                         htmlFor={`property-${type}`}
                                                         className={cn(
-                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors h-full text-xs",
+                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors h-full text-xs font-bold",
                                                             field.value === type 
                                                                 ? "bg-accent text-accent-foreground border-primary" 
                                                                 : "bg-background hover:bg-muted"
@@ -374,5 +374,3 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
         </Dialog>
     );
 }
-
-    
