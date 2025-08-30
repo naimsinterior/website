@@ -25,10 +25,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { MailCheck } from "lucide-react";
+import { MailCheck, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+
 
 const quoteFormSchema = z.object({
     purpose: z.string({ required_error: "Please select a purpose." }),
@@ -54,30 +56,30 @@ const propertyTypes = ["1 BHK", "2 BHK", "3 BHK", "4 BHK+", "Villa / Bungalow", 
 
 const scopeItems = {
     "Core Interior": [
-        { id: 'kitchen', label: 'Modular Kitchen – Cabinets, chimney, hob, sink setup' },
-        { id: 'wardrobe', label: 'Wardrobe – Storage for clothes' },
-        { id: 'furniture', label: 'Furniture – Sofa, bed, dining, chairs, tables' },
-        { id: 'storage', label: 'Storage Units – Crockery unit, shoe rack, bookshelves' },
-        { id: 'tv_unit', label: 'TV & Entertainment Unit – Wall-mounted units, storage cabinets' },
-        { id: 'pooja_unit', label: 'Pooja Unit – Mandir setup' },
+        { id: 'kitchen', label: 'Modular Kitchen', description: 'Cabinets, chimney, hob, sink setup' },
+        { id: 'wardrobe', label: 'Wardrobe', description: 'Storage for clothes' },
+        { id: 'furniture', label: 'Furniture', description: 'Sofa, bed, dining, chairs, tables' },
+        { id: 'storage', label: 'Storage Units', description: 'Crockery unit, shoe rack, bookshelves' },
+        { id: 'tv_unit', label: 'TV & Entertainment Unit', description: 'Wall-mounted units, storage cabinets' },
+        { id: 'pooja_unit', label: 'Pooja Unit', description: 'Mandir setup' },
     ],
     "Finishes": [
-        { id: 'painting', label: 'Painting & Wall Finishes – Emulsion, texture, wallpaper' },
-        { id: 'flooring', label: 'Flooring – Tiles, wooden flooring, marble, vinyl' },
-        { id: 'ceiling', label: 'False Ceiling – POP, gypsum, wooden ceiling designs' },
-        { id: 'wall_paneling', label: 'Wall Paneling & Cladding – Wooden/stone panels' },
+        { id: 'painting', label: 'Painting & Wall Finishes', description: 'Emulsion, texture, wallpaper' },
+        { id: 'flooring', label: 'Flooring', description: 'Tiles, wooden flooring, marble, vinyl' },
+        { id: 'ceiling', label: 'False Ceiling', description: 'POP, gypsum, wooden ceiling designs' },
+        { id: 'wall_paneling', label: 'Wall Paneling & Cladding', description: 'Wooden/stone panels' },
     ],
     "Fittings & Fixtures": [
-        { id: 'lighting', label: 'Lighting – Ceiling lights, chandeliers, spotlights, wall lights' },
-        { id: 'electrical', label: 'Electrical & Switchboards – Modular switches, concealed wiring' },
-        { id: 'bathroom', label: 'Bathroom Fittings – Vanity units, shower partitions, storage' },
-        { id: 'doors', label: 'Doors & Windows – Wooden doors, sliding glass, UPVC windows' },
+        { id: 'lighting', label: 'Lighting', description: 'Ceiling lights, chandeliers, spotlights, wall lights' },
+        { id: 'electrical', label: 'Electrical & Switchboards', description: 'Modular switches, concealed wiring' },
+        { id: 'bathroom', label: 'Bathroom Fittings', description: 'Vanity units, shower partitions, storage' },
+        { id: 'doors', label: 'Doors & Windows', description: 'Wooden doors, sliding glass, UPVC windows' },
     ],
     "Decor & Furnishings": [
-        { id: 'decor', label: 'Home Décor – Showpieces, rugs, lamps, wall art' },
-        { id: 'furnishings', label: 'Soft Furnishings – Curtains, blinds, cushions, bedsheets' },
-        { id: 'partitions', label: 'Partitions & Panels – Wooden/Glass partitions, room dividers' },
-        { id: 'balcony', label: 'Balcony Setup – Seating, artificial grass, planters' },
+        { id: 'decor', label: 'Home Décor', description: 'Showpieces, rugs, lamps, wall art' },
+        { id: 'furnishings', label: 'Soft Furnishings', description: 'Curtains, blinds, cushions, bedsheets' },
+        { id: 'partitions', label: 'Partitions & Panels', description: 'Wooden/Glass partitions, room dividers' },
+        { id: 'balcony', label: 'Balcony Setup', description: 'Seating, artificial grass, planters' },
     ]
 }
 
@@ -246,48 +248,60 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                           name="scope"
                           render={() => (
                             <FormItem>
-                              <div className="space-y-4 max-h-72 overflow-y-auto p-1">
-                                {Object.entries(scopeItems).map(([category, items]) => (
-                                    <div key={category}>
-                                        <p className="font-semibold mb-2 text-sm">{category}</p>
-                                        <div className="grid grid-cols-1 gap-2">
-                                            {items.map((item) => (
-                                                <FormField
-                                                    key={item.id}
-                                                    control={form.control}
-                                                    name="scope"
-                                                    render={({ field }) => {
-                                                        return (
-                                                            <FormItem
-                                                                key={item.id}
-                                                                className="flex flex-row items-start space-x-3 space-y-0"
-                                                            >
-                                                                <FormControl>
-                                                                    <Checkbox
-                                                                        checked={field.value?.includes(item.id)}
-                                                                        onCheckedChange={(checked) => {
-                                                                            return checked
-                                                                                ? field.onChange([...field.value, item.id])
-                                                                                : field.onChange(
-                                                                                    field.value?.filter(
-                                                                                        (value) => value !== item.id
+                               <TooltipProvider>
+                                  <div className="space-y-4 max-h-72 overflow-y-auto p-1">
+                                    {Object.entries(scopeItems).map(([category, items]) => (
+                                        <div key={category}>
+                                            <p className="font-semibold mb-2 text-sm">{category}</p>
+                                            <div className="grid grid-cols-1 gap-2">
+                                                {items.map((item) => (
+                                                    <FormField
+                                                        key={item.id}
+                                                        control={form.control}
+                                                        name="scope"
+                                                        render={({ field }) => {
+                                                            return (
+                                                                <FormItem
+                                                                    key={item.id}
+                                                                    className="flex flex-row items-center space-x-3 space-y-0"
+                                                                >
+                                                                    <FormControl>
+                                                                        <Checkbox
+                                                                            checked={field.value?.includes(item.id)}
+                                                                            onCheckedChange={(checked) => {
+                                                                                return checked
+                                                                                    ? field.onChange([...field.value, item.id])
+                                                                                    : field.onChange(
+                                                                                        field.value?.filter(
+                                                                                            (value) => value !== item.id
+                                                                                        )
                                                                                     )
-                                                                                )
-                                                                        }}
-                                                                    />
-                                                                </FormControl>
-                                                                <Label className="text-sm font-normal">
-                                                                    {item.label}
-                                                                </Label>
-                                                            </FormItem>
-                                                        )
-                                                    }}
-                                                />
-                                            ))}
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                    <Label className="text-sm font-normal flex items-center gap-2">
+                                                                        {item.label}
+                                                                        <Tooltip>
+                                                                            <TooltipTrigger asChild>
+                                                                                <button type="button">
+                                                                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                                                                </button>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p>{item.description}</p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    </Label>
+                                                                </FormItem>
+                                                            )
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                              </div>
+                                    ))}
+                                  </div>
+                               </TooltipProvider>
                               <FormMessage />
                             </FormItem>
                           )}
