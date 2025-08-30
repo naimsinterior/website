@@ -25,7 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
-import { Checkbox } from "./ui/checkbox";
 import { MailCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
@@ -51,26 +50,36 @@ interface GetQuoteFormProps {
 
 const purposes = ["For Rent", "For Own Use", "Resale", "Other"];
 const propertyTypes = ["1 BHK", "2 BHK", "3 BHK", "4 BHK+", "Villa / Bungalow", "Penthouse"];
-const scopeItems = [
-    { id: 'wardrobe', label: 'Wardrobe – Storage for clothes' },
-    { id: 'kitchen', label: 'Modular Kitchen – Cabinets, chimney, hob, sink setup' },
-    { id: 'painting', label: 'Painting & Wall Finishes – Emulsion, texture, wallpaper' },
-    { id: 'ceiling', label: 'False Ceiling – POP, gypsum, wooden ceiling designs' },
-    { id: 'furniture', label: 'Furniture – Sofa, bed, dining, chairs, tables' },
-    { id: 'decor', label: 'Home Décor – Showpieces, rugs, lamps, wall art' },
-    { id: 'lighting', label: 'Lighting – Ceiling lights, chandeliers, spotlights, wall lights' },
-    { id: 'flooring', label: 'Flooring – Tiles, wooden flooring, marble, vinyl' },
-    { id: 'doors', label: 'Doors & Windows – Wooden doors, sliding glass, UPVC windows' },
-    { id: 'electrical', label: 'Electrical & Switchboards – Modular switches, concealed wiring' },
-    { id: 'bathroom', label: 'Bathroom Fittings – Vanity units, shower partitions, storage' },
-    { id: 'storage', label: 'Storage Units – Crockery unit, shoe rack, bookshelves' },
-    { id: 'partitions', label: 'Partitions & Panels – Wooden/Glass partitions, room dividers' },
-    { id: 'furnishings', label: 'Soft Furnishings – Curtains, blinds, cushions, bedsheets' },
-    { id: 'tv_unit', label: 'TV & Entertainment Unit – Wall-mounted units, storage cabinets' },
-    { id: 'pooja_unit', label: 'Pooja Unit – Mandir setup' },
-    { id: 'wall_paneling', label: 'Wall Paneling & Cladding – Wooden/stone panels' },
-    { id: 'balcony', label: 'Balcony Setup – Seating, artificial grass, planters' },
-]
+
+const scopeItems = {
+    "Core Interior": [
+        { id: 'kitchen', label: 'Modular Kitchen – Cabinets, chimney, hob, sink setup' },
+        { id: 'wardrobe', label: 'Wardrobe – Storage for clothes' },
+        { id: 'furniture', label: 'Furniture – Sofa, bed, dining, chairs, tables' },
+        { id: 'storage', label: 'Storage Units – Crockery unit, shoe rack, bookshelves' },
+        { id: 'tv_unit', label: 'TV & Entertainment Unit – Wall-mounted units, storage cabinets' },
+        { id: 'pooja_unit', label: 'Pooja Unit – Mandir setup' },
+    ],
+    "Finishes": [
+        { id: 'painting', label: 'Painting & Wall Finishes – Emulsion, texture, wallpaper' },
+        { id: 'flooring', label: 'Flooring – Tiles, wooden flooring, marble, vinyl' },
+        { id: 'ceiling', label: 'False Ceiling – POP, gypsum, wooden ceiling designs' },
+        { id: 'wall_paneling', label: 'Wall Paneling & Cladding – Wooden/stone panels' },
+    ],
+    "Fittings & Fixtures": [
+        { id: 'lighting', label: 'Lighting – Ceiling lights, chandeliers, spotlights, wall lights' },
+        { id: 'electrical', label: 'Electrical & Switchboards – Modular switches, concealed wiring' },
+        { id: 'bathroom', label: 'Bathroom Fittings – Vanity units, shower partitions, storage' },
+        { id: 'doors', label: 'Doors & Windows – Wooden doors, sliding glass, UPVC windows' },
+    ],
+    "Decor & Furnishings": [
+        { id: 'decor', label: 'Home Décor – Showpieces, rugs, lamps, wall art' },
+        { id: 'furnishings', label: 'Soft Furnishings – Curtains, blinds, cushions, bedsheets' },
+        { id: 'partitions', label: 'Partitions & Panels – Wooden/Glass partitions, room dividers' },
+        { id: 'balcony', label: 'Balcony Setup – Seating, artificial grass, planters' },
+    ]
+}
+
 
 export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps) {
     const [step, setStep] = useState(1);
@@ -213,7 +222,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                         )}
                                                      >
                                                         {type}
-                                                     </Label>
+                                                      </Label>
                                                 </div>
                                             ))}
                                         </div>
@@ -236,33 +245,40 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                           name="scope"
                           render={({ field }) => (
                             <FormItem>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-64 overflow-y-auto p-1">
-                                {scopeItems.map((item) => (
-                                    <div key={item.id}>
-                                         <input 
-                                            type="checkbox" 
-                                            id={`scope-${item.id}`} 
-                                            value={item.id}
-                                            checked={field.value?.includes(item.id)}
-                                            onChange={(e) => {
-                                                const newScopes = e.target.checked 
-                                                    ? [...(field.value || []), item.id] 
-                                                    : field.value?.filter(v => v !== item.id);
-                                                field.onChange(newScopes);
-                                            }}
-                                            className="sr-only"
-                                         />
-                                          <Label 
-                                            htmlFor={`scope-${item.id}`}
-                                            className={cn(
-                                                "flex items-center justify-center text-center p-4 border rounded-md cursor-pointer transition-colors text-xs h-full",
-                                                field.value?.includes(item.id)
-                                                    ? "bg-accent text-accent-foreground border-primary" 
-                                                    : "bg-background hover:bg-muted"
-                                            )}
-                                         >
-                                            {item.label}
-                                          </Label>
+                              <div className="space-y-4 max-h-72 overflow-y-auto p-1">
+                                {Object.entries(scopeItems).map(([category, items]) => (
+                                    <div key={category}>
+                                        <p className="font-semibold mb-2 text-sm">{category}</p>
+                                        <div className="grid grid-cols-1 gap-2">
+                                            {items.map((item) => (
+                                                <div key={item.id}>
+                                                    <input 
+                                                        type="checkbox" 
+                                                        id={`scope-${item.id}`} 
+                                                        value={item.id}
+                                                        checked={field.value?.includes(item.id)}
+                                                        onChange={(e) => {
+                                                            const newScopes = e.target.checked 
+                                                                ? [...(field.value || []), item.id] 
+                                                                : field.value?.filter(v => v !== item.id);
+                                                            field.onChange(newScopes);
+                                                        }}
+                                                        className="sr-only"
+                                                    />
+                                                    <Label 
+                                                        htmlFor={`scope-${item.id}`}
+                                                        className={cn(
+                                                            "flex w-full items-center justify-start text-left p-3 border rounded-md cursor-pointer transition-colors text-xs",
+                                                            field.value?.includes(item.id)
+                                                                ? "bg-accent text-accent-foreground border-primary" 
+                                                                : "bg-background hover:bg-muted"
+                                                        )}
+                                                    >
+                                                        {item.label}
+                                                    </Label>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 ))}
                               </div>
