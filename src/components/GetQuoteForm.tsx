@@ -38,6 +38,7 @@ const quoteFormSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email address." }),
     phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
+    propertyName: z.string().min(2, { message: "Property name is required." }),
 });
 
 type QuoteFormValues = z.infer<typeof quoteFormSchema>;
@@ -91,7 +92,8 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
             scope: [],
             name: "",
             email: "",
-            phone: ""
+            phone: "",
+            propertyName: "",
         },
     });
 
@@ -123,7 +125,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     }
 
     async function onSubmit(data: QuoteFormValues) {
-        const isValid = await form.trigger(["name", "email", "phone"]);
+        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
         if (!isValid) return;
         
         console.log("Quote Request Submitted:", data);
@@ -306,6 +308,9 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                         )}/>
                         <FormField control={form.control} name="phone" render={({ field }) => (
                             <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                        )}/>
+                         <FormField control={form.control} name="propertyName" render={({ field }) => (
+                            <FormItem><FormControl><Input placeholder="Enter your property name" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                     </>
                 );
