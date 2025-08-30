@@ -96,14 +96,18 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
     });
 
     const handleNext = async () => {
-        const fields: (keyof QuoteFormValues)[] = (() => {
-            switch (step) {
-                case 1: return ['purpose'];
-                case 2: return ['propertyType'];
-                case 3: return ['scope'];
-                default: return [];
-            }
-        })();
+        let fields: (keyof QuoteFormValues)[] = [];
+        switch (step) {
+            case 1:
+                fields = ['purpose'];
+                break;
+            case 2:
+                fields = ['propertyType'];
+                break;
+            case 3:
+                fields = ['scope'];
+                break;
+        }
 
         const isValid = await form.trigger(fields);
         
@@ -171,7 +175,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                      <Label 
                                                         htmlFor={`purpose-${type}`}
                                                         className={cn(
-                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors text-xs font-bold",
+                                                            "flex items-center justify-center p-3 border rounded-md cursor-pointer transition-colors font-bold",
                                                             field.value === type 
                                                                 ? "bg-accent text-accent-foreground border-primary" 
                                                                 : "bg-background hover:bg-muted"
@@ -216,7 +220,7 @@ export function GetQuoteForm({ open, onOpenChange, children }: GetQuoteFormProps
                                                       <Label 
                                                         htmlFor={`property-${type}`}
                                                         className={cn(
-                                                            "flex items-center justify-center p-4 border rounded-md cursor-pointer transition-colors h-full text-xs font-bold",
+                                                            "flex items-center justify-center p-3 border rounded-md cursor-pointer transition-colors h-full font-bold",
                                                             field.value === type 
                                                                 ? "bg-accent text-accent-foreground border-primary" 
                                                                 : "bg-background hover:bg-muted"
