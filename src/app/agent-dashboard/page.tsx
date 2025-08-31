@@ -116,7 +116,7 @@ export default function AgentDashboardPage() {
             </Avatar>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-4 lg:p-6">
+        <main className="flex-1 overflow-auto p-4 lg:p-6 pb-20 md:pb-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -285,6 +285,26 @@ export default function AgentDashboardPage() {
             </div>
 
         </main>
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-full items-center justify-around">
+                <a href="#" className="flex flex-col items-center gap-1 text-xs text-primary transition-colors hover:text-primary">
+                    <LayoutGrid className="h-5 w-5" />
+                    <span>Dashboard</span>
+                </a>
+                 <a href="#" className="flex flex-col items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-primary">
+                    <Users className="h-5 w-5" />
+                    <span>Referrals</span>
+                </a>
+                 <a href="#" className="flex flex-col items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-primary">
+                    <DollarSign className="h-5 w-5" />
+                    <span>Earnings</span>
+                </a>
+                <button className="flex flex-col items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-primary">
+                    <MoreHorizontal className="h-5 w-5" />
+                    <span>More</span>
+                </button>
+            </div>
+        </div>
       </div>
     </div>
   );
