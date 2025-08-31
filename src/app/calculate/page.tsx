@@ -286,8 +286,8 @@ export default function CalculatePage() {
                                                                     render={({ field }) => (
                                                                         <FormItem>
                                                                             <Card className="p-4">
-                                                                                <div className="flex items-center justify-between">
-                                                                                    <div className="flex items-center gap-2">
+                                                                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                                                                    <div className="flex items-center gap-2 w-full sm:w-auto">
                                                                                         <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
                                                                                             {item.label}
                                                                                         </Label>
@@ -302,7 +302,7 @@ export default function CalculatePage() {
                                                                                             </Tooltip>
                                                                                         )}
                                                                                     </div>
-                                                                                    <div className="flex items-center gap-2">
+                                                                                    <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                                                                                         <FormControl>
                                                                                             <div className="flex items-center gap-2">
                                                                                                 <Button
@@ -334,7 +334,7 @@ export default function CalculatePage() {
                                                                                                 </Button>
                                                                                             </div>
                                                                                         </FormControl>
-                                                                                        <span className="text-sm text-muted-foreground w-28 text-left">{item.unit}</span>
+                                                                                        <span className="text-sm text-muted-foreground w-24 text-left">{item.unit}</span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <FormMessage className="pt-2"/>
@@ -449,5 +449,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
