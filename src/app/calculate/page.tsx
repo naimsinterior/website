@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Info, Plus, Minus } from "lucide-react";
@@ -85,40 +85,40 @@ const propertyTypes = [
 
 const scopeOfWork = {
     "Carpentry & Storage": [
-        { id: "wardrobe", label: "Wardrobe", unit: "Unit" },
-        { id: "modular_kitchen", label: "Modular Kitchen", unit: "Sqft", description: "Base + Wall units" },
-        { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft" },
-        { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft" },
-        { id: "study_table", label: "Study Table / Workstation", unit: "Sqft" },
-        { id: "pooja_unit", label: "Pooja Unit", unit: "Unit" },
-        { id: "bed_with_storage", label: "Bed with Storage", unit: "Unit" },
-        { id: "side_tables", label: "Side Tables", unit: "Pcs" },
-        { id: "shoe_rack", label: "Shoe Rack", unit: "Unit" },
-        { id: "bookshelf", label: "Bookshelf / Storage Cabinet", unit: "Sqft" },
+        { id: "wardrobe", label: "Wardrobe", unit: "Unit", type: 'unit' },
+        { id: "modular_kitchen", label: "Modular Kitchen", unit: "Sqft", description: "Base + Wall units", type: 'sqft' },
+        { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft", type: 'sqft' },
+        { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft", type: 'sqft' },
+        { id: "study_table", label: "Study Table / Workstation", unit: "Sqft", type: 'sqft' },
+        { id: "pooja_unit", label: "Pooja Unit", unit: "Unit", type: 'unit' },
+        { id: "bed_with_storage", label: "Bed with Storage", unit: "Unit", type: 'unit' },
+        { id: "side_tables", label: "Side Tables", unit: "Pcs", type: 'unit' },
+        { id: "shoe_rack", label: "Shoe Rack", unit: "Unit", type: 'unit' },
+        { id: "bookshelf", label: "Bookshelf / Storage Cabinet", unit: "Sqft", type: 'sqft' },
     ],
     "Surface & Finishing": [
-        { id: "painting", label: "Painting", unit: "Sqft", description: "Emulsion / Texture" },
-        { id: "false_ceiling", label: "False Ceiling", unit: "Sqft", description: "Gypsum / POP" },
-        { id: "wall_paneling", label: "Wall Paneling", unit: "Sqft", description: "Laminate / Stone Cladding" },
-        { id: "wallpaper", label: "Wallpaper", unit: "Sqft" },
-        { id: "curtains", label: "Curtains & Blinds", unit: "Sqft / Running feet" },
-        { id: "flooring", label: "Flooring", unit: "Sqft", description: "Wooden / Vinyl / Tiles / Marble polish" },
+        { id: "painting", label: "Painting", unit: "Sqft", description: "Emulsion / Texture", type: 'sqft' },
+        { id: "false_ceiling", label: "False Ceiling", unit: "Sqft", description: "Gypsum / POP", type: 'sqft' },
+        { id: "wall_paneling", label: "Wall Paneling", unit: "Sqft", description: "Laminate / Stone Cladding", type: 'sqft' },
+        { id: "wallpaper", label: "Wallpaper", unit: "Sqft", type: 'sqft' },
+        { id: "curtains", label: "Curtains & Blinds", unit: "Sqft / Running feet", type: 'sqft' },
+        { id: "flooring", label: "Flooring", unit: "Sqft", description: "Wooden / Vinyl / Tiles / Marble polish", type: 'sqft' },
     ],
     "Furniture & Decor": [
-        { id: "sofa_set", label: "Sofa Set", unit: "Unit" },
-        { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit" },
-        { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs" },
-        { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs" },
-        { id: "decor_lighting", label: "Decor Lighting", unit: "Pcs", description: "Chandelier / Hanging" },
-        { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum" },
+        { id: "sofa_set", label: "Sofa Set", unit: "Unit", type: 'unit' },
+        { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit", type: 'unit' },
+        { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs", type: 'unit' },
+        { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs", type: 'unit' },
+        { id: "decor_lighting", label: "Decor Lighting", unit: "Pcs", description: "Chandelier / Hanging", type: 'unit' },
+        { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum", type: 'unit' },
     ],
     "Utility & Miscellaneous": [
-        { id: "electrical_fittings", label: "Electrical Fittings", unit: "Point", description: "Switchboards, Lights" },
-        { id: "plumbing", label: "Plumbing", unit: "Point", description: "Bathroom / Kitchen related" },
-        { id: "loft_storage", label: "Loft Storage / Overhead Cabinets", unit: "Sqft" },
-        { id: "partition_units", label: "Partition / Divider Units", unit: "Sqft" },
-        { id: "glass_work", label: "Glass Work / Sliding Doors", unit: "Sqft" },
-        { id: "misc_decor", label: "Misc. Decor", unit: "Lump sum", description: "Carpets, Accessories, Plants" },
+        { id: "electrical_fittings", label: "Electrical Fittings", unit: "Point", description: "Switchboards, Lights", type: 'unit' },
+        { id: "plumbing", label: "Plumbing", unit: "Point", description: "Bathroom / Kitchen related", type: 'unit' },
+        { id: "loft_storage", label: "Loft Storage / Overhead Cabinets", unit: "Sqft", type: 'sqft' },
+        { id: "partition_units", label: "Partition / Divider Units", unit: "Sqft", type: 'sqft' },
+        { id: "glass_work", label: "Glass Work / Sliding Doors", unit: "Sqft", type: 'sqft' },
+        { id: "misc_decor", label: "Misc. Decor", unit: "Lump sum", description: "Carpets, Accessories, Plants", type: 'unit' },
     ]
 };
 
@@ -188,18 +188,33 @@ export default function CalculatePage() {
     };
     
     function onSubmit(data: CalculatorFormValues) {
-        let baseCost = 0;
-        Object.entries(data.scope).forEach(([item, quantity]) => {
+        let unitBasedCost = 0;
+        let sqftBasedCost = 0;
+
+        const allItems = Object.values(scopeOfWork).flat();
+        
+        Object.entries(data.scope).forEach(([itemId, quantity]) => {
             if (quantity && quantity > 0) {
-                const itemCost = scopeCosts[item as keyof typeof scopeCosts] || 0;
-                baseCost += itemCost * quantity;
+                const itemDetails = allItems.find(i => i.id === itemId);
+                if (itemDetails) {
+                    const itemCost = scopeCosts[itemId as keyof typeof scopeCosts] || 0;
+                    if (itemDetails.type === 'unit') {
+                        unitBasedCost += itemCost * quantity;
+                    } else { // sqft
+                        sqftBasedCost += itemCost * quantity;
+                    }
+                }
             }
         });
 
         const finishMultiplier = finishLevelMultiplier[data.finishLevel];
         const propertyMultiplier = (propertyTypeBaseSqft[data.propertyType as keyof typeof propertyTypeBaseSqft] || 1000) / 1000;
         
-        const totalCost = baseCost * finishMultiplier * propertyMultiplier;
+        // Apply property multiplier only to sqft-based costs
+        const totalSqftCost = sqftBasedCost * propertyMultiplier;
+        
+        const totalCost = (unitBasedCost + totalSqftCost) * finishMultiplier;
+
         setEstimatedCost(totalCost);
         setCurrentStep(4); // Move to result step
     }
