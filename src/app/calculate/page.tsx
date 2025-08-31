@@ -64,14 +64,87 @@ const finishLevelMultiplier = {
     high: 1.69,
 };
 
+const Icon1RK = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+        <rect x="5" y="5" width="80" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="45" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Room</text>
+        <rect x="95" y="5" width="50" height="50" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="35" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Kit</text>
+    </svg>
+);
+
+const Icon1BHK = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+        <rect x="5" y="5" width="70" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="40" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
+        <rect x="5" y="55" width="70" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="40" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bed</text>
+        <rect x="85" y="5" width="60" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="115" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+    </svg>
+);
+
+const Icon2BHK = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+        <rect x="5" y="5" width="70" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="40" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
+        <rect x="5" y="55" width="32" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="21" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">B1</text>
+         <rect x="43" y="55" width="32" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="59" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">B2</text>
+        <rect x="85" y="5" width="60" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="115" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+    </svg>
+);
+
+const Icon3BHK = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+        <rect x="5" y="5" width="70" height="30" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="40" y="23" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
+        <rect x="5" y="40" width="32" height="25" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="21" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B1</text>
+         <rect x="43" y="40" width="32" height="25" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="59" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B2</text>
+        <rect x="5" y="70" width="70" height="25" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="40" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B3</text>
+        <rect x="85" y="5" width="60" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="115" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+    </svg>
+);
+
+const Icon4BHK = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+        <rect x="5" y="5" width="60" height="25" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="35" y="20" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
+        <rect x="5" y="35" width="28" height="28" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="19" y="52" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B1</text>
+        <rect x="37" y="35" width="28" height="28" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="51" y="52" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B2</text>
+        <rect x="5" y="68" width="28" height="28" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="19" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B3</text>
+        <rect x="37" y="68" width="28" height="28" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="51" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B4</text>
+        <rect x="75" y="5" width="70" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="110" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+    </svg>
+);
+const IconVilla = () => (
+    <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
+         <rect x="5" y="5" width="140" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="75" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Villa</text>
+    </svg>
+);
+
+
 const propertyTypes = [
-    { id: "1rk", label: "1RK" },
-    { id: "1bhk", label: "1BHK" },
-    { id: "2bhk", label: "2BHK" },
-    { id: "3bhk", label: "3BHK" },
-    { id: "4bhk", label: "4BHK" },
-    { id: "4+bhk", label: "4+BHK" },
+    { id: "1rk", label: "1RK", icon: Icon1RK },
+    { id: "1bhk", label: "1BHK", icon: Icon1BHK },
+    { id: "2bhk", label: "2BHK", icon: Icon2BHK },
+    { id: "3bhk", label: "3BHK", icon: Icon3BHK },
+    { id: "4bhk", label: "4BHK", icon: Icon4BHK },
+    { id: "villa", label: "Villa/Other", icon: IconVilla },
 ];
+
 
 const scopeOfWork = {
     "Carpentry & Storage": [
@@ -281,12 +354,13 @@ export default function CalculatePage() {
                                                                 <Label
                                                                     htmlFor={type.id}
                                                                     className={cn(
-                                                                        "flex items-center justify-center p-4 border rounded-lg cursor-pointer transition-colors",
+                                                                        "flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-colors",
                                                                         field.value === type.id 
-                                                                            ? "bg-primary text-primary-foreground border-primary" 
+                                                                            ? "bg-primary/5 border-primary" 
                                                                             : "text-foreground bg-background hover:bg-accent hover:text-accent-foreground"
                                                                     )}
                                                                 >
+                                                                    <type.icon />
                                                                     <span className="font-bold text-lg">{type.label}</span>
                                                                 </Label>
                                                             </FormItem>
