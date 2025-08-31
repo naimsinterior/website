@@ -2,14 +2,14 @@
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldName } from "react-hook-form";
 import * as z from "zod";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Info, Plus, Minus } from "lucide-react";
+import { Info, Plus, Minus, CheckCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -24,6 +24,10 @@ const calculatorSchema = z.object({
     propertyType: z.string({ required_error: "Please select a property type." }),
     scope: scopeObjectSchema,
     finishLevel: z.enum(["basic", "mid", "high"], { required_error: "Please select a finish level." }),
+    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
+    phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
+    propertyName: z.string().min(2, { message: "Property name is required." }),
 });
 
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
@@ -226,6 +230,7 @@ const STEPS = [
     { id: 1, name: "Property Type" },
     { id: 2, name: "Scope of Work" },
     { id: 3, name: "Finish Level" },
+    { id: 4, name: "Contact Details" },
 ];
 
 const CircularProgress = ({ progress, children }: { progress: number, children: React.ReactNode }) => {
@@ -278,6 +283,10 @@ export default function CalculatePage() {
         resolver: zodResolver(calculatorSchema),
         defaultValues: {
             scope: {},
+            name: "",
+            email: "",
+            phone: "",
+            propertyName: ""
         },
     });
 
@@ -286,16 +295,22 @@ export default function CalculatePage() {
         if (currentStep === 1) fieldsToValidate.push('propertyType');
         if (currentStep === 2) fieldsToValidate.push('scope');
         if (currentStep === 3) fieldsToValidate.push('finishLevel');
-
+        
         const isValid = await form.trigger(fieldsToValidate);
         if (isValid) {
-            if (currentStep < 3) {
+            if (currentStep < 4) {
                 setCurrentStep(currentStep + 1);
-            } else {
-                onSubmit(form.getValues());
             }
         }
     };
+    
+    const handleFinalSubmit = async () => {
+        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
+        if(isValid){
+            onSubmit(form.getValues());
+        }
+    }
+
 
     const handleBack = () => {
         if (currentStep > 1) {
@@ -317,7 +332,7 @@ export default function CalculatePage() {
         const totalCost = totalBaseCost * finishMultiplier;
 
         setEstimatedCost(totalCost);
-        setCurrentStep(4); // Move to result step
+        setCurrentStep(5); // Move to result step
     }
 
     const progress = Math.round(((currentStep -1) / STEPS.length) * 100);
@@ -419,7 +434,7 @@ export default function CalculatePage() {
                                                                                         )}
                                                                                     </div>
                                                                                     {item.type === 'lump' ? (
-                                                                                        <div className="flex items-center gap-2">
+                                                                                        <div className="flex items-center gap-2 justify-end w-full sm:w-auto sm:min-w-[170px]">
                                                                                              <span className="text-sm text-muted-foreground">No</span>
                                                                                              <FormControl>
                                                                                                  <Switch
@@ -520,19 +535,43 @@ export default function CalculatePage() {
                                     />
                                 )}
                                 
-                                {currentStep <= 3 && (
+                                {currentStep === 4 && (
+                                    <div className="space-y-4">
+                                        <CardHeader className="p-0 text-center mb-4">
+                                            <CardTitle>Almost there!</CardTitle>
+                                            <CardDescription>Please provide your contact information to see your estimate.</CardDescription>
+                                        </CardHeader>
+                                        <FormField control={form.control} name="name" render={({ field }) => (
+                                            <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
+                                        )}/>
+                                        <FormField control={form.control} name="email" render={({ field }) => (
+                                            <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                                        )}/>
+                                        <FormField control={form.control} name="phone" render={({ field }) => (
+                                            <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                                        )}/>
+                                         <FormField control={form.control} name="propertyName" render={({ field }) => (
+                                            <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
+                                        )}/>
+                                    </div>
+                                )}
+
+
+                                {currentStep <= 4 && (
                                     <div className={cn("flex pt-4", currentStep === 1 ? "justify-end" : "justify-between")}>
                                         {currentStep > 1 && (
                                             <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
                                         )}
-                                        <Button type="button" onClick={handleNext}>
-                                            {currentStep === 3 ? "Calculate Estimate" : "Next"}
-                                        </Button>
+                                        {currentStep < 4 ? (
+                                            <Button type="button" onClick={handleNext}>Next</Button>
+                                        ) : (
+                                            <Button type="button" onClick={handleFinalSubmit}>Calculate Estimate</Button>
+                                        )}
                                     </div>
                                 )}
                             </form>
                         </Form>
-                         {currentStep === 4 && estimatedCost !== null && (
+                         {currentStep === 5 && estimatedCost !== null && (
                             <div className="text-center">
                                 <p className="text-muted-foreground">Estimated Project Cost</p>
                                 <p className="font-headline text-4xl font-bold">
@@ -577,5 +616,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
