@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,10 +41,17 @@ interface SimpleContactFormProps {
     children: React.ReactNode;
 }
 
+const words = ["Modular Kitchen", "Full Home Interior", "Renovation"];
+
 export function SimpleContactForm({ children }: SimpleContactFormProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     
+    const [index, setIndex] = useState(0);
+    const [subIndex, setSubIndex] = useState(0);
+    const [blink, setBlink] = useState(true);
+    const [reverse, setReverse] = useState(false);
+
     const { toast } = useToast();
     const form = useForm<ContactFormValues>({
         resolver: zodResolver(contactFormSchema),
@@ -55,6 +62,36 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
             propertyName: "",
         },
     });
+
+    useEffect(() => {
+        if (!isOpen || isSubmitted) return;
+
+        if (subIndex === words[index].length + 1 && !reverse) {
+            setTimeout(() => setReverse(true), 1000);
+            return;
+        }
+
+        if (subIndex === 0 && reverse) {
+            setReverse(false);
+            setIndex((prev) => (prev + 1) % words.length);
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            setSubIndex((prev) => prev + (reverse ? -1 : 1));
+        }, reverse ? 75 : 150);
+
+        return () => clearTimeout(timeout);
+    }, [subIndex, index, reverse, isOpen, isSubmitted]);
+
+    useEffect(() => {
+        if (!isOpen || isSubmitted) return;
+        const blinkTimeout = setTimeout(() => {
+            setBlink((prev) => !prev);
+        }, 500);
+        return () => clearTimeout(blinkTimeout);
+    }, [blink, isOpen, isSubmitted]);
+
 
     async function onSubmit(data: ContactFormValues) {
         console.log("Contact Form Submitted:", data);
@@ -91,7 +128,9 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
                   <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <DialogHeader>
-                            <DialogTitle>Get in Touch</DialogTitle>
+                            <DialogTitle>
+                                Get in Touch for <span className="text-primary">{`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}</span>
+                            </DialogTitle>
                             <DialogDescription>Please provide your contact information and we'll reach out.</DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
