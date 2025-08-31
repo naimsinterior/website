@@ -10,7 +10,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, Wand2, Loader2, ArrowRight } from 'lucide-react';
-import { projects } from '../projects/projects';
 import { inspirations } from '../design/inspirations';
 
 export function StyleToolClient() {
@@ -142,7 +141,7 @@ export function StyleToolClient() {
                       return (
                          <li key={linkIndex}>
                            <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
-                             <span>{project ? project.title : 'Project Link'}</span>
+                             <span>{project ? project.title : 'View Project'}</span>
                              <ArrowRight className="h-4 w-4 text-muted-foreground"/>
                            </Link>
                          </li>
