@@ -12,7 +12,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Info, Plus, Minus } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -145,6 +144,48 @@ const STEPS = [
     { id: 3, name: "Finish Level" },
 ];
 
+const CircularProgress = ({ progress, children }: { progress: number, children: React.ReactNode }) => {
+    const radius = 60;
+    const stroke = 8;
+    const normalizedRadius = radius - stroke;
+    const circumference = normalizedRadius * 2 * Math.PI;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+    return (
+        <div className="relative flex items-center justify-center" style={{ width: radius * 2, height: radius * 2 }}>
+            <svg
+                height={radius * 2}
+                width={radius * 2}
+                className="transform -rotate-90"
+            >
+                <circle
+                    stroke="hsl(var(--secondary))"
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                />
+                <circle
+                    stroke="hsl(var(--primary))"
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    strokeDasharray={circumference + ' ' + circumference}
+                    style={{ strokeDashoffset }}
+                    strokeLinecap="round"
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                    className="transition-all duration-500 ease-in-out"
+                />
+            </svg>
+            <div className="absolute flex flex-col items-center justify-center">
+                {children}
+            </div>
+        </div>
+    );
+};
+
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
@@ -195,7 +236,7 @@ export default function CalculatePage() {
         setCurrentStep(4); // Move to result step
     }
 
-    const progress = ((currentStep - 1) / (STEPS.length)) * 100;
+    const progress = Math.round(((currentStep -1) / STEPS.length) * 100);
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
@@ -208,12 +249,14 @@ export default function CalculatePage() {
             <div className="mt-12 max-w-4xl mx-auto">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="font-headline text-center">Estimate Your Cost</CardTitle>
+                        <CardTitle className="font-headline text-center text-2xl md:text-3xl">Estimate Your Cost</CardTitle>
                         {currentStep <= STEPS.length && (
-                            <div className="pt-4">
-                                <Progress value={progress} />
-                                <p className="text-center text-sm text-muted-foreground mt-2">
-                                    Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].name}
+                             <div className="pt-4 flex flex-col items-center">
+                                <CircularProgress progress={progress}>
+                                    <span className="text-2xl font-bold text-primary">{`Step ${currentStep}`}</span>
+                                </CircularProgress>
+                                <p className="text-center text-lg font-semibold text-muted-foreground mt-4">
+                                     {STEPS[currentStep - 1].name}
                                 </p>
                             </div>
                         )}
