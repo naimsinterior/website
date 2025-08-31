@@ -376,7 +376,7 @@ export default function CalculatePage() {
                                                                 <Label
                                                                     htmlFor={level.id}
                                                                     className={cn(
-                                                                        "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer h-full hover:bg-accent hover:text-accent-foreground",
+                                                                        "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer h-full hover:bg-accent hover:text-accent-foreground transition-all",
                                                                         field.value === level.id ? "border-primary bg-primary/5" : "border-muted"
                                                                     )}
                                                                 >
@@ -454,3 +454,4 @@ export default function CalculatePage() {
     
 
     
+
