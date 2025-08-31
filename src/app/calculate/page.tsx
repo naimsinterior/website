@@ -166,27 +166,27 @@ export default function CalculatePage() {
                                     )}
                                 />
                                  <Button type="submit" className="w-full">Calculate Estimate</Button>
+
+                                 {estimatedCost !== null && (
+                                    <div className="mt-8">
+                                        <Separator />
+                                        <div className="mt-8 text-center">
+                                            <p className="text-muted-foreground">Estimated Project Cost</p>
+                                            <p className="font-headline text-4xl font-bold flex items-center justify-center">
+                                                <DollarSign className="h-8 w-8 mr-2 text-primary" />
+                                                {estimatedCost.toLocaleString('en-US', {
+                                                    minimumFractionDigits: 0,
+                                                    maximumFractionDigits: 0,
+                                                })}
+                                            </p>
+                                            <FormDescription className="mt-2">
+                                                This is a preliminary estimate. Actual costs may vary.
+                                            </FormDescription>
+                                        </div>
+                                    </div>
+                                )}
                             </form>
                         </Form>
-
-                        {estimatedCost !== null && (
-                            <div className="mt-8">
-                                <Separator />
-                                <div className="mt-8 text-center">
-                                    <p className="text-muted-foreground">Estimated Project Cost</p>
-                                    <p className="font-headline text-4xl font-bold flex items-center justify-center">
-                                        <DollarSign className="h-8 w-8 mr-2 text-primary" />
-                                        {estimatedCost.toLocaleString('en-US', {
-                                            minimumFractionDigits: 0,
-                                            maximumFractionDigits: 0,
-                                        })}
-                                    </p>
-                                    <FormDescription className="mt-2">
-                                        This is a preliminary estimate. Actual costs may vary.
-                                    </FormDescription>
-                                </div>
-                            </div>
-                        )}
                     </CardContent>
                 </Card>
             </div>
