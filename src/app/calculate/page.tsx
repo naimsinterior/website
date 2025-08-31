@@ -7,37 +7,81 @@ import * as z from "zod";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { DollarSign } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
+import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
 
 const calculatorSchema = z.object({
-    roomType: z.string({ required_error: "Please select a room type." }),
-    sqft: z.coerce.number().min(50, { message: "Minimum 50 sqft required." }),
+    propertyType: z.string({ required_error: "Please select a property type." }),
+    scope: z.array(z.string()).refine((value) => value.some((item) => item), {
+        message: "You have to select at least one item.",
+    }),
     finishLevel: z.enum(["basic", "mid", "high"], { required_error: "Please select a finish level." }),
 });
 
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
-// Pricing factors (per sqft)
-const roomTypeMultiplier = {
-    living_room: 1,
-    bedroom: 0.9,
-    kitchen: 1.5,
-    bathroom: 1.8,
-    office: 1.1,
+// Pricing factors per room/item
+const scopeCosts = {
+    kitchen: 75000,
+    living_room: 50000,
+    bedroom: 45000,
+    bathroom: 60000,
+    study_room: 35000,
+    balcony: 20000,
+    wardrobes: 40000,
+    tv_unit: 15000,
+    false_ceiling: 30000,
+    painting: 25000,
 };
 
 const finishLevelMultiplier = {
-    basic: 100,
-    mid: 175,
-    high: 300,
+    basic: 1,
+    mid: 1.5,
+    high: 2.5,
 };
+
+const propertyTypeBaseSqft = {
+    "1rk": 300,
+    "1bhk": 500,
+    "2bhk": 800,
+    "3bhk": 1200,
+    "4bhk": 1600,
+    "4+bhk": 2000,
+};
+
+const propertyTypes = [
+    { id: "1rk", label: "1RK" },
+    { id: "1bhk", label: "1BHK" },
+    { id: "2bhk", label: "2BHK" },
+    { id: "3bhk", label: "3BHK" },
+    { id: "4bhk", label: "4BHK" },
+    { id: "4+bhk", label: "4+BHK" },
+];
+
+const scopeOfWork = [
+    { id: "kitchen", label: "Kitchen" },
+    { id: "living_room", label: "Living Room" },
+    { id: "bedroom", label: "Bedroom(s)" },
+    { id: "bathroom", label: "Bathroom(s)" },
+    { id: "study_room", label: "Study Room" },
+    { id: "balcony", label: "Balcony" },
+    { id: "wardrobes", label: "Wardrobes" },
+    { id: "tv_unit", label: "TV Unit" },
+    { id: "false_ceiling", label: "False Ceiling" },
+    { id: "painting", label: "Painting" },
+];
+
+const finishLevels = [
+    { id: "basic", label: "Basic", description: "Functional and stylish essentials." },
+    { id: "mid", label: "Mid-Range", description: "High-quality materials and some custom pieces." },
+    { id: "high", label: "High-End", description: "Luxury finishes and bespoke furniture." },
+];
 
 const faqs = [
     {
@@ -58,131 +102,243 @@ const faqs = [
     }
 ];
 
+const STEPS = [
+    { id: 1, name: "Property Type" },
+    { id: 2, name: "Scope of Work" },
+    { id: 3, name: "Finish Level" },
+];
+
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
+    const [currentStep, setCurrentStep] = useState(1);
 
     const form = useForm<CalculatorFormValues>({
         resolver: zodResolver(calculatorSchema),
         defaultValues: {
-            sqft: 150,
+            scope: [],
         },
     });
 
+    const handleNext = async () => {
+        let fieldsToValidate: (keyof CalculatorFormValues)[] = [];
+        if (currentStep === 1) fieldsToValidate.push('propertyType');
+        if (currentStep === 2) fieldsToValidate.push('scope');
+        if (currentStep === 3) fieldsToValidate.push('finishLevel');
+
+        const isValid = await form.trigger(fieldsToValidate);
+        if (isValid) {
+            if (currentStep < 3) {
+                setCurrentStep(currentStep + 1);
+            } else {
+                onSubmit(form.getValues());
+            }
+        }
+    };
+
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+    
     function onSubmit(data: CalculatorFormValues) {
-        const baseCost = finishLevelMultiplier[data.finishLevel];
-        const roomMultiplier = roomTypeMultiplier[data.roomType as keyof typeof roomTypeMultiplier] || 1;
-        const totalCost = baseCost * data.sqft * roomMultiplier;
+        let baseCost = 0;
+        data.scope.forEach(item => {
+            baseCost += scopeCosts[item as keyof typeof scopeCosts] || 0;
+        });
+
+        const finishMultiplier = finishLevelMultiplier[data.finishLevel];
+        const propertyMultiplier = (propertyTypeBaseSqft[data.propertyType as keyof typeof propertyTypeBaseSqft] || 1000) / 1000;
+        
+        const totalCost = baseCost * finishMultiplier * propertyMultiplier;
         setEstimatedCost(totalCost);
+        setCurrentStep(4); // Move to result step
     }
+
+    const progress = ((currentStep - 1) / (STEPS.length)) * 100;
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
             <div className="text-center">
                 <h1 className="font-headline text-4xl md:text-5xl">Project Cost Calculator</h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                    Get a rough estimate for your interior design project. For a detailed quote, please contact us.
+                    Get a rough estimate for your interior design project in just a few steps.
                 </p>
             </div>
-            <div className="mt-12 max-w-2xl mx-auto">
+            <div className="mt-12 max-w-4xl mx-auto">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="font-headline">Estimate Your Cost</CardTitle>
-                        <CardDescription>Fill in the details below to see an instant estimate.</CardDescription>
+                        <CardTitle className="font-headline text-center">Estimate Your Cost</CardTitle>
+                        {currentStep <= STEPS.length && (
+                            <div className="pt-4">
+                                <Progress value={progress} />
+                                <p className="text-center text-sm text-muted-foreground mt-2">
+                                    Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].name}
+                                </p>
+                            </div>
+                        )}
                     </CardHeader>
                     <CardContent>
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                <FormField
-                                    control={form.control}
-                                    name="roomType"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Room Type</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
+                                
+                                {currentStep === 1 && (
+                                    <FormField
+                                        control={form.control}
+                                        name="propertyType"
+                                        render={({ field }) => (
+                                            <FormItem className="space-y-3">
+                                                <FormLabel className="text-lg font-semibold text-center block">What is your property type?</FormLabel>
                                                 <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select a room" />
-                                                    </SelectTrigger>
+                                                    <RadioGroup
+                                                        onValueChange={field.onChange}
+                                                        defaultValue={field.value}
+                                                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
+                                                    >
+                                                        {propertyTypes.map((type) => (
+                                                             <FormItem key={type.id} className="w-full">
+                                                                <FormControl>
+                                                                    <RadioGroupItem value={type.id} id={type.id} className="sr-only" />
+                                                                </FormControl>
+                                                                <Label
+                                                                    htmlFor={type.id}
+                                                                    className={cn(
+                                                                        "flex flex-col items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent hover:text-accent-foreground",
+                                                                        field.value === type.id ? "border-primary bg-primary/5" : "border-muted"
+                                                                    )}
+                                                                >
+                                                                    <span className="font-bold text-lg">{type.label}</span>
+                                                                </Label>
+                                                            </FormItem>
+                                                        ))}
+                                                    </RadioGroup>
                                                 </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="living_room">Living Room</SelectItem>
-                                                    <SelectItem value="bedroom">Bedroom</SelectItem>
-                                                    <SelectItem value="kitchen">Kitchen</SelectItem>
-                                                    <SelectItem value="bathroom">Bathroom</SelectItem>
-                                                    <SelectItem value="office">Home Office</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                 <FormField
-                                    control={form.control}
-                                    name="sqft"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Area (in square feet)</FormLabel>
-                                            <FormControl>
-                                                <Input type="number" placeholder="e.g., 200" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="finishLevel"
-                                    render={({ field }) => (
-                                        <FormItem className="space-y-3">
-                                            <FormLabel>Desired Finish Level</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                    className="flex flex-col space-y-1"
-                                                >
-                                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                                        <FormControl><RadioGroupItem value="basic" /></FormControl>
-                                                        <FormLabel className="font-normal">
-                                                            Basic - Functional and stylish essentials.
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                                        <FormControl><RadioGroupItem value="mid" /></FormControl>
-                                                        <FormLabel className="font-normal">
-                                                            Mid-Range - High-quality materials and some custom pieces.
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                                        <FormControl><RadioGroupItem value="high" /></FormControl>
-                                                        <FormLabel className="font-normal">
-                                                            High-End - Luxury finishes and bespoke furniture.
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                 <Button type="submit" className="w-full">Calculate Estimate</Button>
+                                                <FormMessage className="text-center" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                )}
 
-                                 {estimatedCost !== null && (
-                                    <div className="mt-8">
-                                        <Separator />
-                                        <div className="mt-8 text-center">
-                                            <p className="text-muted-foreground">Estimated Project Cost</p>
-                                            <p className="font-headline text-4xl font-bold flex items-center justify-center">
-                                                <DollarSign className="h-8 w-8 mr-2 text-primary" />
-                                                {estimatedCost.toLocaleString('en-US', {
-                                                    minimumFractionDigits: 0,
-                                                    maximumFractionDigits: 0,
-                                                })}
-                                            </p>
-                                            <FormDescription className="mt-2">
-                                                This is a preliminary estimate. Actual costs may vary.
-                                            </FormDescription>
-                                        </div>
+                                {currentStep === 2 && (
+                                    <FormField
+                                        control={form.control}
+                                        name="scope"
+                                        render={() => (
+                                            <FormItem>
+                                                <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                                    {scopeOfWork.map((item) => (
+                                                        <FormField
+                                                            key={item.id}
+                                                            control={form.control}
+                                                            name="scope"
+                                                            render={({ field }) => {
+                                                                return (
+                                                                    <FormItem key={item.id} className="w-full">
+                                                                        <FormControl>
+                                                                             <Checkbox
+                                                                                checked={field.value?.includes(item.id)}
+                                                                                onCheckedChange={(checked) => {
+                                                                                    return checked
+                                                                                    ? field.onChange([...(field.value || []), item.id])
+                                                                                    : field.onChange(
+                                                                                        field.value?.filter(
+                                                                                            (value) => value !== item.id
+                                                                                        )
+                                                                                    )
+                                                                                }}
+                                                                                id={item.id}
+                                                                                className="sr-only"
+                                                                            />
+                                                                        </FormControl>
+                                                                         <Label
+                                                                            htmlFor={item.id}
+                                                                            className={cn(
+                                                                                "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent hover:text-accent-foreground",
+                                                                                field.value?.includes(item.id) ? "border-primary bg-primary/5" : "border-muted"
+                                                                            )}
+                                                                        >
+                                                                            <span className="font-semibold">{item.label}</span>
+                                                                        </Label>
+                                                                    </FormItem>
+                                                                )
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <FormMessage className="text-center" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                )}
+
+                                {currentStep === 3 && (
+                                    <FormField
+                                        control={form.control}
+                                        name="finishLevel"
+                                        render={({ field }) => (
+                                            <FormItem className="space-y-3">
+                                                <FormLabel className="text-lg font-semibold text-center block">What's your desired finish level?</FormLabel>
+                                                <FormControl>
+                                                    <RadioGroup
+                                                        onValueChange={field.onChange}
+                                                        defaultValue={field.value}
+                                                        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                                                    >
+                                                        {finishLevels.map(level => (
+                                                             <FormItem key={level.id} className="w-full">
+                                                                <FormControl>
+                                                                    <RadioGroupItem value={level.id} id={level.id} className="sr-only" />
+                                                                </FormControl>
+                                                                <Label
+                                                                    htmlFor={level.id}
+                                                                    className={cn(
+                                                                        "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer h-full hover:bg-accent hover:text-accent-foreground",
+                                                                        field.value === level.id ? "border-primary bg-primary/5" : "border-muted"
+                                                                    )}
+                                                                >
+                                                                    <span className="font-bold text-lg">{level.label}</span>
+                                                                    <p className="text-xs text-muted-foreground mt-1">{level.description}</p>
+                                                                </Label>
+                                                            </FormItem>
+                                                        ))}
+                                                    </RadioGroup>
+                                                </FormControl>
+                                                <FormMessage className="text-center" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                )}
+                                
+                                {currentStep === 4 && estimatedCost !== null && (
+                                    <div className="text-center">
+                                        <p className="text-muted-foreground">Estimated Project Cost</p>
+                                        <p className="font-headline text-4xl font-bold flex items-center justify-center">
+                                            <DollarSign className="h-8 w-8 mr-2 text-primary" />
+                                            {estimatedCost.toLocaleString('en-IN', {
+                                                style: 'currency',
+                                                currency: 'INR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0,
+                                            })}
+                                        </p>
+                                        <FormDescription className="mt-2">
+                                            This is a preliminary estimate. Actual costs may vary.
+                                        </FormDescription>
+                                        <Button onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-6">
+                                            Calculate Again
+                                        </Button>
+                                    </div>
+                                )}
+                                
+                                {currentStep <= 3 && (
+                                    <div className={cn("flex justify-between pt-4", currentStep === 1 && "justify-end")}>
+                                        {currentStep > 1 && (
+                                            <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
+                                        )}
+                                        <Button type="button" onClick={handleNext}>
+                                            {currentStep === 3 ? "Calculate Estimate" : "Next"}
+                                        </Button>
                                     </div>
                                 )}
                             </form>
