@@ -123,7 +123,7 @@ export default function AboutPage() {
                                 </p>
                                 <div className="mt-6">
                                     <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen}>
-                                        <Button>
+                                        <Button variant="link" className="px-0">
                                             Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </GetQuoteForm>
