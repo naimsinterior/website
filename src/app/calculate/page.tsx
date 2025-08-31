@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DollarSign, Info } from "lucide-react";
+import { DollarSign, Info, Plus, Minus } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -304,14 +304,35 @@ export default function CalculatePage() {
                                                                                     </div>
                                                                                     <div className="flex items-center gap-2">
                                                                                         <FormControl>
-                                                                                            <Input
-                                                                                                id={`scope-${item.id}`}
-                                                                                                type="number"
-                                                                                                placeholder="0"
-                                                                                                className="w-24"
-                                                                                                {...field}
-                                                                                                onChange={e => field.onChange(e.target.valueAsNumber || 0)}
-                                                                                            />
+                                                                                            <div className="flex items-center gap-2">
+                                                                                                <Button
+                                                                                                    type="button"
+                                                                                                    variant="outline"
+                                                                                                    size="icon"
+                                                                                                    className="h-8 w-8"
+                                                                                                    onClick={() => field.onChange(Math.max(0, (field.value || 0) - 1))}
+                                                                                                >
+                                                                                                    <Minus className="h-4 w-4" />
+                                                                                                </Button>
+                                                                                                <Input
+                                                                                                    id={`scope-${item.id}`}
+                                                                                                    type="number"
+                                                                                                    placeholder="0"
+                                                                                                    className="w-20 text-center"
+                                                                                                    {...field}
+                                                                                                    onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                                                    value={field.value || 0}
+                                                                                                />
+                                                                                                <Button
+                                                                                                    type="button"
+                                                                                                    variant="outline"
+                                                                                                    size="icon"
+                                                                                                    className="h-8 w-8"
+                                                                                                    onClick={() => field.onChange((field.value || 0) + 1)}
+                                                                                                >
+                                                                                                    <Plus className="h-4 w-4" />
+                                                                                                </Button>
+                                                                                            </div>
                                                                                         </FormControl>
                                                                                         <span className="text-sm text-muted-foreground w-28 text-left">{item.unit}</span>
                                                                                     </div>
@@ -428,3 +449,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
