@@ -7,7 +7,7 @@ import * as z from "zod";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Info, Plus, Minus, CheckCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -314,7 +314,7 @@ export default function CalculatePage() {
 
     const handleBack = () => {
         if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
+            setCurrentStep(currentStep + 1);
         }
     };
     
@@ -616,3 +616,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
