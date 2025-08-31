@@ -29,40 +29,40 @@ const calculatorSchema = z.object({
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
 const scopeCosts = {
-    wardrobe: 1200,
-    modular_kitchen: 1800,
-    tv_unit: 800,
-    crockery_unit: 900,
-    study_table: 700,
+    wardrobe: 34000,
+    modular_kitchen: 970,
+    tv_unit: 970,
+    crockery_unit: 970,
+    study_table: 970,
     pooja_unit: 15000,
-    bed_with_storage: 25000,
-    side_tables: 3000,
-    shoe_rack: 5000,
-    bookshelf: 600,
-    painting: 35,
-    false_ceiling: 90,
-    wall_paneling: 150,
-    wallpaper: 50,
-    curtains: 300,
-    flooring: 120,
-    sofa_set: 40000,
-    dining_table: 20000,
-    coffee_table: 5000,
+    bed_with_storage: 28000,
+    side_tables: 4000,
+    shoe_rack: 8500,
+    bookshelf: 970,
+    painting: 27,
+    false_ceiling: 99,
+    wall_paneling: 350,
+    wallpaper: 120,
+    curtains: 50,
+    flooring: 400,
+    sofa_set: 15000,
+    dining_table: 24000,
+    coffee_table: 8000,
     accent_chairs: 8000,
-    decor_lighting: 2000,
-    art_decor: 10000,
-    electrical_fittings: 500,
-    plumbing: 2500,
-    loft_storage: 400,
-    partition_units: 100,
-    glass_work: 450,
-    misc_decor: 15000,
+    decor_lighting: 1200,
+    art_decor: 12000,
+    electrical_fittings: 150,
+    plumbing: 150,
+    loft_storage: 770,
+    partition_units: 670,
+    glass_work: 800,
+    misc_decor: 8000,
 };
 
 const finishLevelMultiplier = {
     basic: 1,
-    mid: 1.5,
-    high: 2.5,
+    mid: 1.3,
+    high: 1.69,
 };
 
 const propertyTypeBaseSqft = {
@@ -450,8 +450,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
-
-    
-
