@@ -9,17 +9,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Separator } from "@/components/ui/separator";
-import { DollarSign } from "lucide-react";
+import { DollarSign, Minus, Plus } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+const scopeObjectSchema = z.record(z.string(), z.number().min(1, "Quantity must be at least 1").optional());
 
 const calculatorSchema = z.object({
     propertyType: z.string({ required_error: "Please select a property type." }),
-    scope: z.array(z.string()).refine((value) => value.some((item) => item), {
+    scope: scopeObjectSchema.refine((obj) => Object.keys(obj).length > 0, {
         message: "You have to select at least one item.",
     }),
     finishLevel: z.enum(["basic", "mid", "high"], { required_error: "Please select a finish level." }),
@@ -27,7 +29,6 @@ const calculatorSchema = z.object({
 
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
-// Pricing factors per room/item
 const scopeCosts = {
     kitchen: 75000,
     living_room: 50000,
@@ -66,16 +67,16 @@ const propertyTypes = [
 ];
 
 const scopeOfWork = [
-    { id: "kitchen", label: "Kitchen" },
-    { id: "living_room", label: "Living Room" },
-    { id: "bedroom", label: "Bedroom(s)" },
-    { id: "bathroom", label: "Bathroom(s)" },
-    { id: "study_room", label: "Study Room" },
-    { id: "balcony", label: "Balcony" },
-    { id: "wardrobes", label: "Wardrobes" },
-    { id: "tv_unit", label: "TV Unit" },
-    { id: "false_ceiling", label: "False Ceiling" },
-    { id: "painting", label: "Painting" },
+    { id: "kitchen", label: "Kitchen", hasQuantity: false },
+    { id: "living_room", label: "Living Room", hasQuantity: false },
+    { id: "bedroom", label: "Bedroom(s)", hasQuantity: true },
+    { id: "bathroom", label: "Bathroom(s)", hasQuantity: true },
+    { id: "study_room", label: "Study Room", hasQuantity: false },
+    { id: "balcony", label: "Balcony", hasQuantity: true },
+    { id: "wardrobes", label: "Wardrobes", hasQuantity: true },
+    { id: "tv_unit", label: "TV Unit", hasQuantity: false },
+    { id: "false_ceiling", label: "False Ceiling", hasQuantity: false },
+    { id: "painting", label: "Painting", hasQuantity: false },
 ];
 
 const finishLevels = [
@@ -116,7 +117,7 @@ export default function CalculatePage() {
     const form = useForm<CalculatorFormValues>({
         resolver: zodResolver(calculatorSchema),
         defaultValues: {
-            scope: [],
+            scope: {},
         },
     });
 
@@ -144,8 +145,9 @@ export default function CalculatePage() {
     
     function onSubmit(data: CalculatorFormValues) {
         let baseCost = 0;
-        data.scope.forEach(item => {
-            baseCost += scopeCosts[item as keyof typeof scopeCosts] || 0;
+        Object.entries(data.scope).forEach(([item, quantity]) => {
+            const itemCost = scopeCosts[item as keyof typeof scopeCosts] || 0;
+            baseCost += itemCost * (quantity || 1);
         });
 
         const finishMultiplier = finishLevelMultiplier[data.finishLevel];
@@ -224,54 +226,87 @@ export default function CalculatePage() {
                                     <FormField
                                         control={form.control}
                                         name="scope"
-                                        render={() => (
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
-                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                                                    {scopeOfWork.map((item) => (
-                                                        <FormField
-                                                            key={item.id}
-                                                            control={form.control}
-                                                            name="scope"
-                                                            render={({ field }) => {
-                                                                return (
-                                                                    <FormItem key={item.id} className="w-full">
+                                                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-4">
+                                                    {scopeOfWork.map((item) => {
+                                                        const isChecked = field.value?.[item.id] !== undefined;
+
+                                                        const handleCheckedChange = (checked: boolean) => {
+                                                            const newScope = { ...field.value };
+                                                            if (checked) {
+                                                                newScope[item.id] = 1;
+                                                            } else {
+                                                                delete newScope[item.id];
+                                                            }
+                                                            field.onChange(newScope);
+                                                        };
+
+                                                        const handleQuantityChange = (change: number) => {
+                                                            const currentQuantity = field.value?.[item.id] || 1;
+                                                            const newQuantity = Math.max(1, currentQuantity + change);
+                                                            field.onChange({ ...field.value, [item.id]: newQuantity });
+                                                        };
+
+                                                        return (
+                                                            <div key={item.id} className={cn("p-4 border-2 rounded-lg transition-colors", isChecked ? "border-primary bg-primary/5" : "border-muted")}>
+                                                                <div className="flex items-center justify-between">
+                                                                    <FormItem className="flex items-center space-x-3">
                                                                         <FormControl>
-                                                                             <Checkbox
-                                                                                checked={field.value?.includes(item.id)}
-                                                                                onCheckedChange={(checked) => {
-                                                                                    return checked
-                                                                                    ? field.onChange([...(field.value || []), item.id])
-                                                                                    : field.onChange(
-                                                                                        field.value?.filter(
-                                                                                            (value) => value !== item.id
-                                                                                        )
-                                                                                    )
-                                                                                }}
-                                                                                id={item.id}
-                                                                                className="sr-only"
+                                                                            <Checkbox
+                                                                                checked={isChecked}
+                                                                                onCheckedChange={handleCheckedChange}
+                                                                                id={`scope-${item.id}`}
                                                                             />
                                                                         </FormControl>
-                                                                         <Label
-                                                                            htmlFor={item.id}
-                                                                            className={cn(
-                                                                                "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent hover:text-accent-foreground",
-                                                                                field.value?.includes(item.id) ? "border-primary bg-primary/5" : "border-muted"
-                                                                            )}
-                                                                        >
-                                                                            <span className="font-semibold">{item.label}</span>
+                                                                        <Label htmlFor={`scope-${item.id}`} className="font-semibold cursor-pointer">
+                                                                            {item.label}
                                                                         </Label>
                                                                     </FormItem>
-                                                                )
-                                                            }}
-                                                        />
-                                                    ))}
+                                                                </div>
+                                                                {item.hasQuantity && isChecked && (
+                                                                    <div className="mt-2 flex items-center justify-end">
+                                                                        <Label className="text-sm mr-2">Qty:</Label>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Button
+                                                                                type="button"
+                                                                                variant="outline"
+                                                                                size="icon"
+                                                                                className="h-6 w-6"
+                                                                                onClick={() => handleQuantityChange(-1)}
+                                                                                disabled={(field.value?.[item.id] || 1) <= 1}
+                                                                            >
+                                                                                <Minus className="h-4 w-4" />
+                                                                            </Button>
+                                                                            <Input
+                                                                                type="number"
+                                                                                className="h-6 w-12 text-center"
+                                                                                value={field.value?.[item.id] || 1}
+                                                                                readOnly
+                                                                            />
+                                                                            <Button
+                                                                                type="button"
+                                                                                variant="outline"
+                                                                                size="icon"
+                                                                                className="h-6 w-6"
+                                                                                onClick={() => handleQuantityChange(1)}
+                                                                            >
+                                                                                <Plus className="h-4 w-4" />
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
                                                 <FormMessage className="text-center" />
                                             </FormItem>
                                         )}
                                     />
                                 )}
+
 
                                 {currentStep === 3 && (
                                     <FormField
@@ -311,29 +346,8 @@ export default function CalculatePage() {
                                     />
                                 )}
                                 
-                                {currentStep === 4 && estimatedCost !== null && (
-                                    <div className="text-center">
-                                        <p className="text-muted-foreground">Estimated Project Cost</p>
-                                        <p className="font-headline text-4xl font-bold flex items-center justify-center">
-                                            <DollarSign className="h-8 w-8 mr-2 text-primary" />
-                                            {estimatedCost.toLocaleString('en-IN', {
-                                                style: 'currency',
-                                                currency: 'INR',
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 0,
-                                            })}
-                                        </p>
-                                        <FormDescription className="mt-2">
-                                            This is a preliminary estimate. Actual costs may vary.
-                                        </FormDescription>
-                                        <Button onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-6">
-                                            Calculate Again
-                                        </Button>
-                                    </div>
-                                )}
-                                
                                 {currentStep <= 3 && (
-                                    <div className={cn("flex justify-between pt-4", currentStep === 1 && "justify-end")}>
+                                    <div className={cn("flex pt-4", currentStep === 1 ? "justify-end" : "justify-between")}>
                                         {currentStep > 1 && (
                                             <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
                                         )}
@@ -344,6 +358,26 @@ export default function CalculatePage() {
                                 )}
                             </form>
                         </Form>
+                         {currentStep === 4 && estimatedCost !== null && (
+                            <div className="text-center">
+                                <p className="text-muted-foreground">Estimated Project Cost</p>
+                                <p className="font-headline text-4xl font-bold flex items-center justify-center">
+                                    <DollarSign className="h-8 w-8 mr-2 text-primary" />
+                                    {estimatedCost.toLocaleString('en-IN', {
+                                        style: 'currency',
+                                        currency: 'INR',
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0,
+                                    })}
+                                </p>
+                                <p className="text-sm text-muted-foreground mt-2">
+                                    This is a preliminary estimate. Actual costs may vary.
+                                </p>
+                                <Button onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-6">
+                                    Calculate Again
+                                </Button>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
