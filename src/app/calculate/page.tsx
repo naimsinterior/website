@@ -13,6 +13,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { DollarSign } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 
 const calculatorSchema = z.object({
     roomType: z.string({ required_error: "Please select a room type." }),
@@ -36,6 +38,25 @@ const finishLevelMultiplier = {
     mid: 175,
     high: 300,
 };
+
+const faqs = [
+    {
+        question: "Is this calculator accurate?",
+        answer: "This calculator provides a preliminary estimate to help you budget. The final cost can vary based on material choices, complexity, and specific site conditions. For a precise quote, please contact us for a detailed consultation."
+    },
+    {
+        question: "What does the 'finish level' mean?",
+        answer: "The finish level determines the quality and cost of materials. 'Basic' includes standard, good-quality materials. 'Mid-Range' offers a mix of high-quality and premium materials. 'High-End' uses luxury materials and bespoke finishes for a premium result."
+    },
+    {
+        question: "Are design fees included in this estimate?",
+        answer: "No, this estimate covers the approximate cost of materials and labor for the project itself. Our design fees are separate and will be discussed during your consultation."
+    },
+    {
+        question: "How can I get a detailed quote?",
+        answer: "The best way to get a detailed quote is to fill out our contact form or call us to schedule a free consultation with one of our designers. We'll discuss your project in detail and provide a comprehensive proposal."
+    }
+];
 
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
@@ -168,6 +189,26 @@ export default function CalculatePage() {
                         )}
                     </CardContent>
                 </Card>
+            </div>
+
+            <div className="mt-16 max-w-4xl mx-auto">
+                <div className="text-center mb-8">
+                    <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
+                </div>
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                    {faqs.map((faq, index) => (
+                        <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
+                            <Card>
+                                <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
+                                    {faq.question}
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pb-6">
+                                    <p className="text-base text-muted-foreground">{faq.answer}</p>
+                                </AccordionContent>
+                            </Card>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
             </div>
         </div>
     );
