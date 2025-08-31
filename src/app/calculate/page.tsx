@@ -15,6 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
+import { Label } from "@/components/ui/label";
 
 const calculatorSchema = z.object({
     propertyType: z.string({ required_error: "Please select a property type." }),
@@ -369,3 +370,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
