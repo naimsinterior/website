@@ -145,8 +145,8 @@ const STEPS = [
 ];
 
 const CircularProgress = ({ progress, children }: { progress: number, children: React.ReactNode }) => {
-    const radius = 30;
-    const stroke = 5;
+    const radius = 20;
+    const stroke = 4;
     const normalizedRadius = radius - stroke;
     const circumference = normalizedRadius * 2 * Math.PI;
     const strokeDashoffset = circumference - (progress / 100) * circumference;
@@ -251,11 +251,9 @@ export default function CalculatePage() {
                     <CardHeader className="flex flex-row justify-between items-center">
                         <CardTitle className="font-headline text-2xl md:text-3xl">Estimate Your Cost</CardTitle>
                         {currentStep <= STEPS.length && (
-                             <div className="flex flex-col items-center">
-                                <CircularProgress progress={progress}>
-                                    <span className="text-lg font-bold text-primary">{currentStep}</span>
-                                </CircularProgress>
-                            </div>
+                            <CircularProgress progress={progress}>
+                                <span className="text-sm font-bold text-primary">{currentStep}</span>
+                            </CircularProgress>
                         )}
                     </CardHeader>
                     <CardContent>
