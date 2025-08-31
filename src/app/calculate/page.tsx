@@ -252,8 +252,10 @@ export default function CalculatePage() {
                                                                 <Label
                                                                     htmlFor={type.id}
                                                                     className={cn(
-                                                                        "flex flex-col items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent hover:text-accent-foreground",
-                                                                        field.value === type.id ? "border-primary bg-primary/5" : "border-muted"
+                                                                        "flex items-center justify-center p-4 border rounded-lg cursor-pointer transition-colors",
+                                                                        field.value === type.id 
+                                                                            ? "bg-primary text-primary-foreground border-primary" 
+                                                                            : "text-foreground bg-background hover:bg-accent hover:text-accent-foreground"
                                                                     )}
                                                                 >
                                                                     <span className="font-bold text-lg">{type.label}</span>
@@ -448,5 +450,7 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
 
     
