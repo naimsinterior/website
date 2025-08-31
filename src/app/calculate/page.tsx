@@ -367,7 +367,7 @@ export default function CalculatePage() {
                                                                         "flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-colors",
                                                                         field.value === type.id 
                                                                             ? "bg-primary/5 border-primary" 
-                                                                            : "text-foreground bg-background hover:bg-accent hover:text-accent-foreground"
+                                                                            : "text-foreground bg-background"
                                                                     )}
                                                                 >
                                                                     <type.icon />
