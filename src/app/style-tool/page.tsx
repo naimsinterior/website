@@ -1,6 +1,7 @@
 import { StyleToolClient } from './StyleToolClient';
+import { Suspense } from 'react';
 
-export default function StyleToolPage() {
+function StyleToolPageContent() {
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
             <div className="text-center">
@@ -12,4 +13,13 @@ export default function StyleToolPage() {
             <StyleToolClient />
         </div>
     );
+}
+
+
+export default function StyleToolPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <StyleToolPageContent />
+        </Suspense>
+    )
 }

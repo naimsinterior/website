@@ -14,6 +14,7 @@ export interface Project {
         text: string;
         author: string;
     };
+    itemType: 'project';
 }
 
 export const projects: Project[] = [
@@ -31,7 +32,8 @@ export const projects: Project[] = [
         testimonial: {
             text: "NAIMS INTERIOR transformed our apartment into a work of art. Their vision and execution were flawless.",
             author: "Julia & Mark Thompson"
-        }
+        },
+        itemType: 'project',
     },
     {
         slug: 'the-writers-nook',
@@ -44,6 +46,7 @@ export const projects: Project[] = [
         location: 'Boston, MA',
         projectType: 'Room Remodel',
         designStyle: 'Classic Academia',
+        itemType: 'project',
     },
     {
         slug: 'sapphire-shores-kitchen',
@@ -59,7 +62,8 @@ export const projects: Project[] = [
         testimonial: {
             text: "Our new kitchen is both stunning and incredibly functional. It has become the heart of our home.",
             author: "The Miller Family"
-        }
+        },
+        itemType: 'project',
     },
     {
         slug: 'serene-suburban-master-suite',
@@ -72,6 +76,7 @@ export const projects: Project[] = [
         location: 'Scarsdale, NY',
         projectType: 'Master Suite',
         designStyle: 'Contemporary',
+        itemType: 'project',
     },
     {
         slug: 'rustic-vineyard-manor',
@@ -87,7 +92,8 @@ export const projects: Project[] = [
         testimonial: {
             text: "They perfectly captured the essence of the landscape in our home's design. It's our dream come true.",
             author: "Isabella & David Chen"
-        }
+        },
+        itemType: 'project',
     },
     {
         slug: 'the-social-eatery',
@@ -100,5 +106,6 @@ export const projects: Project[] = [
         location: 'Chicago, IL',
         projectType: 'Restaurant',
         designStyle: 'Industrial Chic',
+        itemType: 'project',
     }
 ];

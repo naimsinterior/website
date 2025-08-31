@@ -26,7 +26,7 @@ const SuggestStyleOutputSchema = z.object({
   suggestedStyles: z.array(
     z.object({
       styleName: z.string().describe('The name of the suggested interior design style.'),
-      projectLinks: z.array(z.string()).describe('Links to relevant projects in the gallery.'),
+      projectLinks: z.array(z.string()).describe('Links to relevant projects in our inspiration gallery, in the format /design/<slug>'),
     })
   ).describe('A list of suggested interior design styles with links to relevant projects.'),
 });
@@ -40,9 +40,9 @@ const prompt = ai.definePrompt({
   name: 'suggestStylePrompt',
   input: {schema: SuggestStyleInputSchema},
   output: {schema: SuggestStyleOutputSchema},
-  prompt: `You are an expert interior design consultant. A user will upload a photo of their room, and you will suggest interior design styles that match the space.
+  prompt: `You are an expert interior design consultant. A user will upload a photo of their room, and you will suggest up to two interior design styles that match the space.
 
-You must return a JSON array of suggested styles, with links to similar projects in our gallery.
+You must return a JSON array of suggested styles, with links to similar projects in our gallery. The links should be in the format /design/<slug>.
 
 Photo: {{media url=photoDataUri}}
 
@@ -51,11 +51,11 @@ Example Output:
   "suggestedStyles": [
     {
       "styleName": "Modern Minimalist",
-      "projectLinks": ["/projects/modern-1", "/projects/modern-2"]
+      "projectLinks": ["/design/monochrome-magic-living-room"]
     },
     {
-      "styleName": "Scandinavian",
-      "projectLinks": ["/projects/scandinavian-1", "/projects/scandinavian-2"]
+      "styleName": "Industrial",
+      "projectLinks": ["/design/industrial-loft-kitchen"]
     }
   ]
 }`,

@@ -10,6 +10,7 @@ export type Inspiration = {
     location: string;
     projectType: string;
     designStyle: string;
+    itemType: 'inspiration';
 };
 
 export const inspirations: Inspiration[] = [
@@ -24,6 +25,7 @@ export const inspirations: Inspiration[] = [
         location: 'Paris, FR',
         projectType: 'Concept',
         designStyle: 'Modern Chic',
+        itemType: 'inspiration',
     },
     {
         slug: 'biophilic-bathroom-sanctuary',
@@ -36,6 +38,7 @@ export const inspirations: Inspiration[] = [
         location: 'Kyoto, JP',
         projectType: 'Concept',
         designStyle: 'Organic Modern',
+        itemType: 'inspiration',
     },
     {
         slug: 'jewel-toned-dining-room',
@@ -48,6 +51,7 @@ export const inspirations: Inspiration[] = [
         location: 'London, UK',
         projectType: 'Concept',
         designStyle: 'Maximalist',
+        itemType: 'inspiration',
     },
     {
         slug: 'california-casual-bedroom',
@@ -60,6 +64,7 @@ export const inspirations: Inspiration[] = [
         location: 'Los Angeles, CA',
         projectType: 'Concept',
         designStyle: 'California Casual',
+        itemType: 'inspiration',
     },
     {
         slug: 'industrial-loft-kitchen',
@@ -72,6 +77,7 @@ export const inspirations: Inspiration[] = [
         location: 'Brooklyn, NY',
         projectType: 'Concept',
         designStyle: 'Industrial',
+        itemType: 'inspiration',
     },
     {
         slug: 'bohemian-reading-corner',
@@ -84,6 +90,7 @@ export const inspirations: Inspiration[] = [
         location: 'Lisbon, PT',
         projectType: 'Concept',
         designStyle: 'Bohemian',
+        itemType: 'inspiration',
     },
     {
         slug: 'art-deco-revival-lounge',
@@ -96,5 +103,6 @@ export const inspirations: Inspiration[] = [
         location: 'Miami, FL',
         projectType: 'Concept',
         designStyle: 'Art Deco',
+        itemType: 'inspiration',
     }
 ];

@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, Wand2, Loader2, ArrowRight } from 'lucide-react';
 import { projects } from '../projects/projects';
+import { inspirations } from '../design/inspirations';
 
 export function StyleToolClient() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -28,6 +29,7 @@ export function StyleToolClient() {
         setPhotoPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+      setSuggestions(null);
     }
   };
 
@@ -49,10 +51,14 @@ export function StyleToolClient() {
       reader.readAsDataURL(photoFile);
       reader.onload = async (e) => {
         const photoDataUri = e.target?.result as string;
+        if (!photoDataUri) {
+             throw new Error("Failed to read file");
+        }
         const result = await suggestStyle({ photoDataUri });
         setSuggestions(result);
       };
       reader.onerror = (error) => {
+        console.error("File reading error:", error);
         throw new Error("Failed to read file");
       }
     } catch (error) {
@@ -93,7 +99,7 @@ export function StyleToolClient() {
             </div>
           </div>
           <div className="mt-6 flex justify-center">
-            <Button onClick={handleSubmit} disabled={!photoFile || isLoading}>
+            <Button onClick={handleSubmit} disabled={!photoFile || isLoading} size="lg">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -132,10 +138,10 @@ export function StyleToolClient() {
                   </CardDescription>
                   <ul className="mt-4 space-y-2">
                     {style.projectLinks.map((link, linkIndex) => {
-                      const project = projects.find(p => link.includes(p.slug));
+                      const project = inspirations.find(p => link.includes(p.slug));
                       return (
                          <li key={linkIndex}>
-                           <Link href={link.replace('/projects/', '/design/')} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
+                           <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
                              <span>{project ? project.title : 'Project Link'}</span>
                              <ArrowRight className="h-4 w-4 text-muted-foreground"/>
                            </Link>
@@ -149,6 +155,12 @@ export function StyleToolClient() {
           </div>
         </div>
       )}
+
+       {suggestions && suggestions.suggestedStyles.length === 0 && (
+          <div className="mt-12 text-center">
+             <p className="text-muted-foreground">We couldn't determine a specific style. Try a different image for better results.</p>
+          </div>
+       )}
     </div>
   );
 }
