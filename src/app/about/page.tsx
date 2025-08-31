@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Smile, Users, DollarSign, Gem, BadgeCheck, Briefcase, ArrowRight, Building, Target, Eye } from "lucide-react";
 import { GetQuoteForm } from "@/components/GetQuoteForm";
 import { useState } from "react";
+import { SimpleContactForm } from "@/components/SimpleContactForm";
 
 
 const whyChooseUs = [
@@ -122,11 +123,11 @@ export default function AboutPage() {
                                     Our journey is one of continuous evolution, driven by a passion for innovation and a deep understanding of our clients' needs. We believe that a well-designed space can enhance quality of life, and this belief is at the core of everything we do.
                                 </p>
                                 <div className="mt-6">
-                                    <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen}>
+                                    <SimpleContactForm>
                                         <Button variant="link" className="px-0">
                                             Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                                         </Button>
-                                    </GetQuoteForm>
+                                    </SimpleContactForm>
                                 </div>
                             </div>
                         </div>
@@ -223,5 +224,3 @@ export default function AboutPage() {
         </div>
     );
 }
-
-    
