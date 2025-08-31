@@ -164,10 +164,10 @@ const scopeOfWork = {
         { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft", type: 'sqft' },
         { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft", type: 'sqft' },
         { id: "study_table", label: "Study Table / Workstation", unit: "Sqft", type: 'sqft' },
-        { id: "pooja_unit", label: "Pooja Unit", unit: "Unit", type: 'unit' },
+        { id: "pooja_unit", label: "Pooja Unit", unit: "Unit", type: 'lump' },
         { id: "bed_with_storage", label: "Bed with Storage", unit: "Unit", type: 'unit' },
         { id: "side_tables", label: "Side Tables", unit: "Pcs", type: 'unit' },
-        { id: "shoe_rack", label: "Shoe Rack", unit: "Unit", type: 'unit' },
+        { id: "shoe_rack", label: "Shoe Rack", unit: "Unit", type: 'lump' },
         { id: "bookshelf", label: "Bookshelf / Storage Cabinet", unit: "Sqft", type: 'sqft' },
     ],
     "Surface & Finishing": [
@@ -179,8 +179,8 @@ const scopeOfWork = {
         { id: "flooring", label: "Flooring", unit: "Sqft", description: "Wooden / Vinyl / Tiles / Marble polish", type: 'sqft' },
     ],
     "Furniture & Decor": [
-        { id: "sofa_set", label: "Sofa Set", unit: "Unit", type: 'unit' },
-        { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit", type: 'unit' },
+        { id: "sofa_set", label: "Sofa Set", unit: "Unit", type: 'lump' },
+        { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit", type: 'lump' },
         { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs", type: 'unit' },
         { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs", type: 'unit' },
         { id: "decor_lighting", label: "Decor Lighting", unit: "Pcs", description: "Chandelier / Hanging", type: 'unit' },
