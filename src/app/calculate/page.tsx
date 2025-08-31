@@ -27,12 +27,34 @@ const calculatorSchema = z.object({
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
 const scopeCosts = {
-    modular_kitchen: 1500,
     wardrobe: 1200,
+    modular_kitchen: 1800,
+    tv_unit: 800,
+    crockery_unit: 900,
+    study_table: 700,
+    pooja_unit: 15000,
+    bed_with_storage: 25000,
+    side_tables: 3000,
+    shoe_rack: 5000,
+    bookshelf: 600,
     painting: 35,
     false_ceiling: 90,
-    furniture: 25000,
-    home_decor: 15000,
+    wall_paneling: 150,
+    wallpaper: 50,
+    curtains: 300,
+    flooring: 120,
+    sofa_set: 40000,
+    dining_table: 20000,
+    coffee_table: 5000,
+    accent_chairs: 8000,
+    decor_lighting: 2000,
+    art_decor: 10000,
+    electrical_fittings: 500,
+    plumbing: 2500,
+    loft_storage: 400,
+    partition_units: 100,
+    glass_work: 450,
+    misc_decor: 15000,
 };
 
 const finishLevelMultiplier = {
@@ -59,14 +81,45 @@ const propertyTypes = [
     { id: "4+bhk", label: "4+BHK" },
 ];
 
-const scopeOfWork = [
-    { id: "modular_kitchen", label: "Modular Kitchen", unit: "₹1,500/sqft" },
-    { id: "wardrobe", label: "Wardrobe", unit: "₹1,200/sqft" },
-    { id: "painting", label: "Painting", unit: "₹35/sqft" },
-    { id: "false_ceiling", label: "False Ceiling", unit: "₹90/sqft" },
-    { id: "furniture", label: "Furniture", unit: "₹25,000/item" },
-    { id: "home_decor", label: "Home Decor", unit: "₹15,000/set" },
-];
+const scopeOfWork = {
+    "Carpentry & Storage": [
+        { id: "wardrobe", label: "Wardrobe", unit: "Sqft (height × width)" },
+        { id: "modular_kitchen", label: "Modular Kitchen (Base + Wall units)", unit: "Running feet" },
+        { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft" },
+        { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft" },
+        { id: "study_table", label: "Study Table / Workstation", unit: "Sqft" },
+        { id: "pooja_unit", label: "Pooja Unit", unit: "Unit" },
+        { id: "bed_with_storage", label: "Bed with Storage", unit: "Unit" },
+        { id: "side_tables", label: "Side Tables", unit: "Pcs" },
+        { id: "shoe_rack", label: "Shoe Rack", unit: "Unit" },
+        { id: "bookshelf", label: "Bookshelf / Storage Cabinet", unit: "Sqft" },
+    ],
+    "Surface & Finishing": [
+        { id: "painting", label: "Painting (Emulsion / Texture)", unit: "Sqft" },
+        { id: "false_ceiling", label: "False Ceiling (Gypsum / POP)", unit: "Sqft" },
+        { id: "wall_paneling", label: "Wall Paneling / Laminate / Stone Cladding", unit: "Sqft" },
+        { id: "wallpaper", label: "Wallpaper", unit: "Sqft" },
+        { id: "curtains", label: "Curtains & Blinds", unit: "Sqft / Running feet" },
+        { id: "flooring", label: "Flooring (Wooden / Vinyl / Tiles / Marble polish)", unit: "Sqft" },
+    ],
+    "Furniture & Decor": [
+        { id: "sofa_set", label: "Sofa Set", unit: "Unit" },
+        { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit" },
+        { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs" },
+        { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs" },
+        { id: "decor_lighting", label: "Decor Lighting (Chandelier / Hanging)", unit: "Pcs" },
+        { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum" },
+    ],
+    "Utility & Miscellaneous": [
+        { id: "electrical_fittings", label: "Electrical Fittings (Switchboards, Lights)", unit: "Point" },
+        { id: "plumbing", label: "Plumbing (Bathroom / Kitchen related)", unit: "Point" },
+        { id: "loft_storage", label: "Loft Storage / Overhead Cabinets", unit: "Sqft" },
+        { id: "partition_units", label: "Partition / Divider Units", unit: "Sqft" },
+        { id: "glass_work", label: "Glass Work / Sliding Doors", unit: "Sqft" },
+        { id: "misc_decor", label: "Misc. Decor (Carpets, Accessories, Plants)", unit: "Lump sum" },
+    ]
+};
+
 
 const finishLevels = [
     { id: "basic", label: "Basic", description: "Functional and stylish essentials." },
@@ -216,36 +269,44 @@ export default function CalculatePage() {
                                 {currentStep === 2 && (
                                     <FormItem>
                                         <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
-                                        <FormDescription className="text-center">Enter the quantity or area (in sqft) for each item.</FormDescription>
-                                        <div className="space-y-4 pt-4">
-                                            {scopeOfWork.map((item) => (
-                                                <FormField
-                                                    key={item.id}
-                                                    control={form.control}
-                                                    name={`scope.${item.id}`}
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <Card className="p-4">
-                                                                <div className="flex items-center justify-between">
-                                                                    <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
-                                                                        {item.label} <span className="text-sm font-normal text-muted-foreground">({item.unit})</span>
-                                                                    </Label>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            id={`scope-${item.id}`}
-                                                                            type="number"
-                                                                            placeholder="0"
-                                                                            className="w-24"
-                                                                            {...field}
-                                                                            onChange={e => field.onChange(e.target.valueAsNumber || 0)}
-                                                                        />
-                                                                    </FormControl>
-                                                                </div>
-                                                                 <FormMessage className="pt-2"/>
-                                                            </Card>
-                                                        </FormItem>
-                                                    )}
-                                                />
+                                        <FormDescription className="text-center">Enter the quantity or area for each item.</FormDescription>
+                                        <div className="space-y-6 pt-4 max-h-[50vh] overflow-y-auto px-2">
+                                            {Object.entries(scopeOfWork).map(([category, items]) => (
+                                                <div key={category}>
+                                                    <h3 className="font-headline text-lg mb-3 sticky top-0 bg-background py-1">{category}</h3>
+                                                    <div className="space-y-4">
+                                                        {items.map((item) => (
+                                                            <FormField
+                                                                key={item.id}
+                                                                control={form.control}
+                                                                name={`scope.${item.id}`}
+                                                                render={({ field }) => (
+                                                                    <FormItem>
+                                                                        <Card className="p-4">
+                                                                            <div className="flex items-center justify-between">
+                                                                                <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base flex flex-col">
+                                                                                    {item.label}
+                                                                                    <span className="text-xs font-normal text-muted-foreground">{item.unit}</span>
+                                                                                </Label>
+                                                                                <FormControl>
+                                                                                    <Input
+                                                                                        id={`scope-${item.id}`}
+                                                                                        type="number"
+                                                                                        placeholder="0"
+                                                                                        className="w-24"
+                                                                                        {...field}
+                                                                                        onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                                    />
+                                                                                </FormControl>
+                                                                            </div>
+                                                                            <FormMessage className="pt-2"/>
+                                                                        </Card>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
                                          <FormMessage className="text-center">{form.formState.errors.scope?.message}</FormMessage>
