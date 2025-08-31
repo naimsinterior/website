@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DollarSign } from "lucide-react";
+import { DollarSign, Info } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
 
@@ -83,8 +84,8 @@ const propertyTypes = [
 
 const scopeOfWork = {
     "Carpentry & Storage": [
-        { id: "wardrobe", label: "Wardrobe", unit: "Sqft (height × width)" },
-        { id: "modular_kitchen", label: "Modular Kitchen (Base + Wall units)", unit: "Running feet" },
+        { id: "wardrobe", label: "Wardrobe", unit: "Sqft", description: "height × width" },
+        { id: "modular_kitchen", label: "Modular Kitchen", unit: "Running feet", description: "Base + Wall units" },
         { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft" },
         { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft" },
         { id: "study_table", label: "Study Table / Workstation", unit: "Sqft" },
@@ -95,28 +96,28 @@ const scopeOfWork = {
         { id: "bookshelf", label: "Bookshelf / Storage Cabinet", unit: "Sqft" },
     ],
     "Surface & Finishing": [
-        { id: "painting", label: "Painting (Emulsion / Texture)", unit: "Sqft" },
-        { id: "false_ceiling", label: "False Ceiling (Gypsum / POP)", unit: "Sqft" },
-        { id: "wall_paneling", label: "Wall Paneling / Laminate / Stone Cladding", unit: "Sqft" },
+        { id: "painting", label: "Painting", unit: "Sqft", description: "Emulsion / Texture" },
+        { id: "false_ceiling", label: "False Ceiling", unit: "Sqft", description: "Gypsum / POP" },
+        { id: "wall_paneling", label: "Wall Paneling", unit: "Sqft", description: "Laminate / Stone Cladding" },
         { id: "wallpaper", label: "Wallpaper", unit: "Sqft" },
         { id: "curtains", label: "Curtains & Blinds", unit: "Sqft / Running feet" },
-        { id: "flooring", label: "Flooring (Wooden / Vinyl / Tiles / Marble polish)", unit: "Sqft" },
+        { id: "flooring", label: "Flooring", unit: "Sqft", description: "Wooden / Vinyl / Tiles / Marble polish" },
     ],
     "Furniture & Decor": [
         { id: "sofa_set", label: "Sofa Set", unit: "Unit" },
         { id: "dining_table", label: "Dining Table & Chairs", unit: "Unit" },
         { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs" },
         { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs" },
-        { id: "decor_lighting", label: "Decor Lighting (Chandelier / Hanging)", unit: "Pcs" },
+        { id: "decor_lighting", label: "Decor Lighting", unit: "Pcs", description: "Chandelier / Hanging" },
         { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum" },
     ],
     "Utility & Miscellaneous": [
-        { id: "electrical_fittings", label: "Electrical Fittings (Switchboards, Lights)", unit: "Point" },
-        { id: "plumbing", label: "Plumbing (Bathroom / Kitchen related)", unit: "Point" },
+        { id: "electrical_fittings", label: "Electrical Fittings", unit: "Point", description: "Switchboards, Lights" },
+        { id: "plumbing", label: "Plumbing", unit: "Point", description: "Bathroom / Kitchen related" },
         { id: "loft_storage", label: "Loft Storage / Overhead Cabinets", unit: "Sqft" },
         { id: "partition_units", label: "Partition / Divider Units", unit: "Sqft" },
         { id: "glass_work", label: "Glass Work / Sliding Doors", unit: "Sqft" },
-        { id: "misc_decor", label: "Misc. Decor (Carpets, Accessories, Plants)", unit: "Lump sum" },
+        { id: "misc_decor", label: "Misc. Decor", unit: "Lump sum", description: "Carpets, Accessories, Plants" },
     ]
 };
 
@@ -181,7 +182,7 @@ export default function CalculatePage() {
 
     const handleBack = () => {
         if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
+            setCurrentStep(currentStep + 1);
         }
     };
     
@@ -270,47 +271,61 @@ export default function CalculatePage() {
                                     <FormItem>
                                         <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
                                         <FormDescription className="text-center">Enter the quantity or area for each item.</FormDescription>
-                                        <div className="space-y-6 pt-4 max-h-[50vh] overflow-y-auto px-2">
-                                            {Object.entries(scopeOfWork).map(([category, items]) => (
-                                                <div key={category}>
-                                                    <h3 className="font-headline text-lg mb-3 sticky top-0 bg-background py-1">{category}</h3>
-                                                    <div className="space-y-4">
-                                                        {items.map((item) => (
-                                                            <FormField
-                                                                key={item.id}
-                                                                control={form.control}
-                                                                name={`scope.${item.id}`}
-                                                                render={({ field }) => (
-                                                                    <FormItem>
-                                                                        <Card className="p-4">
-                                                                            <div className="flex items-center justify-between">
-                                                                                <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
-                                                                                    {item.label}
-                                                                                </Label>
-                                                                                <div className="flex items-center gap-2">
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            id={`scope-${item.id}`}
-                                                                                            type="number"
-                                                                                            placeholder="0"
-                                                                                            className="w-24"
-                                                                                            {...field}
-                                                                                            onChange={e => field.onChange(e.target.valueAsNumber || 0)}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                    <span className="text-sm text-muted-foreground">{item.unit}</span>
+                                        <TooltipProvider>
+                                            <div className="space-y-6 pt-4 max-h-[50vh] overflow-y-auto px-2">
+                                                {Object.entries(scopeOfWork).map(([category, items]) => (
+                                                    <div key={category}>
+                                                        <h3 className="font-headline text-lg mb-3 sticky top-0 bg-background py-1">{category}</h3>
+                                                        <div className="space-y-4">
+                                                            {items.map((item) => (
+                                                                <FormField
+                                                                    key={item.id}
+                                                                    control={form.control}
+                                                                    name={`scope.${item.id}`}
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            <Card className="p-4">
+                                                                                <div className="flex items-center justify-between">
+                                                                                    <div className="flex items-center gap-2">
+                                                                                        <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
+                                                                                            {item.label}
+                                                                                        </Label>
+                                                                                        {item.description && (
+                                                                                            <Tooltip>
+                                                                                                <TooltipTrigger asChild>
+                                                                                                    <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                                                                </TooltipTrigger>
+                                                                                                <TooltipContent>
+                                                                                                    <p>{item.description}</p>
+                                                                                                </TooltipContent>
+                                                                                            </Tooltip>
+                                                                                        )}
+                                                                                    </div>
+                                                                                    <div className="flex items-center gap-2">
+                                                                                        <FormControl>
+                                                                                            <Input
+                                                                                                id={`scope-${item.id}`}
+                                                                                                type="number"
+                                                                                                placeholder="0"
+                                                                                                className="w-24"
+                                                                                                {...field}
+                                                                                                onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                                            />
+                                                                                        </FormControl>
+                                                                                        <span className="text-sm text-muted-foreground w-28 text-left">{item.unit}</span>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <FormMessage className="pt-2"/>
-                                                                        </Card>
-                                                                    </FormItem>
-                                                                )}
-                                                            />
-                                                        ))}
+                                                                                <FormMessage className="pt-2"/>
+                                                                            </Card>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                            </div>
+                                        </TooltipProvider>
                                          <FormMessage className="text-center">{form.formState.errors.scope?.message}</FormMessage>
                                     </FormItem>
                                 )}
@@ -412,4 +427,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
