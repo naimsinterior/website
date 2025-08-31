@@ -32,6 +32,7 @@ const contactFormSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email address." }),
     phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
+    propertyName: z.string().min(2, { message: "Address is required." }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -51,6 +52,7 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
             name: "",
             email: "",
             phone: "",
+            propertyName: "",
         },
     });
 
@@ -101,6 +103,9 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
                             )}/>
                             <FormField control={form.control} name="phone" render={({ field }) => (
                                 <FormItem><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={form.control} name="propertyName" render={({ field }) => (
+                                <FormItem><FormControl><Input placeholder="Address" {...field} /></FormControl><FormMessage /></FormItem>
                             )}/>
                         </div>
                         <Button type="submit" className="w-full">Submit</Button>
