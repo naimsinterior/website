@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,8 +85,8 @@ const propertyTypes = [
 
 const scopeOfWork = {
     "Carpentry & Storage": [
-        { id: "wardrobe", label: "Wardrobe", unit: "Sqft", description: "height × width" },
-        { id: "modular_kitchen", label: "Modular Kitchen", unit: "Running feet", description: "Base + Wall units" },
+        { id: "wardrobe", label: "Wardrobe", unit: "Unit" },
+        { id: "modular_kitchen", label: "Modular Kitchen", unit: "Sqft", description: "Base + Wall units" },
         { id: "tv_unit", label: "TV Unit / Entertainment Unit", unit: "Sqft" },
         { id: "crockery_unit", label: "Crockery Unit / Bar Unit", unit: "Sqft" },
         { id: "study_table", label: "Study Table / Workstation", unit: "Sqft" },
@@ -182,7 +183,7 @@ export default function CalculatePage() {
 
     const handleBack = () => {
         if (currentStep > 1) {
-            setCurrentStep(currentStep + 1);
+            setCurrentStep(currentStep - 1);
         }
     };
     
