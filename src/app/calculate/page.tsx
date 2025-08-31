@@ -7,39 +7,32 @@ import * as z from "zod";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DollarSign, Minus, Plus } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-const scopeObjectSchema = z.record(z.string(), z.number().min(1, "Quantity must be at least 1").optional());
+const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
 
 const calculatorSchema = z.object({
     propertyType: z.string({ required_error: "Please select a property type." }),
-    scope: scopeObjectSchema.refine((obj) => Object.keys(obj).length > 0, {
-        message: "You have to select at least one item.",
-    }),
+    scope: scopeObjectSchema,
     finishLevel: z.enum(["basic", "mid", "high"], { required_error: "Please select a finish level." }),
 });
 
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
 const scopeCosts = {
-    kitchen: 75000,
-    living_room: 50000,
-    bedroom: 45000,
-    bathroom: 60000,
-    study_room: 35000,
-    balcony: 20000,
-    wardrobes: 40000,
-    tv_unit: 15000,
-    false_ceiling: 30000,
-    painting: 25000,
+    modular_kitchen: 1500,
+    wardrobe: 1200,
+    painting: 35,
+    false_ceiling: 90,
+    furniture: 25000,
+    home_decor: 15000,
 };
 
 const finishLevelMultiplier = {
@@ -67,16 +60,12 @@ const propertyTypes = [
 ];
 
 const scopeOfWork = [
-    { id: "kitchen", label: "Kitchen", hasQuantity: false },
-    { id: "living_room", label: "Living Room", hasQuantity: false },
-    { id: "bedroom", label: "Bedroom(s)", hasQuantity: true },
-    { id: "bathroom", label: "Bathroom(s)", hasQuantity: true },
-    { id: "study_room", label: "Study Room", hasQuantity: false },
-    { id: "balcony", label: "Balcony", hasQuantity: true },
-    { id: "wardrobes", label: "Wardrobes", hasQuantity: true },
-    { id: "tv_unit", label: "TV Unit", hasQuantity: false },
-    { id: "false_ceiling", label: "False Ceiling", hasQuantity: false },
-    { id: "painting", label: "Painting", hasQuantity: false },
+    { id: "modular_kitchen", label: "Modular Kitchen", unit: "₹1,500/sqft" },
+    { id: "wardrobe", label: "Wardrobe", unit: "₹1,200/sqft" },
+    { id: "painting", label: "Painting", unit: "₹35/sqft" },
+    { id: "false_ceiling", label: "False Ceiling", unit: "₹90/sqft" },
+    { id: "furniture", label: "Furniture", unit: "₹25,000/item" },
+    { id: "home_decor", label: "Home Decor", unit: "₹15,000/set" },
 ];
 
 const finishLevels = [
@@ -139,15 +128,17 @@ export default function CalculatePage() {
 
     const handleBack = () => {
         if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
+            setCurrentStep(currentStep + 1);
         }
     };
     
     function onSubmit(data: CalculatorFormValues) {
         let baseCost = 0;
         Object.entries(data.scope).forEach(([item, quantity]) => {
-            const itemCost = scopeCosts[item as keyof typeof scopeCosts] || 0;
-            baseCost += itemCost * (quantity || 1);
+            if (quantity && quantity > 0) {
+                const itemCost = scopeCosts[item as keyof typeof scopeCosts] || 0;
+                baseCost += itemCost * quantity;
+            }
         });
 
         const finishMultiplier = finishLevelMultiplier[data.finishLevel];
@@ -223,88 +214,42 @@ export default function CalculatePage() {
                                 )}
 
                                 {currentStep === 2 && (
-                                    <FormField
-                                        control={form.control}
-                                        name="scope"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
-                                                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-4">
-                                                    {scopeOfWork.map((item) => {
-                                                        const isChecked = field.value?.[item.id] !== undefined;
-
-                                                        const handleCheckedChange = (checked: boolean) => {
-                                                            const newScope = { ...field.value };
-                                                            if (checked) {
-                                                                newScope[item.id] = 1;
-                                                            } else {
-                                                                delete newScope[item.id];
-                                                            }
-                                                            field.onChange(newScope);
-                                                        };
-
-                                                        const handleQuantityChange = (change: number) => {
-                                                            const currentQuantity = field.value?.[item.id] || 1;
-                                                            const newQuantity = Math.max(1, currentQuantity + change);
-                                                            field.onChange({ ...field.value, [item.id]: newQuantity });
-                                                        };
-
-                                                        return (
-                                                            <div key={item.id} className={cn("p-4 border-2 rounded-lg transition-colors", isChecked ? "border-primary bg-primary/5" : "border-muted")}>
+                                    <FormItem>
+                                        <FormLabel className="text-lg font-semibold text-center block">What is the scope of work?</FormLabel>
+                                        <FormDescription className="text-center">Enter the quantity or area (in sqft) for each item.</FormDescription>
+                                        <div className="space-y-4 pt-4">
+                                            {scopeOfWork.map((item) => (
+                                                <FormField
+                                                    key={item.id}
+                                                    control={form.control}
+                                                    name={`scope.${item.id}`}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <Card className="p-4">
                                                                 <div className="flex items-center justify-between">
-                                                                    <FormItem className="flex items-center space-x-3">
-                                                                        <FormControl>
-                                                                            <Checkbox
-                                                                                checked={isChecked}
-                                                                                onCheckedChange={handleCheckedChange}
-                                                                                id={`scope-${item.id}`}
-                                                                            />
-                                                                        </FormControl>
-                                                                        <Label htmlFor={`scope-${item.id}`} className="font-semibold cursor-pointer">
-                                                                            {item.label}
-                                                                        </Label>
-                                                                    </FormItem>
+                                                                    <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
+                                                                        {item.label} <span className="text-sm font-normal text-muted-foreground">({item.unit})</span>
+                                                                    </Label>
+                                                                    <FormControl>
+                                                                        <Input
+                                                                            id={`scope-${item.id}`}
+                                                                            type="number"
+                                                                            placeholder="0"
+                                                                            className="w-24"
+                                                                            {...field}
+                                                                            onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                        />
+                                                                    </FormControl>
                                                                 </div>
-                                                                {item.hasQuantity && isChecked && (
-                                                                    <div className="mt-2 flex items-center justify-end">
-                                                                        <Label className="text-sm mr-2">Qty:</Label>
-                                                                        <div className="flex items-center gap-1">
-                                                                            <Button
-                                                                                type="button"
-                                                                                variant="outline"
-                                                                                size="icon"
-                                                                                className="h-6 w-6"
-                                                                                onClick={() => handleQuantityChange(-1)}
-                                                                                disabled={(field.value?.[item.id] || 1) <= 1}
-                                                                            >
-                                                                                <Minus className="h-4 w-4" />
-                                                                            </Button>
-                                                                            <Input
-                                                                                type="number"
-                                                                                className="h-6 w-12 text-center"
-                                                                                value={field.value?.[item.id] || 1}
-                                                                                readOnly
-                                                                            />
-                                                                            <Button
-                                                                                type="button"
-                                                                                variant="outline"
-                                                                                size="icon"
-                                                                                className="h-6 w-6"
-                                                                                onClick={() => handleQuantityChange(1)}
-                                                                            >
-                                                                                <Plus className="h-4 w-4" />
-                                                                            </Button>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                                <FormMessage className="text-center" />
-                                            </FormItem>
-                                        )}
-                                    />
+                                                                 <FormMessage className="pt-2"/>
+                                                            </Card>
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            ))}
+                                        </div>
+                                         <FormMessage className="text-center">{form.formState.errors.scope?.message}</FormMessage>
+                                    </FormItem>
                                 )}
 
 
