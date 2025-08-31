@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -183,7 +184,7 @@ const scopeOfWork = {
         { id: "coffee_table", label: "Coffee Table / Center Table", unit: "Pcs", type: 'unit' },
         { id: "accent_chairs", label: "Accent Chairs / Lounge Chairs", unit: "Pcs", type: 'unit' },
         { id: "decor_lighting", label: "Decor Lighting", unit: "Pcs", description: "Chandelier / Hanging", type: 'unit' },
-        { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum", type: 'unit' },
+        { id: "art_decor", label: "Art & Wall Decor Items", unit: "Pcs / Lump sum", type: 'lump' },
     ],
     "Utility & Miscellaneous": [
         { id: "electrical_fittings", label: "Electrical Fittings", unit: "Point", description: "Switchboards, Lights", type: 'unit' },
@@ -191,7 +192,7 @@ const scopeOfWork = {
         { id: "loft_storage", label: "Loft Storage / Overhead Cabinets", unit: "Sqft", type: 'sqft' },
         { id: "partition_units", label: "Partition / Divider Units", unit: "Sqft", type: 'sqft' },
         { id: "glass_work", label: "Glass Work / Sliding Doors", unit: "Sqft", type: 'sqft' },
-        { id: "misc_decor", label: "Misc. Decor", unit: "Lump sum", description: "Carpets, Accessories, Plants", type: 'unit' },
+        { id: "misc_decor", label: "Misc. Decor", unit: "Lump sum", description: "Carpets, Accessories, Plants", type: 'lump' },
     ]
 };
 
@@ -417,40 +418,49 @@ export default function CalculatePage() {
                                                                                             </Tooltip>
                                                                                         )}
                                                                                     </div>
-                                                                                    <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                                                                                    {item.type === 'lump' ? (
                                                                                         <FormControl>
-                                                                                            <div className="flex items-center gap-2">
-                                                                                                <Button
-                                                                                                    type="button"
-                                                                                                    variant="outline"
-                                                                                                    size="icon"
-                                                                                                    className="h-8 w-8"
-                                                                                                    onClick={() => field.onChange(Math.max(0, (field.value || 0) - 1))}
-                                                                                                >
-                                                                                                    <Minus className="h-4 w-4" />
-                                                                                                </Button>
-                                                                                                <Input
-                                                                                                    id={`scope-${item.id}`}
-                                                                                                    type="number"
-                                                                                                    placeholder="0"
-                                                                                                    className="w-20 text-center"
-                                                                                                    {...field}
-                                                                                                    onChange={e => field.onChange(e.target.valueAsNumber || 0)}
-                                                                                                    value={field.value || 0}
-                                                                                                />
-                                                                                                <Button
-                                                                                                    type="button"
-                                                                                                    variant="outline"
-                                                                                                    size="icon"
-                                                                                                    className="h-8 w-8"
-                                                                                                    onClick={() => field.onChange((field.value || 0) + 1)}
-                                                                                                >
-                                                                                                    <Plus className="h-4 w-4" />
-                                                                                                </Button>
-                                                                                            </div>
+                                                                                             <Switch
+                                                                                                checked={!!field.value && field.value > 0}
+                                                                                                onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                                                                             />
                                                                                         </FormControl>
-                                                                                        <span className="text-sm text-muted-foreground w-24 text-left">{item.unit}</span>
-                                                                                    </div>
+                                                                                    ) : (
+                                                                                        <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                                                                                            <FormControl>
+                                                                                                <div className="flex items-center gap-2">
+                                                                                                    <Button
+                                                                                                        type="button"
+                                                                                                        variant="outline"
+                                                                                                        size="icon"
+                                                                                                        className="h-8 w-8"
+                                                                                                        onClick={() => field.onChange(Math.max(0, (field.value || 0) - 1))}
+                                                                                                    >
+                                                                                                        <Minus className="h-4 w-4" />
+                                                                                                    </Button>
+                                                                                                    <Input
+                                                                                                        id={`scope-${item.id}`}
+                                                                                                        type="number"
+                                                                                                        placeholder="0"
+                                                                                                        className="w-20 text-center"
+                                                                                                        {...field}
+                                                                                                        onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                                                        value={field.value || 0}
+                                                                                                    />
+                                                                                                    <Button
+                                                                                                        type="button"
+                                                                                                        variant="outline"
+                                                                                                        size="icon"
+                                                                                                        className="h-8 w-8"
+                                                                                                        onClick={() => field.onChange((field.value || 0) + 1)}
+                                                                                                    >
+                                                                                                        <Plus className="h-4 w-4" />
+                                                                                                    </Button>
+                                                                                                </div>
+                                                                                            </FormControl>
+                                                                                            <span className="text-sm text-muted-foreground w-24 text-left">{item.unit}</span>
+                                                                                        </div>
+                                                                                    )}
                                                                                 </div>
                                                                                 <FormMessage className="pt-2"/>
                                                                             </Card>
