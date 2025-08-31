@@ -65,15 +65,6 @@ const finishLevelMultiplier = {
     high: 1.69,
 };
 
-const propertyTypeBaseSqft = {
-    "1rk": 300,
-    "1bhk": 500,
-    "2bhk": 800,
-    "3bhk": 1200,
-    "4bhk": 1600,
-    "4+bhk": 2000,
-};
-
 const propertyTypes = [
     { id: "1rk", label: "1RK" },
     { id: "1bhk", label: "1BHK" },
@@ -188,32 +179,17 @@ export default function CalculatePage() {
     };
     
     function onSubmit(data: CalculatorFormValues) {
-        let unitBasedCost = 0;
-        let sqftBasedCost = 0;
-
-        const allItems = Object.values(scopeOfWork).flat();
+        let totalBaseCost = 0;
         
         Object.entries(data.scope).forEach(([itemId, quantity]) => {
             if (quantity && quantity > 0) {
-                const itemDetails = allItems.find(i => i.id === itemId);
-                if (itemDetails) {
-                    const itemCost = scopeCosts[itemId as keyof typeof scopeCosts] || 0;
-                    if (itemDetails.type === 'unit') {
-                        unitBasedCost += itemCost * quantity;
-                    } else { // sqft
-                        sqftBasedCost += itemCost * quantity;
-                    }
-                }
+                const itemCost = scopeCosts[itemId as keyof typeof scopeCosts] || 0;
+                totalBaseCost += itemCost * quantity;
             }
         });
 
         const finishMultiplier = finishLevelMultiplier[data.finishLevel];
-        const propertyMultiplier = (propertyTypeBaseSqft[data.propertyType as keyof typeof propertyTypeBaseSqft] || 1000) / 1000;
-        
-        // Apply property multiplier only to sqft-based costs
-        const totalSqftCost = sqftBasedCost * propertyMultiplier;
-        
-        const totalCost = (unitBasedCost + totalSqftCost) * finishMultiplier;
+        const totalCost = totalBaseCost * finishMultiplier;
 
         setEstimatedCost(totalCost);
         setCurrentStep(4); // Move to result step
