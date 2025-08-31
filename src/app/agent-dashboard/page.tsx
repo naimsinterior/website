@@ -91,7 +91,7 @@ export default function AgentDashboardPage() {
               <History className="h-4 w-4" />
               Payment History
             </a>
-            <a href="#" className="mt-auto flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
               <LifeBuoy className="h-4 w-4" />
               Support
             </a>
