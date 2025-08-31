@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DollarSign, Info, Plus, Minus } from "lucide-react";
+import { Info, Plus, Minus } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -406,8 +406,7 @@ export default function CalculatePage() {
                          {currentStep === 4 && estimatedCost !== null && (
                             <div className="text-center">
                                 <p className="text-muted-foreground">Estimated Project Cost</p>
-                                <p className="font-headline text-4xl font-bold flex items-center justify-center">
-                                    <DollarSign className="h-8 w-8 mr-2 text-primary" />
+                                <p className="font-headline text-4xl font-bold">
                                     {estimatedCost.toLocaleString('en-IN', {
                                         style: 'currency',
                                         currency: 'INR',
@@ -449,3 +448,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
