@@ -137,7 +137,8 @@ export function StyleToolClient() {
                   </CardDescription>
                   <ul className="mt-4 space-y-2">
                     {style.projectLinks.map((link, linkIndex) => {
-                      const project = inspirations.find(p => link.includes(p.slug));
+                      const slug = link.split('/').pop();
+                      const project = inspirations.find(p => p.slug === slug);
                       return (
                          <li key={linkIndex}>
                            <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
