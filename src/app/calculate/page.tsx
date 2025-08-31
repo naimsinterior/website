@@ -68,19 +68,23 @@ const Icon1RK = () => (
     <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
         <rect x="5" y="5" width="90" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
         <text x="50" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Room</text>
-        <rect x="105" y="5" width="40" height="50" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="125" y="35" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Kit</text>
+        <rect x="105" y="5" width="40" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="125" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Kit</text>
+        <rect x="105" y="55" width="40" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="125" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="14" fontWeight="bold">Bath</text>
     </svg>
 );
 
 const Icon1BHK = () => (
     <svg width="60" height="40" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2">
-        <rect x="5" y="5" width="80" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="45" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
-        <rect x="5" y="55" width="80" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="45" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bed</text>
-        <rect x="95" y="5" width="50" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="120" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+        <rect x="5" y="5" width="80" height="50" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="45" y="35" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Living</text>
+        <rect x="5" y="65" width="80" height="30" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="45" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bed</text>
+        <rect x="95" y="5" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+        <rect x="95" y="55" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bath</text>
     </svg>
 );
 
@@ -92,8 +96,10 @@ const Icon2BHK = () => (
         <text x="23" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">B1</text>
          <rect x="48" y="55" width="37" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
         <text x="66" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">B2</text>
-        <rect x="95" y="5" width="50" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="120" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+        <rect x="95" y="5" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kit</text>
+        <rect x="95" y="55" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bath</text>
     </svg>
 );
 
@@ -107,8 +113,10 @@ const Icon3BHK = () => (
         <text x="66" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B2</text>
         <rect x="5" y="70" width="80" height="25" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
         <text x="45" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B3</text>
-        <rect x="95" y="5" width="50" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="120" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+        <rect x="95" y="5" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kit</text>
+        <rect x="95" y="55" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bath</text>
     </svg>
 );
 
@@ -124,8 +132,10 @@ const Icon4BHK = () => (
         <text x="23" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B3</text>
         <rect x="48" y="68" width="37" height="28" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
         <text x="66" y="85" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontWeight="bold">B4</text>
-        <rect x="95" y="5" width="50" height="90" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
-        <text x="120" y="55" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kitchen</text>
+        <rect x="95" y="5" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="30" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Kit</text>
+        <rect x="95" y="55" width="50" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" strokeWidth="2"/>
+        <text x="120" y="80" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="bold">Bath</text>
     </svg>
 );
 const IconVilla = () => (
