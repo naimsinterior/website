@@ -1,3 +1,4 @@
+
 // This file holds the Genkit flow for suggesting interior design styles based on an uploaded image.
 
 'use server';
@@ -12,6 +13,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { inspirations } from '@/app/design/inspirations';
 
 const SuggestStyleInputSchema = z.object({
   photoDataUri: z
@@ -26,7 +28,7 @@ const SuggestStyleOutputSchema = z.object({
   suggestedStyles: z.array(
     z.object({
       styleName: z.string().describe('The name of the suggested interior design style.'),
-      projectLinks: z.array(z.string()).describe('Links to relevant projects in our inspiration gallery, in the format /design/<slug>'),
+      projectLinks: z.array(z.string()).describe('Links to relevant projects from the provided gallery list, in the format /design/<slug>.'),
     })
   ).describe('A list of suggested interior design styles with links to relevant projects.'),
 });
@@ -36,26 +38,27 @@ export async function suggestStyle(input: SuggestStyleInput): Promise<SuggestSty
   return suggestStyleFlow(input);
 }
 
+const inspirationList = inspirations.map(i => `- ${i.title} (slug: ${i.slug})`).join('\n');
+
 const prompt = ai.definePrompt({
   name: 'suggestStylePrompt',
   input: {schema: SuggestStyleInputSchema},
   output: {schema: SuggestStyleOutputSchema},
   prompt: `You are an expert interior design consultant. A user will upload a photo of their room, and you will suggest up to two interior design styles that match the space.
 
-You must return a JSON array of suggested styles, with links to similar projects in our gallery. The links should be in the format /design/<slug>.
+You must recommend projects from the gallery list provided below. Do NOT invent your own slugs. The links must be in the format /design/<slug>.
+
+Available Inspirations Gallery:
+${inspirationList}
 
 Photo: {{media url=photoDataUri}}
 
-Example Output:
+Example Output for a modern-looking room:
 {
   "suggestedStyles": [
     {
-      "styleName": "Modern Minimalist",
+      "styleName": "Modern Chic",
       "projectLinks": ["/design/monochrome-magic-living-room"]
-    },
-    {
-      "styleName": "Industrial",
-      "projectLinks": ["/design/industrial-loft-kitchen"]
     }
   ]
 }`,
