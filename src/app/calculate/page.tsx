@@ -284,20 +284,22 @@ export default function CalculatePage() {
                                                                     <FormItem>
                                                                         <Card className="p-4">
                                                                             <div className="flex items-center justify-between">
-                                                                                <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base flex flex-col">
+                                                                                <Label htmlFor={`scope-${item.id}`} className="font-semibold text-base">
                                                                                     {item.label}
-                                                                                    <span className="text-xs font-normal text-muted-foreground">{item.unit}</span>
                                                                                 </Label>
-                                                                                <FormControl>
-                                                                                    <Input
-                                                                                        id={`scope-${item.id}`}
-                                                                                        type="number"
-                                                                                        placeholder="0"
-                                                                                        className="w-24"
-                                                                                        {...field}
-                                                                                        onChange={e => field.onChange(e.target.valueAsNumber || 0)}
-                                                                                    />
-                                                                                </FormControl>
+                                                                                <div className="flex items-center gap-2">
+                                                                                    <FormControl>
+                                                                                        <Input
+                                                                                            id={`scope-${item.id}`}
+                                                                                            type="number"
+                                                                                            placeholder="0"
+                                                                                            className="w-24"
+                                                                                            {...field}
+                                                                                            onChange={e => field.onChange(e.target.valueAsNumber || 0)}
+                                                                                        />
+                                                                                    </FormControl>
+                                                                                    <span className="text-sm text-muted-foreground">{item.unit}</span>
+                                                                                </div>
                                                                             </div>
                                                                             <FormMessage className="pt-2"/>
                                                                         </Card>
@@ -410,3 +412,4 @@ export default function CalculatePage() {
         </div>
     );
 }
+
