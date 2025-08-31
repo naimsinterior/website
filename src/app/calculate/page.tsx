@@ -419,12 +419,16 @@ export default function CalculatePage() {
                                                                                         )}
                                                                                     </div>
                                                                                     {item.type === 'lump' ? (
-                                                                                        <FormControl>
-                                                                                             <Switch
-                                                                                                checked={!!field.value && field.value > 0}
-                                                                                                onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
-                                                                                             />
-                                                                                        </FormControl>
+                                                                                        <div className="flex items-center gap-2">
+                                                                                             <span className="text-sm text-muted-foreground">No</span>
+                                                                                             <FormControl>
+                                                                                                 <Switch
+                                                                                                    checked={!!field.value && field.value > 0}
+                                                                                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                                                                                 />
+                                                                                             </FormControl>
+                                                                                             <span className="text-sm text-muted-foreground">Yes</span>
+                                                                                        </div>
                                                                                     ) : (
                                                                                         <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                                                                                             <FormControl>
@@ -499,7 +503,7 @@ export default function CalculatePage() {
                                                                 <Label
                                                                     htmlFor={level.id}
                                                                     className={cn(
-                                                                        "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer h-full hover:bg-accent hover:text-accent-foreground transition-all",
+                                                                        "flex flex-col items-center justify-center text-center p-4 border-2 rounded-lg cursor-pointer h-full transition-all",
                                                                         field.value === level.id ? "border-primary bg-primary/5" : "border-muted"
                                                                     )}
                                                                 >
@@ -573,3 +577,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
