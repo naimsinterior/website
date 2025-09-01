@@ -125,24 +125,6 @@ export default function ReferPage() {
                 <CardDescription>Enter your friend's details below or share your link.</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="mb-6 p-4 bg-muted rounded-lg text-center">
-                    <p className="text-sm text-muted-foreground mb-2">Your unique referral link:</p>
-                    <div className="flex items-center justify-center p-2 border border-dashed rounded-md bg-background">
-                        <p className="font-mono text-sm truncate">{referralLink}</p>
-                    </div>
-                     <div className="mt-4 flex justify-center flex-wrap gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleShare('copy')}><Share2 className="mr-2 h-4 w-4" /> Copy Link</Button>
-                        <Button variant="outline" size="sm" onClick={() => handleShare('email')}><Mail className="mr-2 h-4 w-4" /> Email</Button>
-                        <Button variant="outline" size="sm" onClick={() => handleShare('twitter')}><Twitter className="mr-2 h-4 w-4" /> Twitter</Button>
-                        <Button variant="outline" size="sm" onClick={() => handleShare('linkedin')}><Linkedin className="mr-2 h-4 w-4" /> LinkedIn</Button>
-                     </div>
-                </div>
-                <div className="flex items-center my-6">
-                    <div className="flex-grow border-t"></div>
-                    <span className="flex-shrink mx-4 text-muted-foreground text-sm">OR</span>
-                    <div className="flex-grow border-t"></div>
-                </div>
-
                  <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -164,6 +146,25 @@ export default function ReferPage() {
                         <Button type="submit" className="w-full">Send Referral</Button>
                     </form>
                 </Form>
+
+                <div className="flex items-center my-6">
+                    <div className="flex-grow border-t"></div>
+                    <span className="flex-shrink mx-4 text-muted-foreground text-sm">OR</span>
+                    <div className="flex-grow border-t"></div>
+                </div>
+
+                <div className="p-4 bg-muted rounded-lg text-center">
+                    <p className="text-sm text-muted-foreground mb-2">Share your unique referral link:</p>
+                    <div className="flex items-center justify-center p-2 border border-dashed rounded-md bg-background">
+                        <p className="font-mono text-sm truncate">{referralLink}</p>
+                    </div>
+                     <div className="mt-4 flex justify-center flex-wrap gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleShare('copy')}><Share2 className="mr-2 h-4 w-4" /> Copy Link</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleShare('email')}><Mail className="mr-2 h-4 w-4" /> Email</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleShare('twitter')}><Twitter className="mr-2 h-4 w-4" /> Twitter</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleShare('linkedin')}><Linkedin className="mr-2 h-4 w-4" /> LinkedIn</Button>
+                     </div>
+                </div>
             </CardContent>
          </Card>
       </div>
