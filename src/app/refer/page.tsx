@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Gift, Mail, Share2, Twitter, Linkedin, Facebook, PlusCircle, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const friendSchema = z.object({
     name: z.string().min(2, "Friend's name is required."),
@@ -98,6 +99,13 @@ export default function ReferPage() {
     }
     window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
+
+  const watchedFriends = form.watch('friends');
+  const isLastFriendIncomplete = (() => {
+    if (!watchedFriends || watchedFriends.length === 0) return true;
+    const lastFriend = watchedFriends[watchedFriends.length - 1];
+    return !lastFriend.name || !lastFriend.email || !lastFriend.phone || !lastFriend.address;
+  })();
 
   return (
     <>
@@ -196,13 +204,27 @@ export default function ReferPage() {
                                             )}
                                         </div>
                                     ))}
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={() => append({ name: '', email: '', phone: '', address: '' })}
-                                    >
-                                        <PlusCircle className="mr-2 h-4 w-4" /> Add Another Friend
-                                    </Button>
+                                     <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <span tabIndex={0}>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        onClick={() => append({ name: '', email: '', phone: '', address: '' })}
+                                                        disabled={isLastFriendIncomplete}
+                                                    >
+                                                        <PlusCircle className="mr-2 h-4 w-4" /> Add Another Friend
+                                                    </Button>
+                                                </span>
+                                            </TooltipTrigger>
+                                            {isLastFriendIncomplete && (
+                                                <TooltipContent>
+                                                    <p>Please fill all details for the last friend before adding another.</p>
+                                                </TooltipContent>
+                                            )}
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 </div>
                                 
                                 <Button type="submit" className="w-full">Send Referrals</Button>
@@ -240,3 +262,4 @@ export default function ReferPage() {
     </>
   );
 }
+
