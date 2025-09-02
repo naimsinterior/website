@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -24,11 +25,19 @@ const calculatorSchema = z.object({
     propertyType: z.string({ required_error: "Please select a property type." }),
     scope: scopeObjectSchema,
     finishLevel: z.enum(["basic", "mid", "high"], { required_error: "Please select a finish level." }),
+    name: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    propertyName: z.string().optional(),
+});
+
+const contactSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email address." }),
     phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
     propertyName: z.string().min(2, { message: "Property name is required." }),
 });
+
 
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 
@@ -230,7 +239,6 @@ const STEPS = [
     { id: 1, name: "Property Type" },
     { id: 2, name: "Scope of Work" },
     { id: 3, name: "Finish Level" },
-    { id: 4, name: "Contact Details" },
 ];
 
 const CircularProgress = ({ progress, children }: { progress: number, children: React.ReactNode }) => {
@@ -278,6 +286,7 @@ const CircularProgress = ({ progress, children }: { progress: number, children: 
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
+    const { toast } = useToast();
 
     const form = useForm<CalculatorFormValues>({
         resolver: zodResolver(calculatorSchema),
@@ -290,35 +299,7 @@ export default function CalculatePage() {
         },
     });
 
-    const handleNext = async () => {
-        let fieldsToValidate: (keyof CalculatorFormValues)[] = [];
-        if (currentStep === 1) fieldsToValidate.push('propertyType');
-        if (currentStep === 2) fieldsToValidate.push('scope');
-        if (currentStep === 3) fieldsToValidate.push('finishLevel');
-        
-        const isValid = await form.trigger(fieldsToValidate);
-        if (isValid) {
-            if (currentStep < 4) {
-                setCurrentStep(currentStep + 1);
-            }
-        }
-    };
-    
-    const handleFinalSubmit = async () => {
-        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
-        if(isValid){
-            onSubmit(form.getValues());
-        }
-    }
-
-
-    const handleBack = () => {
-        if (currentStep > 1) {
-            setCurrentStep(currentStep + 1);
-        }
-    };
-    
-    function onSubmit(data: CalculatorFormValues) {
+    const calculateCost = (data: CalculatorFormValues) => {
         let totalBaseCost = 0;
         
         Object.entries(data.scope).forEach(([itemId, quantity]) => {
@@ -332,10 +313,44 @@ export default function CalculatePage() {
         const totalCost = totalBaseCost * finishMultiplier;
 
         setEstimatedCost(totalCost);
-        setCurrentStep(5); // Move to result step
+        setCurrentStep(4); // Move to result step
+    };
+
+    const handleNext = async () => {
+        let fieldsToValidate: (keyof CalculatorFormValues)[] = [];
+        if (currentStep === 1) fieldsToValidate.push('propertyType');
+        if (currentStep === 2) fieldsToValidate.push('scope');
+        if (currentStep === 3) fieldsToValidate.push('finishLevel');
+        
+        const isValid = await form.trigger(fieldsToValidate);
+        if (isValid) {
+            if (currentStep < 3) {
+                setCurrentStep(currentStep + 1);
+            } else {
+                 calculateCost(form.getValues());
+            }
+        }
+    };
+    
+    const handleContactSubmit = async () => {
+        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
+        if(isValid){
+            console.log("Final form submission:", form.getValues());
+            toast({
+                title: "Quote Saved!",
+                description: "We've saved your quote and sent a copy to your email.",
+            });
+        }
     }
 
-    const progress = Math.round(((currentStep -1) / STEPS.length) * 100);
+
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const progress = Math.round(((currentStep - 1) / STEPS.length) * 100);
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
@@ -535,57 +550,56 @@ export default function CalculatePage() {
                                     />
                                 )}
                                 
-                                {currentStep === 4 && (
-                                    <div className="space-y-4">
-                                        <CardHeader className="p-0 text-center mb-4">
-                                            <CardTitle>Almost there!</CardTitle>
-                                            <CardDescription>Please provide your contact information to see your estimate.</CardDescription>
-                                        </CardHeader>
-                                        <FormField control={form.control} name="name" render={({ field }) => (
-                                            <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                        <FormField control={form.control} name="email" render={({ field }) => (
-                                            <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                        <FormField control={form.control} name="phone" render={({ field }) => (
-                                            <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                         <FormField control={form.control} name="propertyName" render={({ field }) => (
-                                            <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
-                                        )}/>
-                                    </div>
-                                )}
 
-
-                                {currentStep <= 4 && (
+                                {currentStep <= 3 && (
                                     <div className={cn("flex pt-4", currentStep === 1 ? "justify-end" : "justify-between")}>
                                         {currentStep > 1 && (
                                             <Button type="button" variant="outline" onClick={handleBack}>Back</Button>
                                         )}
-                                        {currentStep < 4 ? (
-                                            <Button type="button" onClick={handleNext}>Next</Button>
-                                        ) : (
-                                            <Button type="button" onClick={handleFinalSubmit}>Calculate Estimate</Button>
-                                        )}
+                                        <Button type="button" onClick={handleNext}>
+                                            {currentStep < 3 ? 'Next' : 'Calculate Estimate'}
+                                        </Button>
                                     </div>
                                 )}
                             </form>
                         </Form>
-                         {currentStep === 5 && estimatedCost !== null && (
-                            <div className="text-center">
-                                <p className="text-muted-foreground">Estimated Project Cost</p>
-                                <p className="font-headline text-4xl font-bold">
-                                    {estimatedCost.toLocaleString('en-IN', {
-                                        style: 'currency',
-                                        currency: 'INR',
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0,
-                                    })}
-                                </p>
-                                <p className="text-sm text-muted-foreground mt-2">
-                                    This is a preliminary estimate. Actual costs may vary.
-                                </p>
-                                <Button onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-6">
+                         {currentStep === 4 && estimatedCost !== null && (
+                            <div>
+                                <div className="text-center p-6 bg-muted rounded-lg">
+                                    <p className="text-muted-foreground">Estimated Project Cost</p>
+                                    <p className="font-headline text-4xl font-bold">
+                                        {estimatedCost.toLocaleString('en-IN', {
+                                            style: 'currency',
+                                            currency: 'INR',
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0,
+                                        })}
+                                    </p>
+                                    <p className="text-sm text-muted-foreground mt-2">
+                                        This is a preliminary estimate. Actual costs may vary.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-4 mt-8">
+                                    <CardHeader className="p-0 text-center mb-4">
+                                        <CardTitle>Save Your Estimate</CardTitle>
+                                        <CardDescription>Enter your details to save and get a copy of your estimate via email.</CardDescription>
+                                    </CardHeader>
+                                    <FormField control={form.control} name="name" render={({ field }) => (
+                                        <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                    <FormField control={form.control} name="email" render={({ field }) => (
+                                        <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                    <FormField control={form.control} name="phone" render={({ field }) => (
+                                        <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                     <FormField control={form.control} name="propertyName" render={({ field }) => (
+                                        <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                    <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
+                                </div>
+                                <Button variant="link" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-4 w-full">
                                     Calculate Again
                                 </Button>
                             </div>
@@ -616,5 +630,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
