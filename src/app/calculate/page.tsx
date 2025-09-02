@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Info, Plus, Minus, CheckCircle } from "lucide-react";
+import { Info, Plus, Minus, CheckCircle, MailCheck } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -286,6 +287,8 @@ const CircularProgress = ({ progress, children }: { progress: number, children: 
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
+    const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const { toast } = useToast();
 
     const form = useForm<CalculatorFormValues>({
@@ -336,10 +339,7 @@ export default function CalculatePage() {
         const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
         if(isValid){
             console.log("Final form submission:", form.getValues());
-            toast({
-                title: "Quote Saved!",
-                description: "We've saved your quote and sent a copy to your email.",
-            });
+            setIsSubmitted(true);
         }
     }
 
@@ -349,6 +349,20 @@ export default function CalculatePage() {
             setCurrentStep(currentStep - 1);
         }
     };
+    
+    const handleDialogClose = () => {
+        setIsContactDialogOpen(false);
+        setTimeout(() => {
+            setIsSubmitted(false);
+            form.reset({
+                ...form.getValues(),
+                name: "",
+                email: "",
+                phone: "",
+                propertyName: "",
+            });
+        }, 300);
+    }
 
     const progress = Math.round(((currentStep - 1) / STEPS.length) * 100);
 
@@ -563,8 +577,8 @@ export default function CalculatePage() {
                                 )}
 
                                 {currentStep === 4 && estimatedCost !== null && (
-                                    <div>
-                                        <div className="text-center p-6 bg-muted rounded-lg">
+                                    <div className="text-center">
+                                        <div className="p-6 bg-muted rounded-lg">
                                             <p className="text-muted-foreground">Estimated Project Cost</p>
                                             <p className="font-headline text-4xl font-bold">
                                                 {estimatedCost.toLocaleString('en-IN', {
@@ -578,29 +592,51 @@ export default function CalculatePage() {
                                                 This is a preliminary estimate. Actual costs may vary.
                                             </p>
                                         </div>
+                                        <div className="mt-8 space-y-4">
+                                            <Dialog open={isContactDialogOpen} onOpenChange={handleDialogClose}>
+                                                <DialogTrigger asChild>
+                                                    <Button variant="link" className="text-base">Get Personalized Estimate</Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    {!isSubmitted ? (
+                                                        <>
+                                                            <DialogHeader>
+                                                                <DialogTitle>Get a Personalized Estimate</DialogTitle>
+                                                                <DialogDescription>Enter your details to save and get a copy of your estimate via email.</DialogDescription>
+                                                            </DialogHeader>
+                                                            <div className="space-y-4">
+                                                                <FormField control={form.control} name="name" render={({ field }) => (
+                                                                    <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
+                                                                )}/>
+                                                                <FormField control={form.control} name="email" render={({ field }) => (
+                                                                    <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                                                                )}/>
+                                                                <FormField control={form.control} name="phone" render={({ field }) => (
+                                                                    <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                                                                )}/>
+                                                                <FormField control={form.control} name="propertyName" render={({ field }) => (
+                                                                    <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
+                                                                )}/>
+                                                                <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <div className="flex flex-col items-center justify-center text-center p-8">
+                                                            <MailCheck className="h-16 w-16 text-green-500 mb-4" />
+                                                            <DialogTitle className="font-headline text-2xl">Thank You!</DialogTitle>
+                                                            <DialogDescription className="mt-2">
+                                                                Your quote has been saved. Our team will get back to you shortly.
+                                                            </DialogDescription>
+                                                            <Button onClick={handleDialogClose} className="mt-6">Close</Button>
+                                                        </div>
+                                                    )}
+                                                </DialogContent>
+                                            </Dialog>
 
-                                        <div className="space-y-4 mt-8">
-                                            <CardHeader className="p-0 text-center mb-4">
-                                                <CardTitle>Save Your Estimate</CardTitle>
-                                                <CardDescription>Enter your details to save and get a copy of your estimate via email.</CardDescription>
-                                            </CardHeader>
-                                            <FormField control={form.control} name="name" render={({ field }) => (
-                                                <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
-                                            )}/>
-                                            <FormField control={form.control} name="email" render={({ field }) => (
-                                                <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                                            )}/>
-                                            <FormField control={form.control} name="phone" render={({ field }) => (
-                                                <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
-                                            )}/>
-                                            <FormField control={form.control} name="propertyName" render={({ field }) => (
-                                                <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
-                                            )}/>
-                                            <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
+                                            <Button variant="outline" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }}>
+                                                Start Over
+                                            </Button>
                                         </div>
-                                        <Button variant="link" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-4 w-full">
-                                            Calculate Again
-                                        </Button>
                                     </div>
                                 )}
                             </form>
