@@ -304,6 +304,17 @@ export default function CalculatePage() {
     const propertyType = form.watch("propertyType");
 
     useEffect(() => {
+        const resetScope = () => {
+             const currentScope = form.getValues('scope');
+             const newScope = Object.keys(currentScope).reduce((acc, key) => {
+                acc[key] = 0;
+                return acc;
+            }, {} as Record<string, number | undefined>);
+            form.setValue('scope', newScope);
+        }
+
+        resetScope();
+
         if (propertyType === '1rk') {
             form.setValue('scope.wardrobe', 1);
             form.setValue('scope.modular_kitchen', 60);
@@ -311,6 +322,18 @@ export default function CalculatePage() {
             form.setValue('scope.false_ceiling', 120);
             form.setValue('scope.decor_lighting', 2);
         }
+        
+        if (propertyType === '1bhk') {
+            form.setValue('scope.wardrobe', 1);
+            form.setValue('scope.modular_kitchen', 60);
+            form.setValue('scope.bed_with_storage', 1);
+            form.setValue('scope.tv_unit', 25);
+            form.setValue('scope.side_tables', 2);
+            form.setValue('scope.false_ceiling', 240);
+            form.setValue('scope.sofa_set', 1);
+            form.setValue('scope.decor_lighting', 4);
+        }
+        
     }, [propertyType, form]);
 
 
@@ -631,5 +654,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
