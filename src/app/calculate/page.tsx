@@ -561,49 +561,50 @@ export default function CalculatePage() {
                                         </Button>
                                     </div>
                                 )}
+
+                                {currentStep === 4 && estimatedCost !== null && (
+                                    <div>
+                                        <div className="text-center p-6 bg-muted rounded-lg">
+                                            <p className="text-muted-foreground">Estimated Project Cost</p>
+                                            <p className="font-headline text-4xl font-bold">
+                                                {estimatedCost.toLocaleString('en-IN', {
+                                                    style: 'currency',
+                                                    currency: 'INR',
+                                                    minimumFractionDigits: 0,
+                                                    maximumFractionDigits: 0,
+                                                })}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground mt-2">
+                                                This is a preliminary estimate. Actual costs may vary.
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-4 mt-8">
+                                            <CardHeader className="p-0 text-center mb-4">
+                                                <CardTitle>Save Your Estimate</CardTitle>
+                                                <CardDescription>Enter your details to save and get a copy of your estimate via email.</CardDescription>
+                                            </CardHeader>
+                                            <FormField control={form.control} name="name" render={({ field }) => (
+                                                <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <FormField control={form.control} name="email" render={({ field }) => (
+                                                <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <FormField control={form.control} name="phone" render={({ field }) => (
+                                                <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <FormField control={form.control} name="propertyName" render={({ field }) => (
+                                                <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
+                                            )}/>
+                                            <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
+                                        </div>
+                                        <Button variant="link" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-4 w-full">
+                                            Calculate Again
+                                        </Button>
+                                    </div>
+                                )}
                             </form>
                         </Form>
-                         {currentStep === 4 && estimatedCost !== null && (
-                            <div>
-                                <div className="text-center p-6 bg-muted rounded-lg">
-                                    <p className="text-muted-foreground">Estimated Project Cost</p>
-                                    <p className="font-headline text-4xl font-bold">
-                                        {estimatedCost.toLocaleString('en-IN', {
-                                            style: 'currency',
-                                            currency: 'INR',
-                                            minimumFractionDigits: 0,
-                                            maximumFractionDigits: 0,
-                                        })}
-                                    </p>
-                                    <p className="text-sm text-muted-foreground mt-2">
-                                        This is a preliminary estimate. Actual costs may vary.
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4 mt-8">
-                                    <CardHeader className="p-0 text-center mb-4">
-                                        <CardTitle>Save Your Estimate</CardTitle>
-                                        <CardDescription>Enter your details to save and get a copy of your estimate via email.</CardDescription>
-                                    </CardHeader>
-                                    <FormField control={form.control} name="name" render={({ field }) => (
-                                        <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
-                                    )}/>
-                                    <FormField control={form.control} name="email" render={({ field }) => (
-                                        <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                                    )}/>
-                                    <FormField control={form.control} name="phone" render={({ field }) => (
-                                        <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
-                                    )}/>
-                                     <FormField control={form.control} name="propertyName" render={({ field }) => (
-                                        <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
-                                    )}/>
-                                    <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
-                                </div>
-                                <Button variant="link" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }} className="mt-4 w-full">
-                                    Calculate Again
-                                </Button>
-                            </div>
-                        )}
                     </CardContent>
                 </Card>
             </div>
