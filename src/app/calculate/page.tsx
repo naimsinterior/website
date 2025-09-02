@@ -19,7 +19,6 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LeadForm } from "@/components/LeadForm";
-import { SimpleContactForm } from "@/components/SimpleContactForm";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -289,7 +288,6 @@ const CircularProgress = ({ progress, children }: { progress: number, children: 
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
-    const [isVillaDialogOpen, setIsVillaDialogOpen] = useState(false);
     const { toast } = useToast();
 
     const form = useForm<CalculatorFormValues>({
@@ -312,8 +310,6 @@ export default function CalculatePage() {
             form.setValue('scope.bed_with_storage', 1);
             form.setValue('scope.false_ceiling', 120);
             form.setValue('scope.decor_lighting', 2);
-        } else if (propertyType === 'villa') {
-            setIsVillaDialogOpen(true);
         }
     }, [propertyType, form]);
 
@@ -361,14 +357,6 @@ export default function CalculatePage() {
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
-             <Dialog open={isVillaDialogOpen} onOpenChange={setIsVillaDialogOpen}>
-                <DialogContent>
-                    <SimpleContactForm>
-                       <></>
-                    </SimpleContactForm>
-                </DialogContent>
-            </Dialog>
-
             <div className="text-center">
                 <h1 className="font-headline text-4xl md:text-5xl">Project Cost Calculator</h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -643,3 +631,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
