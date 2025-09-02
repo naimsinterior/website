@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type FieldName } from "react-hook-form";
 import * as z from "zod";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -19,6 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LeadForm } from "@/components/LeadForm";
+import { SimpleContactForm } from "@/components/SimpleContactForm";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -288,8 +289,7 @@ const CircularProgress = ({ progress, children }: { progress: number, children: 
 export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
-    const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isVillaDialogOpen, setIsVillaDialogOpen] = useState(false);
     const { toast } = useToast();
 
     const form = useForm<CalculatorFormValues>({
@@ -302,6 +302,21 @@ export default function CalculatePage() {
             propertyName: ""
         },
     });
+
+    const propertyType = form.watch("propertyType");
+
+    useEffect(() => {
+        if (propertyType === '1rk') {
+            form.setValue('scope.wardrobe', 1);
+            form.setValue('scope.modular_kitchen', 60);
+            form.setValue('scope.bed_with_storage', 1);
+            form.setValue('scope.false_ceiling', 120);
+            form.setValue('scope.decor_lighting', 2);
+        } else if (propertyType === 'villa') {
+            setIsVillaDialogOpen(true);
+        }
+    }, [propertyType, form]);
+
 
     const calculateCost = (data: CalculatorFormValues) => {
         let totalBaseCost = 0;
@@ -335,15 +350,6 @@ export default function CalculatePage() {
             }
         }
     };
-    
-    const handleContactSubmit = async () => {
-        const isValid = await form.trigger(["name", "email", "phone", "propertyName"]);
-        if(isValid){
-            console.log("Final form submission:", form.getValues());
-            setIsSubmitted(true);
-        }
-    }
-
 
     const handleBack = () => {
         if (currentStep > 1) {
@@ -351,24 +357,18 @@ export default function CalculatePage() {
         }
     };
     
-    const handleDialogClose = () => {
-        setIsContactDialogOpen(false);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            form.reset({
-                ...form.getValues(),
-                name: "",
-                email: "",
-                phone: "",
-                propertyName: "",
-            });
-        }, 300);
-    }
-
     const progress = Math.round(((currentStep - 1) / STEPS.length) * 100);
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+             <Dialog open={isVillaDialogOpen} onOpenChange={setIsVillaDialogOpen}>
+                <DialogContent>
+                    <SimpleContactForm>
+                       <></>
+                    </SimpleContactForm>
+                </DialogContent>
+            </Dialog>
+
             <div className="text-center">
                 <h1 className="font-headline text-4xl md:text-5xl">Project Cost Calculator</h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -594,7 +594,7 @@ export default function CalculatePage() {
                                             </p>
                                         </div>
                                         <div className="mt-8 flex justify-center items-center gap-4">
-                                            <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
+                                            <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button>Get Personalized Estimate</Button>
                                                 </DialogTrigger>

@@ -62,6 +62,15 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
             propertyName: "",
         },
     });
+    
+    // This effect handles the initial open state if it's passed as a prop
+    // This is useful for the `calculate` page's Villa/Other option.
+    useEffect(() => {
+        if(children === null || (children as any)?.type?.displayName === 'DialogContent') {
+            setIsOpen(true);
+        }
+    }, [children]);
+
 
     useEffect(() => {
         if (!isOpen || isSubmitted) return;
