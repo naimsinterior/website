@@ -333,6 +333,23 @@ export default function CalculatePage() {
             form.setValue('scope.sofa_set', 1);
             form.setValue('scope.decor_lighting', 4);
         }
+
+        if (propertyType === '2bhk') {
+            form.setValue('scope.wardrobe', 2);
+            form.setValue('scope.modular_kitchen', 84);
+            form.setValue('scope.bed_with_storage', 2);
+            form.setValue('scope.tv_unit', 48);
+            form.setValue('scope.side_tables', 4);
+            form.setValue('scope.false_ceiling', 440);
+            form.setValue('scope.sofa_set', 1);
+            form.setValue('scope.decor_lighting', 6);
+            form.setValue('scope.crockery_unit', 24);
+            form.setValue('scope.study_table', 8);
+            form.setValue('scope.pooja_unit', 1);
+            form.setValue('scope.shoe_rack', 1);
+            form.setValue('scope.bookshelf', 12);
+            form.setValue('scope.wall_paneling', 120);
+        }
         
     }, [propertyType, form]);
 
