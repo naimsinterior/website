@@ -13,6 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 const leadFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
+  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
+  propertyName: z.string().min(5, { message: "Please enter a valid address." }),
 });
 
 type LeadFormValues = z.infer<typeof leadFormSchema>;
@@ -21,7 +23,7 @@ export function LeadForm() {
     const { toast } = useToast();
     const form = useForm<LeadFormValues>({
         resolver: zodResolver(leadFormSchema),
-        defaultValues: { name: "", email: "" },
+        defaultValues: { name: "", email: "", phone: "", propertyName: "" },
     });
 
     function onSubmit(data: LeadFormValues) {
@@ -46,8 +48,7 @@ export function LeadForm() {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl><Input placeholder="Your Name" {...field} /></FormControl>
+                                    <FormControl><Input placeholder="Full Name" {...field} /></FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -57,8 +58,27 @@ export function LeadForm() {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl><Input placeholder="your@email.com" {...field} /></FormControl>
+                                    <FormControl><Input placeholder="you@example.com" {...field} /></FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="phone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="propertyName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl><Input placeholder="Address; P-4 2003, Arihant Adobe, New Delhi" {...field} /></FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
