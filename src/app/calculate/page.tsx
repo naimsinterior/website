@@ -18,6 +18,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { LeadForm } from "@/components/LeadForm";
 
 
 const scopeObjectSchema = z.record(z.string(), z.number().min(0).optional());
@@ -592,50 +593,26 @@ export default function CalculatePage() {
                                                 This is a preliminary estimate. Actual costs may vary.
                                             </p>
                                         </div>
-                                        <div className="mt-8 space-y-4">
-                                            <Dialog open={isContactDialogOpen} onOpenChange={handleDialogClose}>
+                                        <div className="mt-8 flex justify-center items-center gap-4">
+                                            <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
                                                 <DialogTrigger asChild>
-                                                    <Button variant="link" className="text-base">Get Personalized Estimate</Button>
+                                                    <Button>Get Personalized Estimate</Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
-                                                    {!isSubmitted ? (
-                                                        <>
-                                                            <DialogHeader>
-                                                                <DialogTitle>Get a Personalized Estimate</DialogTitle>
-                                                                <DialogDescription>Enter your details to save and get a copy of your estimate via email.</DialogDescription>
-                                                            </DialogHeader>
-                                                            <div className="space-y-4">
-                                                                <FormField control={form.control} name="name" render={({ field }) => (
-                                                                    <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} /></FormControl><FormMessage /></FormItem>
-                                                                )}/>
-                                                                <FormField control={form.control} name="email" render={({ field }) => (
-                                                                    <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                                                                )}/>
-                                                                <FormField control={form.control} name="phone" render={({ field }) => (
-                                                                    <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="10-digit mobile number" {...field} /></FormControl><FormMessage /></FormItem>
-                                                                )}/>
-                                                                <FormField control={form.control} name="propertyName" render={({ field }) => (
-                                                                    <FormItem><FormLabel>Property Name/Address</FormLabel><FormControl><Input placeholder="E.g. 'My Villa' or 'Sector 15, Noida'" {...field} /></FormControl><FormMessage /></FormItem>
-                                                                )}/>
-                                                                <Button type="button" className="w-full" onClick={handleContactSubmit}>Save and Send Quote</Button>
-                                                            </div>
-                                                        </>
-                                                    ) : (
-                                                        <div className="flex flex-col items-center justify-center text-center p-8">
-                                                            <MailCheck className="h-16 w-16 text-green-500 mb-4" />
-                                                            <DialogTitle className="font-headline text-2xl">Thank You!</DialogTitle>
-                                                            <DialogDescription className="mt-2">
-                                                                Your quote has been saved. Our team will get back to you shortly.
-                                                            </DialogDescription>
-                                                            <Button onClick={handleDialogClose} className="mt-6">Close</Button>
-                                                        </div>
-                                                    )}
+                                                    <LeadForm />
                                                 </DialogContent>
                                             </Dialog>
 
-                                            <Button variant="outline" onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }}>
-                                                Start Over
-                                            </Button>
+                                            <button 
+                                                onClick={() => { setCurrentStep(1); setEstimatedCost(null); form.reset(); }}
+                                                className="p-2 rounded-full hover:bg-muted/50 transition-colors"
+                                                aria-label="Start Over"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                                                    <polyline points="23 4 17 4 17 10"/>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 )}
@@ -667,3 +644,5 @@ export default function CalculatePage() {
         </div>
     );
 }
+
+    
