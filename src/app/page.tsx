@@ -277,11 +277,11 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative h-[80vh] w-full">
           <Image
-            src="https://placehold.co/1600x900.png"
-            alt="Beautifully designed living room"
+            src="/Home-page-hero-sections-image.png"
+            alt="Luxurious and modern living room by NAIMS INTERIOR"
             fill
             className="z-0 object-cover"
-            data-ai-hint="living room"
+            data-ai-hint="modern living room"
             priority
           />
           <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white">

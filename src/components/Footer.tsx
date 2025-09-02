@@ -28,7 +28,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 items-start">
           <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start py-2.5">
              <Link href="/">
-                <Image src="/naimsinterior-logo-footer.png" alt="NAIMS INTERIOR Logo" width="165" height="46" className="object-contain" />
+                <Image src="/Naims_interior_logo.PNG" alt="NAIMS INTERIOR Logo" width="165" height="46" className="object-contain" />
             </Link>
              <div className="mt-4 flex gap-4">
                 {socialLinks.map(social => (
