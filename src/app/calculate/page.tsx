@@ -608,9 +608,8 @@ export default function CalculatePage() {
                                                 className="p-2 rounded-full hover:bg-muted/50 transition-colors"
                                                 aria-label="Start Over"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
-                                                    <polyline points="23 4 17 4 17 10"/>
+                                                <svg fill="currentColor" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="-47.73 -47.73 462.60 462.60" xmlSpace="preserve">
+                                                    <path d="M185.262,1.694c-34.777,0-68.584,9.851-97.768,28.488C59.1,48.315,36.318,73.884,21.613,104.126l26.979,13.119 c25.661-52.77,78.03-85.551,136.67-85.551c83.743,0,151.874,68.13,151.874,151.874s-68.131,151.874-151.874,151.874 c-49.847,0-96.44-24.9-124.571-65.042l53.219-52.964H0v113.365l39.14-38.953c13.024,17.561,29.147,32.731,47.731,44.706 c29.33,18.898,63.353,28.888,98.391,28.888c100.286,0,181.874-81.588,181.874-181.874S285.548,1.694,185.262,1.694z"></path>
                                                 </svg>
                                             </button>
                                         </div>
@@ -644,7 +643,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
-
-    
