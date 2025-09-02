@@ -27,7 +27,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
         <title>NAIMS INTERIOR</title>
         <meta name="description" content="Crafting timeless spaces for modern living." />
-        <link rel="icon" href="/Naims_interior_logo.PNG" />
+        <link rel="icon" href="/naimsinterior-icon.png" />
       </head>
       <body className="font-body antialiased">
         {!isAgentDashboard && <SubHeader />}

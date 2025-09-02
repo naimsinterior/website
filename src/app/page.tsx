@@ -306,7 +306,7 @@ export default function Home() {
                   Where Vision Meets Design
                 </h2>
                 <p className="mt-4 text-muted-foreground">
-                  NAIMS INTERIOR is a full-service interior design firm specializing in high-end residential and commercial projects. Our philosophy is rooted in the belief that design should be both functional and inspiring. We work closely with our clients to create personalized spaces that stand the test of time.
+                  NAIMS INTERIOR is a full-service interior design firm specializing in high-end residential projects. Our philosophy is rooted in the belief that design should be both functional and inspiring. We work closely with our clients to create personalized spaces that stand the test of time.
                 </p>
                 <div className="mt-4">
                   <SimpleContactForm>
@@ -318,7 +318,7 @@ export default function Home() {
               </div>
               <div className="relative h-80 w-full rounded-lg shadow-xl">
                  <Image
-                    src="https://placehold.co/600x400.png"
+                    src="/Where-Vision-Meets-Design.jpeg"
                     alt="Design team collaborating"
                     fill
                     className="rounded-lg object-cover"
