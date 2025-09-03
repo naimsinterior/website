@@ -45,7 +45,7 @@ const referralSteps = [
     {
         step: 3,
         title: "You Get Rewarded",
-        description: "Once your friend completes their first project with us, you'll receive a ₹5000 voucher!",
+        description: "Once your friend completes their first project with us, you'll receive a 5000 INR voucher!",
     },
 ];
 
@@ -111,7 +111,7 @@ export default function ReferPage() {
     <>
         <header className="relative h-64 md:h-80 w-full">
             <Image
-                src="https://placehold.co/1600x400.png"
+                src="/refer-friend.png"
                 alt="Friends enjoying a well-designed living room"
                 layout="fill"
                 objectFit="cover"

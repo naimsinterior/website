@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, Wand2, Loader2, ArrowRight } from 'lucide-react';
 import { inspirations } from '../design/inspirations';
+import { Separator } from '@/components/ui/separator';
 
 export function StyleToolClient() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -122,41 +123,61 @@ export function StyleToolClient() {
         </div>
       )}
 
-      {suggestions && suggestions.suggestedStyles.length > 0 && (
+      {suggestions && (
         <div className="mt-12">
-          <h2 className="text-center font-headline text-3xl">Our Suggestions</h2>
-          <div className="mt-8 grid gap-8 md:grid-cols-2">
-            {suggestions.suggestedStyles.map((style, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <CardTitle className="font-headline">{style.styleName}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    Explore projects that embody the {style.styleName} style:
-                  </CardDescription>
-                  <ul className="mt-4 space-y-2">
-                    {style.projectLinks.map((link, linkIndex) => {
-                      const slug = link.split('/').pop();
-                      const project = inspirations.find(p => p.slug === slug);
-                      return (
-                         <li key={linkIndex}>
-                           <Link href={link} className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
-                             <span>{project ? project.title : 'View Project'}</span>
-                             <ArrowRight className="h-4 w-4 text-muted-foreground"/>
-                           </Link>
-                         </li>
-                      )
-                    })}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <Card className="p-6">
+             <CardHeader className="p-0 text-center">
+               <CardTitle className="font-headline text-3xl">AI Analysis Complete</CardTitle>
+             </CardHeader>
+             <CardContent className="p-0 mt-6">
+               <div className="text-center">
+                  <p className="text-sm uppercase tracking-widest text-muted-foreground">IDENTIFIED ROOM TYPE</p>
+                  <p className="font-headline text-2xl">{suggestions.roomType}</p>
+               </div>
+               <div className="mt-6 text-left">
+                  <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">WRITTEN SUGGESTIONS</p>
+                  <p className="text-base text-foreground leading-relaxed">{suggestions.writtenSuggestions}</p>
+               </div>
+
+                {suggestions.suggestedStyles.length > 0 && (
+                  <>
+                    <Separator className="my-6" />
+                    <div>
+                      <p className="text-sm uppercase tracking-widest text-muted-foreground mb-4">DESIGN INSPIRATION</p>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {suggestions.suggestedStyles.map((style, index) => (
+                          <div key={index}>
+                            <h4 className="font-headline text-lg mb-2">{style.styleName}</h4>
+                            <ul className="space-y-2">
+                              {style.projectLinks.map((link, linkIndex) => {
+                                const slug = link.split('/').pop();
+                                const project = inspirations.find(p => p.slug === slug);
+                                return (
+                                  <li key={linkIndex}>
+                                    <Link href={link} className="flex items-center justify-between rounded-md p-3 hover:bg-muted border">
+                                      <div className="flex items-center gap-4">
+                                          {project && <Image src={project.images[0]} alt={project.title} width={64} height={48} className="rounded-md object-cover" />}
+                                          <span>{project ? project.title : 'View Project'}</span>
+                                      </div>
+                                      <ArrowRight className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
+                                    </Link>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+             </CardContent>
+          </Card>
         </div>
       )}
 
-       {suggestions && suggestions.suggestedStyles.length === 0 && (
+
+       {suggestions && suggestions.suggestedStyles.length === 0 && !isLoading && (
           <div className="mt-12 text-center">
              <p className="text-muted-foreground">We couldn't determine a specific style. Try a different image for better results.</p>
           </div>

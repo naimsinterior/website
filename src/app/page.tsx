@@ -27,16 +27,16 @@ const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
 
 const beforeAfterProjects = [
     {
-        before: "/naims_logo.PNG",
-        after: "/Naims_interior.PNG",
+        before: "/kitchen-before-image.png",
+        after: "/kitchen-after-image.png",
         beforeHint: "outdated kitchen",
         afterHint: "modern kitchen",
         title: "Kitchen Remodel",
         description: "From a cramped and dated kitchen to a bright, open-concept culinary hub."
     },
     {
-        before: "https://placehold.co/600x400.png",
-        after: "https://placehold.co/600x400.png",
+        before: "/Living-room-before.jpeg",
+        after: "/living-room-after.jpeg",
         beforeHint: "empty living room",
         afterHint: "cozy living room",
         title: "Living Room Transformation",
