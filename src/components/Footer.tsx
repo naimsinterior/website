@@ -57,6 +57,7 @@ export function Footer() {
               <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
               <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
               <li><Link href="/feedback" className="text-sm text-muted-foreground hover:text-primary">Feedback</Link></li>
+              <li><Link href="/complaint" className="text-sm text-muted-foreground hover:text-primary">Complaint</Link></li>
             </ul>
           </div>
            <div>
