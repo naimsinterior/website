@@ -13,6 +13,7 @@ import { Upload, Wand2, Loader2, ArrowRight, Lamp, Bed, Sofa, Utensils, Baby, Br
 import { inspirations } from '../design/inspirations';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const roomTypes = [
   { id: 'Living Room', label: 'Living Room', icon: Sofa },
@@ -188,6 +189,7 @@ export function StyleToolClient() {
                <div className="mt-6 text-left">
                   <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">WRITTEN SUGGESTIONS</p>
                   <p className="text-base text-foreground leading-relaxed">{suggestions.writtenSuggestions}</p>
+                  <p className="text-xs text-muted-foreground italic mt-4">Disclaimer: These AI-generated suggestions are for inspiration. Final results may vary based on materials, budget, and your unique space.</p>
                </div>
 
                 {suggestions.suggestedStyles.length > 0 && (
