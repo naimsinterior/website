@@ -142,19 +142,6 @@ export default function FeedbackPage() {
                     <CardContent>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                <div className="space-y-4 p-4 border rounded-lg">
-                                  <h3 className="font-semibold">Your Information</h3>
-                                  <FormField control={form.control} name="name" render={({ field }) => (
-                                    <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Enter your full name" {...field} /></FormControl><FormMessage /></FormItem>
-                                  )}/>
-                                  <FormField control={form.control} name="email" render={({ field }) => (
-                                      <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
-                                  )}/>
-                                  <FormField control={form.control} name="projectName" render={({ field }) => (
-                                      <FormItem><FormLabel>Project Name / Address</FormLabel><FormControl><Input placeholder="e.g., Greenview Residence, Flat 501" {...field} /></FormControl><FormMessage /></FormItem>
-                                  )}/>
-                                </div>
-                                
                                 <div className="space-y-6">
                                     <FormField control={form.control} name="whyChoose" render={({ field }) => (
                                         <FormItem><FormLabel>Why did you choose NAIMS INTERIOR?</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
@@ -280,6 +267,19 @@ export default function FeedbackPage() {
                                     <FormField control={form.control} name="additionalComments" render={({ field }) => (
                                         <FormItem><FormLabel>Any additional comments or suggestions you’d like to share?</FormLabel><FormControl><Textarea rows={4} {...field} /></FormControl><FormMessage /></FormItem>
                                     )}/>
+                                </div>
+
+                                <div className="space-y-4 p-4 border rounded-lg">
+                                  <h3 className="font-semibold">Your Information</h3>
+                                  <FormField control={form.control} name="name" render={({ field }) => (
+                                    <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Enter your full name" {...field} /></FormControl><FormMessage /></FormItem>
+                                  )}/>
+                                  <FormField control={form.control} name="email" render={({ field }) => (
+                                      <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
+                                  )}/>
+                                  <FormField control={form.control} name="projectName" render={({ field }) => (
+                                      <FormItem><FormLabel>Project Name / Address</FormLabel><FormControl><Input placeholder="e.g., Greenview Residence, Flat 501" {...field} /></FormControl><FormMessage /></FormItem>
+                                  )}/>
                                 </div>
                                 
                                 <Button type="submit" className="w-full">Submit Feedback</Button>
