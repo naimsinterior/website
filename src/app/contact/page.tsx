@@ -105,20 +105,6 @@ function ContactPageContent() {
                         Contact Us
                     </h1>
                 </div>
-                 <div className="mb-16">
-                    <div>
-                        <h2 className="font-headline text-2xl">Company Base</h2>
-                        <p className="mt-2 text-muted-foreground">
-                            Our head registered office is located at: H-77, Silai Bara Gaon, Milak, Rampur, Uttar Pradesh (244701).
-                        </p>
-                    </div>
-                     <div className="mt-8">
-                        <h2 className="font-headline text-2xl">Company Working</h2>
-                        <p className="mt-2 text-muted-foreground">
-                            NAIMS INTERIOR is a full-service interior design firm specializing in high-end residential and commercial projects. We create spaces that are both functional and inspiring, reflecting the unique style of our clients. Our services include residential design, kitchen and bathroom interiors, customized furniture, space planning, home renovations, and 3D visualization. We work closely with our clients to create personalized spaces that stand the test of time.
-                        </p>
-                    </div>
-                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                     <Card>
@@ -144,6 +130,21 @@ function ContactPageContent() {
                         </a>
                     </Card>
                 </div>
+
+                 <div className="mb-16">
+                    <div>
+                        <h2 className="font-headline text-2xl">Company Base</h2>
+                        <p className="mt-2 text-muted-foreground">
+                            Our head registered office is located at: H-77, Silai Bara Gaon, Milak, Rampur, Uttar Pradesh (244701).
+                        </p>
+                    </div>
+                     <div className="mt-8">
+                        <h2 className="font-headline text-2xl">Company Working</h2>
+                        <p className="mt-2 text-muted-foreground">
+                            NAIMS INTERIOR is a full-service interior design firm specializing in high-end residential and commercial projects. We create spaces that are both functional and inspiring, reflecting the unique style of our clients. Our services include residential design, kitchen and bathroom interiors, customized furniture, space planning, home renovations, and 3D visualization. We work closely with our clients to create personalized spaces that stand the test of time.
+                        </p>
+                    </div>
+                </div>
             </div>
         </>
     );
@@ -157,5 +158,3 @@ export default function ContactPage() {
         </Suspense>
     )
 }
-
-    
