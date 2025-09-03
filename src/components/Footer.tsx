@@ -61,7 +61,7 @@ export function Footer() {
             </ul>
           </div>
            <div>
-            <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">Contact</h3>
+            <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">City</h3>
             <ul className="mt-4 space-y-2">
               <li><Link href="/contact?office=headoffice" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
               <li><Link href="/contact?office=noida" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
