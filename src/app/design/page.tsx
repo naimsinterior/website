@@ -55,65 +55,78 @@ export default function DesignPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
-      <div className="text-center">
-        <h1 className="font-headline text-4xl md:text-5xl">{categoryFilter ? `${categoryFilter} Designs` : 'Design Inspirations'}</h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          {categoryFilter 
-            ? `Explore our collection of ${categoryFilter.toLowerCase()} designs.`
-            : "Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea."
-          }
-        </p>
-      </div>
-
-      <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredInspirations.slice(0, visibleCount).map((project) => {
-          const isInMoodboard = moodboard.some(item => item.slug === project.slug);
-          return (
-            <Link key={project.slug} href={`/design/${project.slug}`} className="group block">
-              <Card className="flex flex-col overflow-hidden h-full">
-                <CardHeader className="p-0 relative">
-                  <div className="relative h-60 w-full">
-                      <Image
-                          src={project.images[0]}
-                          alt={project.title}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          data-ai-hint={project.aiHint}
-                      />
-                  </div>
-                  <Button 
-                    size="icon" 
-                    variant="secondary"
-                    className="absolute top-3 right-3 z-10 h-9 w-9 opacity-80 group-hover:opacity-100 transition-opacity"
-                    onClick={(e) => handleMoodboardClick(e, project)}
-                    aria-label="Save to Moodboard"
-                  >
-                      <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
-                  </Button>
-                   <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.category}</Badge>
-                </CardHeader>
-                <CardContent className="flex-grow p-6">
-                  <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
-                  <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
-                </CardContent>
-              </Card>
-            </Link>
-          )
-        })}
-      </div>
-      
-      {visibleCount < filteredInspirations.length && (
-        <div className="mt-12 text-center">
-          <Button onClick={handleViewMore} size="lg">
-            View More
-          </Button>
+    <>
+        <section className="relative h-[60vh] w-full">
+            <Image
+                src="https://placehold.co/1600x800.png"
+                alt="A collection of beautiful interior designs"
+                fill
+                className="z-0 object-cover"
+                data-ai-hint="interior design collage"
+                priority
+            />
+            <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
+                <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
+                    {categoryFilter ? `${categoryFilter} Designs` : 'Design Inspirations'}
+                </h1>
+                <p className="mt-4 max-w-2xl text-lg md:text-xl">
+                    {categoryFilter 
+                        ? `Explore our collection of ${categoryFilter.toLowerCase()} designs.`
+                        : "Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea."
+                    }
+                </p>
+            </div>
+        </section>
+        <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredInspirations.slice(0, visibleCount).map((project) => {
+                const isInMoodboard = moodboard.some(item => item.slug === project.slug);
+                return (
+                    <Link key={project.slug} href={`/design/${project.slug}`} className="group block">
+                    <Card className="flex flex-col overflow-hidden h-full">
+                        <CardHeader className="p-0 relative">
+                        <div className="relative h-60 w-full">
+                            <Image
+                                src={project.images[0]}
+                                alt={project.title}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                data-ai-hint={project.aiHint}
+                            />
+                        </div>
+                        <Button 
+                            size="icon" 
+                            variant="secondary"
+                            className="absolute top-3 right-3 z-10 h-9 w-9 opacity-80 group-hover:opacity-100 transition-opacity"
+                            onClick={(e) => handleMoodboardClick(e, project)}
+                            aria-label="Save to Moodboard"
+                        >
+                            <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
+                        </Button>
+                        <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.category}</Badge>
+                        </CardHeader>
+                        <CardContent className="flex-grow p-6">
+                        <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                        <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
+                        </CardContent>
+                    </Card>
+                    </Link>
+                )
+                })}
+            </div>
+            
+            {visibleCount < filteredInspirations.length && (
+                <div className="mt-12 text-center">
+                <Button onClick={handleViewMore} size="lg">
+                    View More
+                </Button>
+                </div>
+            )}
+            
+            <p className="mt-8 text-center text-sm text-muted-foreground opacity-40">
+                Availability of products may vary. Prices are subject to change as per market dynamics.
+            </p>
         </div>
-      )}
-      
-      <p className="mt-8 text-center text-sm text-muted-foreground opacity-40">
-        Availability of products may vary. Prices are subject to change as per market dynamics.
-      </p>
-    </div>
+    </>
   );
 }
