@@ -468,7 +468,7 @@ export default function Home() {
               >
                 <CarouselContent>
                   {featuredInspirations.map((inspiration) => (
-                    <CarouselItem key={inspiration.slug} className="md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={inspiration.slug} className="basis-11/12 md:basis-1/2 lg:basis-1/3">
                       <Link href={`/design/${inspiration.slug}`} className="p-1 block group">
                         <Card>
                           <CardHeader className="p-0">
@@ -520,7 +520,7 @@ export default function Home() {
                     >
                         <CarouselContent>
                             {featuredProjects.map((project) => (
-                                <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                                <CarouselItem key={project.slug} className="basis-11/12 md:basis-1/2 lg:basis-1/3">
                                     <Link href={`/projects/${project.slug}`} className="p-1 block group">
                                         <Card>
                                             <CardHeader className="p-0">
