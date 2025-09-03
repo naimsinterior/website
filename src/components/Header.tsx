@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -30,7 +31,7 @@ const navLinks = [
   // Design link is handled separately
   { href: "/style-tool", label: "Style Tool" },
   { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
+  { href: "/interior-designer-near-me", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
   { href: "/portfolio", label: "Portfolio" },
 ];

@@ -285,7 +285,7 @@ export default function InteriorDesignNoidaPage() {
                   Naims Interior is a leading interior design firm in Noida, specializing in high-end residential and commercial projects. Our philosophy is to create spaces that are both functional and inspiring, reflecting the unique style of our clients in Noida.
                 </p>
                 <Button asChild variant="link" className="mt-4 px-0">
-                  <Link href="/contact">
+                  <Link href="/interior-designer-near-me">
                     Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -618,5 +618,3 @@ export default function InteriorDesignNoidaPage() {
     </div>
   );
 }
-
-    
