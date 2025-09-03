@@ -9,13 +9,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Wand2, Loader2, ArrowRight } from 'lucide-react';
+import { Upload, Wand2, Loader2, ArrowRight, Lamp, Bed, Sofa, Utensils, Baby, Briefcase } from 'lucide-react';
 import { inspirations } from '../design/inspirations';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
+
+const roomTypes = [
+  { id: 'Living Room', label: 'Living Room', icon: Sofa },
+  { id: 'Kitchen', label: 'Kitchen', icon: Utensils },
+  { id: 'Bedroom', label: 'Bedroom', icon: Bed },
+  { id: 'Bathroom', label: 'Bathroom', icon: Lamp },
+  { id: 'Office', label: 'Office', icon: Briefcase },
+  { id: 'Kids Room', label: 'Kids Room', icon: Baby },
+];
+
 
 export function StyleToolClient() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [selectedRoomType, setSelectedRoomType] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<SuggestStyleOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -30,6 +42,7 @@ export function StyleToolClient() {
       };
       reader.readAsDataURL(file);
       setSuggestions(null);
+      setSelectedRoomType(null); // Reset room type on new image
     }
   };
 
@@ -38,6 +51,14 @@ export function StyleToolClient() {
       toast({
         title: "No photo selected",
         description: "Please upload a photo of your room first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!selectedRoomType) {
+      toast({
+        title: "No room type selected",
+        description: "Please select the type of room in your photo.",
         variant: "destructive",
       });
       return;
@@ -54,7 +75,7 @@ export function StyleToolClient() {
         if (!photoDataUri) {
              throw new Error("Failed to read file");
         }
-        const result = await suggestStyle({ photoDataUri });
+        const result = await suggestStyle({ photoDataUri, roomType: selectedRoomType });
         setSuggestions(result);
       };
       reader.onerror = (error) => {
@@ -98,8 +119,28 @@ export function StyleToolClient() {
               )}
             </div>
           </div>
+          
+          {photoPreview && (
+            <div className="mt-6">
+              <h3 className="text-center font-semibold text-lg mb-4">What type of room is this?</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                {roomTypes.map(({id, label, icon: Icon}) => (
+                   <Button 
+                     key={id} 
+                     variant={selectedRoomType === id ? 'default' : 'outline'}
+                     onClick={() => setSelectedRoomType(id)}
+                     className="flex-col h-20"
+                    >
+                      <Icon className="h-6 w-6 mb-1"/>
+                      {label}
+                   </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-6 flex justify-center">
-            <Button onClick={handleSubmit} disabled={!photoFile || isLoading} size="lg">
+            <Button onClick={handleSubmit} disabled={!photoFile || !selectedRoomType || isLoading} size="lg">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -132,7 +173,7 @@ export function StyleToolClient() {
              <CardContent className="p-0 mt-6">
                <div className="text-center">
                   <p className="text-sm uppercase tracking-widest text-muted-foreground">IDENTIFIED ROOM TYPE</p>
-                  <p className="font-headline text-2xl">{suggestions.roomType}</p>
+                  <p className="font-headline text-2xl">{selectedRoomType}</p>
                </div>
                <div className="mt-6 text-left">
                   <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">WRITTEN SUGGESTIONS</p>
