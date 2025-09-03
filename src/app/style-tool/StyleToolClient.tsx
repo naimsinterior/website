@@ -9,11 +9,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Wand2, Loader2, ArrowRight, Lamp, Bed, Sofa, Utensils, Baby, Briefcase } from 'lucide-react';
+import { Upload, Wand2, Loader2, ArrowRight, Lamp, Bed, Sofa, Utensils, Baby, Briefcase, Camera } from 'lucide-react';
 import { inspirations } from '../design/inspirations';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { CameraCapture } from '@/components/CameraCapture';
+
 
 const roomTypes = [
   { id: 'Living Room', label: 'Living Room', icon: Sofa },
@@ -32,6 +35,7 @@ export function StyleToolClient() {
   const [suggestions, setSuggestions] = useState<SuggestStyleOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,6 +50,31 @@ export function StyleToolClient() {
       setSelectedRoomType(null); // Reset room type on new image
     }
   };
+
+  const dataURLtoFile = (dataurl: string, filename: string): File => {
+    const arr = dataurl.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    if (!mimeMatch) {
+        throw new Error('Invalid data URL');
+    }
+    const mime = mimeMatch[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+  }
+
+  const handlePhotoTaken = (dataUri: string) => {
+    setPhotoPreview(dataUri);
+    const file = dataURLtoFile(dataUri, `capture-${Date.now()}.jpg`);
+    setPhotoFile(file);
+    setIsCameraOpen(false);
+    setSuggestions(null);
+    setSelectedRoomType(null);
+  }
 
   const handleSubmit = async () => {
     if (!photoFile) {
@@ -110,15 +139,31 @@ export function StyleToolClient() {
       <Card>
         <CardContent className="p-6">
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8">
-              <label htmlFor="photo-upload" className="cursor-pointer text-center">
-                <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                <h3 className="mt-4 font-semibold">
-                  {photoFile ? 'Change Photo' : 'Click to upload a photo'}
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">PNG, JPG, WEBP</p>
-              </label>
-              <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" />
+            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 space-y-4">
+                <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" />
+                <Button asChild variant="outline" className="w-full">
+                  <label htmlFor="photo-upload" className="cursor-pointer">
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload from Device
+                  </label>
+                </Button>
+                
+                <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+                    <DialogTrigger asChild>
+                       <Button variant="outline" className="w-full">
+                         <Camera className="mr-2 h-4 w-4" />
+                         Use Camera
+                       </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                            <DialogTitle>Capture a Photo</DialogTitle>
+                        </DialogHeader>
+                        <CameraCapture onPhotoTaken={handlePhotoTaken} />
+                    </DialogContent>
+                </Dialog>
+                
+                <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
             </div>
             <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
               {photoPreview ? (
