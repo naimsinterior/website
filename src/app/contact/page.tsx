@@ -104,10 +104,33 @@ function ContactPageContent() {
                     <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
                         Get In Touch
                     </h1>
-                    <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground">
-                        Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
-                    </p>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                    <Card>
+                        <a href="mailto:headoffice@naimsinterior.com" className="h-full block hover:bg-muted transition-colors">
+                            <CardHeader className="flex flex-row items-center gap-4">
+                                <Mail className="h-8 w-8 text-primary"/>
+                                <div>
+                                    <CardTitle>Email Us</CardTitle>
+                                    <CardDescription>headoffice@naimsinterior.com</CardDescription>
+                                </div>
+                            </CardHeader>
+                        </a>
+                    </Card>
+                    <Card>
+                        <a href="tel:18001208230" className="h-full block hover:bg-muted transition-colors">
+                            <CardHeader className="flex flex-row items-center gap-4">
+                                <Phone className="h-8 w-8 text-primary"/>
+                                <div>
+                                    <CardTitle>Call Us (Toll-Free)</CardTitle>
+                                    <CardDescription>1800-120-8230</CardDescription>
+                                </div>
+                            </CardHeader>
+                        </a>
+                    </Card>
+                </div>
+                
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
