@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from '@/app/projects/projects';
+import { GetQuoteForm } from "@/components/GetQuoteForm";
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -20,6 +21,7 @@ export default function PortfolioPage() {
   const { moodboard, addToMoodboard, removeFromMoodboard } = useMoodboard();
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
+  const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
 
   const handleMoodboardClick = (project: Project) => {
     const isInMoodboard = moodboard.some(item => item.slug === project.slug);
@@ -75,73 +77,91 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
-      <div className="text-center">
-        <h1 className="font-headline text-4xl md:text-5xl">Our Portfolio</h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          Explore a selection of our finest work, showcasing our commitment to quality, creativity, and craftsmanship.
-        </p>
-      </div>
-
-      <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.slice(0, visibleCount).map((project) => {
-          const isInMoodboard = moodboard.some(item => item.slug === project.slug);
-          return (
-            <Card key={project.slug} className="flex flex-col overflow-hidden group">
-              <CardHeader className="p-0 relative">
-                  <Link href={`/projects/${project.slug}`}>
-                    <div className="relative h-60 w-full">
-                        <Image
-                            src={project.images[0]}
-                            alt={project.title}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={project.aiHint}
-                        />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                  </Link>
-                  <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
-                    <Button 
-                      size="icon" 
-                      variant="secondary"
-                      onClick={() => handleMoodboardClick(project)}
-                      aria-label="Save to Moodboard"
-                    >
-                        <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
+    <>
+        <section className="relative h-[60vh] w-full">
+            <Image
+                src="https://placehold.co/1600x800.png"
+                alt="A collection of beautifully designed interiors"
+                fill
+                className="z-0 object-cover"
+                data-ai-hint="interior design collage"
+                priority
+            />
+            <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
+                <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
+                    Our Portfolio
+                </h1>
+                <p className="mt-4 max-w-2xl text-lg md:text-xl">
+                    Explore a selection of our finest work, showcasing our commitment to quality, creativity, and craftsmanship.
+                </p>
+                <div className="mt-8">
+                    <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen}>
+                        <Button>Get a Free Quote</Button>
+                    </GetQuoteForm>
+                </div>
+            </div>
+        </section>
+        <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.slice(0, visibleCount).map((project) => {
+              const isInMoodboard = moodboard.some(item => item.slug === project.slug);
+              return (
+                <Card key={project.slug} className="flex flex-col overflow-hidden group">
+                  <CardHeader className="p-0 relative">
+                      <Link href={`/projects/${project.slug}`}>
+                        <div className="relative h-60 w-full">
+                            <Image
+                                src={project.images[0]}
+                                alt={project.title}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={project.aiHint}
+                            />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
+                      </Link>
+                      <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+                        <Button 
+                          size="icon" 
+                          variant="secondary"
+                          onClick={() => handleMoodboardClick(project)}
+                          aria-label="Save to Moodboard"
+                        >
+                            <Heart className={cn("h-5 w-5", isInMoodboard && "fill-primary text-primary")} />
+                        </Button>
+                        <Button 
+                          size="icon" 
+                          variant="secondary"
+                          onClick={() => handleShare(project)}
+                          aria-label="Share Project"
+                        >
+                            <Share2 className="h-5 w-5" />
+                        </Button>
+                      </div>
+                       <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.projectType}</Badge>
+                  </CardHeader>
+                  <CardContent className="flex-grow p-6">
+                    <CardTitle className="font-headline text-2xl">{project.title}</CardTitle>
+                    <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
+                  </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Button asChild className="w-full">
+                      <Link href={`/projects/${project.slug}`}>View Project</Link>
                     </Button>
-                    <Button 
-                      size="icon" 
-                      variant="secondary"
-                      onClick={() => handleShare(project)}
-                      aria-label="Share Project"
-                    >
-                        <Share2 className="h-5 w-5" />
-                    </Button>
-                  </div>
-                   <Badge variant="secondary" className="absolute bottom-3 left-3 z-10">{project.projectType}</Badge>
-              </CardHeader>
-              <CardContent className="flex-grow p-6">
-                <CardTitle className="font-headline text-2xl">{project.title}</CardTitle>
-                <CardDescription className="mt-2 text-base">{project.description}</CardDescription>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <Button asChild className="w-full">
-                  <Link href={`/projects/${project.slug}`}>View Project</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          )
-        })}
-      </div>
-      
-      {visibleCount < projects.length && (
-        <div className="mt-12 text-center">
-          <Button onClick={handleViewMore} size="lg">
-            View More
-          </Button>
+                  </CardFooter>
+                </Card>
+              )
+            })}
+          </div>
+          
+          {visibleCount < projects.length && (
+            <div className="mt-12 text-center">
+              <Button onClick={handleViewMore} size="lg">
+                View More
+              </Button>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+    </>
   );
 }
