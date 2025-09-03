@@ -42,7 +42,6 @@ export function Footer() {
             <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">Company</h3>
             <ul className="mt-4 space-y-2">
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
-              <li><Link href="/design" className="text-sm text-muted-foreground hover:text-primary">Design</Link></li>
               <li><Link href="/careers" className="text-sm text-muted-foreground hover:text-primary">Careers</Link></li>
               <li><Link href="/terms-and-conditions" className="text-sm text-muted-foreground hover:text-primary">Terms & Conditions</Link></li>
               <li><Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary">Privacy Policy</Link></li>
@@ -55,6 +54,7 @@ export function Footer() {
               <li><Link href="/style-tool" className="text-sm text-muted-foreground hover:text-primary">Style Tool</Link></li>
               <li><Link href="/moodboard" className="text-sm text-muted-foreground hover:text-primary">Moodboard</Link></li>
               <li><Link href="/calculate" className="text-sm text-muted-foreground hover:text-primary">Calculator</Link></li>
+              <li><Link href="/design" className="text-sm text-muted-foreground hover:text-primary">Design</Link></li>
               <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-primary">Blog</Link></li>
               <li><Link href="/feedback" className="text-sm text-muted-foreground hover:text-primary">Feedback</Link></li>
               <li><Link href="/complaint" className="text-sm text-muted-foreground hover:text-primary">Complaint</Link></li>
