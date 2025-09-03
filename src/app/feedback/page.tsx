@@ -68,6 +68,37 @@ const qualityLabels: { [key: number]: string } = {
   5: "Excellent"
 };
 
+const StarRating = ({
+  value,
+  onChange,
+  labels
+}: {
+  value?: number;
+  onChange: (value: number) => void;
+  labels: { [key: number]: string };
+}) => {
+  const rating = value || 0;
+  return (
+    <div className="flex flex-col sm:flex-row items-center gap-4">
+      <div className="flex items-center gap-2">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={cn(
+              "h-8 w-8 cursor-pointer transition-colors",
+              star <= rating
+                ? "text-yellow-400 fill-yellow-400"
+                : "text-muted-foreground/50"
+            )}
+            onClick={() => onChange(star)}
+          />
+        ))}
+      </div>
+      <span className="w-36 text-center text-sm text-muted-foreground">{labels[rating] || ''}</span>
+    </div>
+  );
+};
+
 export default function FeedbackPage() {
     const { toast } = useToast();
     const form = useForm<FeedbackFormValues>({
@@ -76,6 +107,11 @@ export default function FeedbackPage() {
             name: "",
             email: "",
             projectName: "",
+            designProcessSatisfaction: 3,
+            finalDesignRating: 3,
+            qualityRating: 3,
+            communicationSatisfaction: 3,
+            referralLikelihood: 7,
         },
     });
 
@@ -125,12 +161,9 @@ export default function FeedbackPage() {
                                     )}/>
                                     
                                     <FormField control={form.control} name="designProcessSatisfaction" render={({ field }) => (
-                                      <FormItem><FormLabel>How satisfied are you with our design process (1 to 5)?</FormLabel>
+                                      <FormItem><FormLabel>How satisfied are you with our design process?</FormLabel>
                                         <FormControl>
-                                            <div className="flex items-center gap-4">
-                                                <Slider defaultValue={[3]} min={1} max={5} step={1} onValueChange={(val) => field.onChange(val[0])}/>
-                                                <span className="w-32 text-center text-sm text-muted-foreground">{ratingLabels[field.value || 3]}</span>
-                                            </div>
+                                            <StarRating value={field.value} onChange={field.onChange} labels={ratingLabels} />
                                         </FormControl>
                                       </FormItem>
                                     )}/>
@@ -144,10 +177,7 @@ export default function FeedbackPage() {
                                     <FormField control={form.control} name="finalDesignRating" render={({ field }) => (
                                         <FormItem><FormLabel>How practical and beautiful do you find the final design?</FormLabel>
                                             <FormControl>
-                                              <div className="flex items-center gap-4">
-                                                  <Slider defaultValue={[3]} min={1} max={5} step={1} onValueChange={(val) => field.onChange(val[0])}/>
-                                                  <span className="w-32 text-center text-sm text-muted-foreground">{qualityLabels[field.value || 3]}</span>
-                                              </div>
+                                              <StarRating value={field.value} onChange={field.onChange} labels={qualityLabels} />
                                             </FormControl>
                                         </FormItem>
                                     )}/>
@@ -161,10 +191,7 @@ export default function FeedbackPage() {
                                     <FormField control={form.control} name="qualityRating" render={({ field }) => (
                                         <FormItem><FormLabel>How do you rate the quality of materials and finishing?</FormLabel>
                                             <FormControl>
-                                              <div className="flex items-center gap-4">
-                                                  <Slider defaultValue={[3]} min={1} max={5} step={1} onValueChange={(val) => field.onChange(val[0])}/>
-                                                  <span className="w-32 text-center text-sm text-muted-foreground">{qualityLabels[field.value || 3]}</span>
-                                              </div>
+                                              <StarRating value={field.value} onChange={field.onChange} labels={qualityLabels} />
                                             </FormControl>
                                         </FormItem>
                                     )}/>
@@ -172,10 +199,7 @@ export default function FeedbackPage() {
                                     <FormField control={form.control} name="communicationSatisfaction" render={({ field }) => (
                                         <FormItem><FormLabel>How satisfied are you with our communication and updates?</FormLabel>
                                             <FormControl>
-                                              <div className="flex items-center gap-4">
-                                                  <Slider defaultValue={[3]} min={1} max={5} step={1} onValueChange={(val) => field.onChange(val[0])}/>
-                                                  <span className="w-32 text-center text-sm text-muted-foreground">{ratingLabels[field.value || 3]}</span>
-                                              </div>
+                                              <StarRating value={field.value} onChange={field.onChange} labels={ratingLabels} />
                                             </FormControl>
                                         </FormItem>
                                     )}/>
@@ -231,7 +255,7 @@ export default function FeedbackPage() {
                                     
                                     <FormField control={form.control} name="workWithUsAgain" render={({ field }) => (
                                       <FormItem><FormLabel>Would you consider working with NAIMS INTERIOR again for future projects?</FormLabel><FormControl>
-                                          <RadioGroup onValuechange={field.onChange} defaultValue={field.value} className="flex gap-4"><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="yes" /></FormControl><FormLabel className="font-normal">Yes</FormLabel></FormItem><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="no" /></FormControl><FormLabel className="font-normal">No</FormLabel></FormItem><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="maybe" /></FormControl><FormLabel className="font-normal">Maybe</FormLabel></FormItem></RadioGroup>
+                                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex gap-4"><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="yes" /></FormControl><FormLabel className="font-normal">Yes</FormLabel></FormItem><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="no" /></FormControl><FormLabel className="font-normal">No</FormLabel></FormItem><FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="maybe" /></FormControl><FormLabel className="font-normal">Maybe</FormLabel></FormItem></RadioGroup>
                                       </FormControl><FormMessage /></FormItem>
                                     )}/>
 
