@@ -74,7 +74,7 @@ const locations = [
     }
 ];
 
-function ContactPageContent() {
+function InteriorDesignerNearMePageContent() {
     const searchParams = useSearchParams();
     const office = searchParams.get('office') || 'headoffice';
     const formRef = useRef<HTMLDivElement>(null);
@@ -219,12 +219,10 @@ function ContactPageContent() {
 }
 
 
-export default function ContactPage() {
+export default function InteriorDesignerNearMePage() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ContactPageContent />
+            <InteriorDesignerNearMePageContent />
         </Suspense>
     )
 }
-
-    
