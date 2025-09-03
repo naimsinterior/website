@@ -36,10 +36,6 @@ export function OfferPopup({ onBookNow }: OfferPopupProps) {
         handleClose();
     }
 
-    if (!isOpen) {
-        return null;
-    }
-
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden" onInteractOutside={handleClose}>
