@@ -469,7 +469,7 @@ export default function Home() {
                 <CarouselContent>
                   {featuredInspirations.map((inspiration) => (
                     <CarouselItem key={inspiration.slug} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1">
+                      <Link href={`/design/${inspiration.slug}`} className="p-1 block group">
                         <Card>
                           <CardHeader className="p-0">
                             <div className="relative h-64 w-full">
@@ -477,22 +477,17 @@ export default function Home() {
                                     src={inspiration.images[0]}
                                     alt={inspiration.title}
                                     fill
-                                    className="rounded-t-lg object-cover"
+                                    className="rounded-t-lg object-cover group-hover:scale-105 transition-transform duration-300"
                                     data-ai-hint={inspiration.aiHint}
                                 />
                             </div>
                           </CardHeader>
                           <CardContent className="p-6">
-                            <CardTitle className="font-headline">{inspiration.title}</CardTitle>
-                            <CardDescription className="mt-2 h-20 overflow-hidden">{inspiration.description}</CardDescription>
+                            <CardTitle className="font-headline group-hover:text-primary transition-colors">{inspiration.title}</CardTitle>
+                            <CardDescription className="mt-2 h-10 overflow-hidden">{inspiration.description}</CardDescription>
                           </CardContent>
-                          <CardFooter>
-                            <Button asChild variant="secondary" className="w-full">
-                                <Link href={`/design/${inspiration.slug}`}>View Inspiration</Link>
-                            </Button>
-                          </CardFooter>
                         </Card>
-                      </div>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -526,7 +521,7 @@ export default function Home() {
                         <CarouselContent>
                             {featuredProjects.map((project) => (
                                 <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-1">
+                                    <Link href={`/projects/${project.slug}`} className="p-1 block group">
                                         <Card>
                                             <CardHeader className="p-0">
                                                 <div className="relative h-64 w-full">
@@ -534,28 +529,28 @@ export default function Home() {
                                                         src={project.images[0]}
                                                         alt={project.title}
                                                         fill
-                                                        className="rounded-t-lg object-cover"
+                                                        className="rounded-t-lg object-cover group-hover:scale-105 transition-transform duration-300"
                                                         data-ai-hint={project.aiHint}
                                                     />
                                                 </div>
                                             </CardHeader>
                                             <CardContent className="p-6">
-                                                <CardTitle className="font-headline">{project.title}</CardTitle>
-                                                <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
+                                                <CardTitle className="font-headline group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                                                <CardDescription className="mt-2 h-10 overflow-hidden">{project.description}</CardDescription>
                                             </CardContent>
-                                            <CardFooter>
-                                                <Button asChild variant="secondary" className="w-full">
-                                                    <Link href={`/projects/${project.slug}`}>View Project</Link>
-                                                </Button>
-                                            </CardFooter>
                                         </Card>
-                                    </div>
+                                    </Link>
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
                         <CarouselPrevious className="hidden sm:flex" />
                         <CarouselNext className="hidden sm:flex" />
                     </Carousel>
+                </div>
+                <div className="mt-12 text-center">
+                    <Button asChild size="lg">
+                        <Link href="/portfolio">View All Projects</Link>
+                    </Button>
                 </div>
             </div>
         </section>
