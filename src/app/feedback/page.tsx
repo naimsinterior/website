@@ -28,6 +28,7 @@ import { Progress } from "@/components/ui/progress";
 const feedbackFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   email: z.string().email({ message: "A valid email is required." }),
+  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
   projectName: z.string().min(2, { message: "Project name or address is required." }),
   
   whyChoose: z.string().optional(),
@@ -71,7 +72,7 @@ const STEPS = [
     },
      {
         title: "Your Information",
-        fields: ["name", "email", "projectName"]
+        fields: ["name", "email", "phone", "projectName"]
     }
 ];
 
@@ -136,6 +137,7 @@ export default function FeedbackPage() {
             qualityRating: 3,
             communicationSatisfaction: 3,
             referralLikelihood: 7,
+            phone: "",
         },
     });
 
@@ -350,6 +352,9 @@ export default function FeedbackPage() {
                                         <FormField control={form.control} name="email" render={({ field }) => (
                                             <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
                                         )}/>
+                                        <FormField control={form.control} name="phone" render={({ field }) => (
+                                            <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your 10-digit phone number" {...field} /></FormControl><FormMessage /></FormItem>
+                                        )}/>
                                         <FormField control={form.control} name="projectName" render={({ field }) => (
                                             <FormItem><FormLabel>Project Name / Address</FormLabel><FormControl><Input placeholder="e.g., Greenview Residence, Flat 501" {...field} /></FormControl><FormMessage /></FormItem>
                                         )}/>
@@ -380,5 +385,3 @@ export default function FeedbackPage() {
         </div>
     );
 }
-
-    

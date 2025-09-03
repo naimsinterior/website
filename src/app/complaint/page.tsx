@@ -22,6 +22,7 @@ import { ShieldAlert } from 'lucide-react';
 const complaintFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   email: z.string().email({ message: "A valid email is required." }),
+  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
   projectName: z.string().min(2, { message: "Project name or ID is required." }),
   complaintDetails: z.string().min(20, { message: "Please provide detailed information about your complaint (at least 20 characters)." }),
   desiredResolution: z.string().min(10, { message: "Please describe your desired resolution (at least 10 characters)." }),
@@ -37,6 +38,7 @@ export default function ComplaintPage() {
         defaultValues: {
             name: "",
             email: "",
+            phone: "",
             projectName: "",
             complaintDetails: "",
             desiredResolution: "",
@@ -89,6 +91,17 @@ export default function ComplaintPage() {
                                         <FormItem>
                                             <FormLabel>Email Address</FormLabel>
                                             <FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="phone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Phone Number</FormLabel>
+                                            <FormControl><Input type="tel" placeholder="Your 10-digit phone number" {...field} /></FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
