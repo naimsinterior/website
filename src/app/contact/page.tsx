@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
 import Image from "next/image";
 
 const contactFormSchema = z.object({
@@ -77,6 +77,7 @@ const locations = [
 function ContactPageContent() {
     const searchParams = useSearchParams();
     const office = searchParams.get('office') || 'headoffice';
+    const formRef = useRef<HTMLDivElement>(null);
 
     const { toast } = useToast();
     const form = useForm<ContactFormValues>({
@@ -91,6 +92,11 @@ function ContactPageContent() {
         });
         form.reset();
     }
+    
+    const scrollToForm = () => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     return (
         <>
             <section className="relative h-[60vh] w-full">
@@ -109,9 +115,12 @@ function ContactPageContent() {
                     <p className="mt-4 max-w-3xl text-lg md:text-xl">
                         Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
                     </p>
+                    <div className="mt-8">
+                        <Button size="lg" onClick={scrollToForm}>Send us a message</Button>
+                    </div>
                 </div>
             </section>
-            <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+            <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
@@ -217,3 +226,5 @@ export default function ContactPage() {
         </Suspense>
     )
 }
+
+    
