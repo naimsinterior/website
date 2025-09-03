@@ -32,8 +32,8 @@ export function OfferPopup({ onBookNow }: OfferPopupProps) {
     }
     
     const handleBookNow = () => {
-        handleClose();
         onBookNow();
+        handleClose();
     }
 
     if (!isOpen) {
