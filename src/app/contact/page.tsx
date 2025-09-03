@@ -99,28 +99,15 @@ function ContactPageContent() {
 
     return (
         <>
-            <section className="relative h-[60vh] w-full">
-                <Image
-                    src="https://placehold.co/1600x800.png"
-                    alt="Contact NAIMS INTERIOR"
-                    fill
-                    className="z-0 object-cover"
-                    data-ai-hint="modern office reception"
-                    priority
-                />
-                <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
+            <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
+                <div className="text-center mb-16">
                     <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
                         Get In Touch
                     </h1>
-                    <p className="mt-4 max-w-3xl text-lg md:text-xl">
+                    <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground">
                         Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
                     </p>
-                    <div className="mt-8">
-                        <Button size="lg" onClick={scrollToForm}>Send us a message</Button>
-                    </div>
                 </div>
-            </section>
-            <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
