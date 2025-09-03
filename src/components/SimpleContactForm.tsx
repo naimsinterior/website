@@ -23,8 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import React from "react";
 import { MailCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -39,12 +37,14 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 interface SimpleContactFormProps {
     children: React.ReactNode;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
 }
 
 const words = ["Modular Kitchen", "Full Home Interior", "Renovation"];
 
-export function SimpleContactForm({ children }: SimpleContactFormProps) {
-    const [isOpen, setIsOpen] = useState(false);
+export function SimpleContactForm({ children, open, onOpenChange }: SimpleContactFormProps) {
+    const [isInternalOpen, setIsInternalOpen] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     
     const [index, setIndex] = useState(0);
@@ -52,7 +52,6 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
     const [blink, setBlink] = useState(true);
     const [reverse, setReverse] = useState(false);
 
-    const { toast } = useToast();
     const form = useForm<ContactFormValues>({
         resolver: zodResolver(contactFormSchema),
         defaultValues: {
@@ -62,18 +61,13 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
             propertyName: "",
         },
     });
-    
-    // This effect handles the initial open state if it's passed as a prop
-    // This is useful for the `calculate` page's Villa/Other option.
-    useEffect(() => {
-        if(children === null || (children as any)?.type?.displayName === 'DialogContent') {
-            setIsOpen(true);
-        }
-    }, [children]);
 
+    const isControlled = open !== undefined && onOpenChange !== undefined;
+    const currentOpen = isControlled ? open : isInternalOpen;
+    const setCurrentOpen = isControlled ? onOpenChange : setIsInternalOpen;
 
     useEffect(() => {
-        if (!isOpen || isSubmitted) return;
+        if (!currentOpen || isSubmitted) return;
 
         if (subIndex === words[index].length + 1 && !reverse) {
             setTimeout(() => setReverse(true), 1000);
@@ -91,15 +85,15 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
         }, reverse ? 75 : 150);
 
         return () => clearTimeout(timeout);
-    }, [subIndex, index, reverse, isOpen, isSubmitted]);
+    }, [subIndex, index, reverse, currentOpen, isSubmitted]);
 
     useEffect(() => {
-        if (!isOpen || isSubmitted) return;
+        if (!currentOpen || isSubmitted) return;
         const blinkTimeout = setTimeout(() => {
             setBlink((prev) => !prev);
         }, 500);
         return () => clearTimeout(blinkTimeout);
-    }, [blink, isOpen, isSubmitted]);
+    }, [blink, currentOpen, isSubmitted]);
 
 
     async function onSubmit(data: ContactFormValues) {
@@ -108,9 +102,8 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
     }
 
     const handleOpenChange = (open: boolean) => {
-        setIsOpen(open);
+        setCurrentOpen(open);
         if (!open) {
-            // Reset form state on close
             setTimeout(() => {
                 form.reset();
                 setIsSubmitted(false);
@@ -119,10 +112,12 @@ export function SimpleContactForm({ children }: SimpleContactFormProps) {
     };
     
     return (
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild>
-                {children}
-            </DialogTrigger>
+        <Dialog open={currentOpen} onOpenChange={handleOpenChange}>
+            {children && (
+              <DialogTrigger asChild>
+                  {children}
+              </DialogTrigger>
+            )}
             <DialogContent className={cn("sm:max-w-md")}>
                 {isSubmitted ? (
                     <div className="flex flex-col items-center justify-center text-center p-8">

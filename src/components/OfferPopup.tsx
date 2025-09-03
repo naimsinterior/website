@@ -5,11 +5,14 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 const POPUP_SESSION_KEY = 'naimsinterior-popup-shown';
 
-export function OfferPopup() {
+interface OfferPopupProps {
+    onBookNow: () => void;
+}
+
+export function OfferPopup({ onBookNow }: OfferPopupProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -27,6 +30,11 @@ export function OfferPopup() {
     const handleClose = () => {
         setIsOpen(false);
     }
+    
+    const handleBookNow = () => {
+        handleClose();
+        onBookNow();
+    }
 
     if (!isOpen) {
         return null;
@@ -37,7 +45,7 @@ export function OfferPopup() {
             <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden" onInteractOutside={handleClose}>
                 <div className="relative h-64 w-full">
                     <Image
-                        src="/Popup-pro-5%-off-image.png"
+                        src="/Popup-pro-5-off-image.png"
                         alt="Special Offer"
                         fill
                         className="object-cover"
@@ -54,8 +62,8 @@ export function OfferPopup() {
                     <p className="text-muted-foreground my-4">
                         Let's create a space you'll love. Book a consultation today to redeem your discount.
                     </p>
-                    <Button asChild size="lg" className="w-full" onClick={handleClose}>
-                        <Link href="/contact">Book Now & Save</Link>
+                    <Button size="lg" className="w-full" onClick={handleBookNow}>
+                        Book Now & Save
                     </Button>
                      <Button variant="link" className="mt-2 text-muted-foreground" onClick={handleClose}>
                         No, thanks

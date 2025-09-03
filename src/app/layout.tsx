@@ -9,6 +9,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { SubHeader } from '@/components/SubHeader';
 import { FloatingContactButtons } from '@/components/FloatingContactButtons';
 import { MobileFooter } from '@/components/MobileFooter';
+import { useState } from 'react';
+import { SimpleContactForm } from '@/components/SimpleContactForm';
+import { OfferPopup } from '@/components/OfferPopup';
 
 
 export default function RootLayout({
@@ -18,6 +21,8 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isAgentDashboard = pathname === '/agent-dashboard';
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
 
   return (
     <html lang="en" className="!scroll-smooth">
@@ -30,6 +35,10 @@ export default function RootLayout({
         <link rel="icon" href="/naimsinterior-icon.png" />
       </head>
       <body className="font-body antialiased">
+        <OfferPopup onBookNow={() => setIsContactFormOpen(true)} />
+        <SimpleContactForm open={isContactFormOpen} onOpenChange={setIsContactFormOpen}>
+            {null}
+        </SimpleContactForm>
         {!isAgentDashboard && <SubHeader />}
         {!isAgentDashboard && <Header />}
         <main className={!isAgentDashboard ? "pb-20 md:pb-0" : ""}>{children}</main>
