@@ -95,17 +95,4 @@ export const projects: Project[] = [
         },
         itemType: 'project',
     },
-    {
-        slug: 'the-social-eatery',
-        title: 'The Social Eatery',
-        description: 'A vibrant and modern restaurant designed for a memorable dining experience.',
-        longDescription: 'This restaurant design project focused on creating a lively and welcoming atmosphere. We used a mix of industrial and organic elements, including exposed ductwork, live-edge wood tables, and abundant greenery. The layout includes a variety of seating options to cater to different group sizes and dining occasions.',
-        images: ['https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png', 'https://placehold.co/800x600.png'],
-        aiHint: 'modern restaurant',
-        category: 'Commercial',
-        location: 'Chicago, IL',
-        projectType: 'Restaurant',
-        designStyle: 'Industrial Chic',
-        itemType: 'project',
-    }
 ];

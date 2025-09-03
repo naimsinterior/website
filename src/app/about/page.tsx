@@ -94,7 +94,7 @@ export default function AboutPage() {
                             About NAIMS INTERIOR
                         </h1>
                         <p className="mt-4 max-w-2xl text-lg md:text-xl">
-                            Designing the future of living and working spaces.
+                            Designing the future of living spaces.
                         </p>
                     </div>
                 </section>
@@ -117,7 +117,7 @@ export default function AboutPage() {
                                     Our Story
                                 </h2>
                                 <p className="mt-4 text-muted-foreground leading-relaxed">
-                                    Founded in 2010, NAIMS INTERIOR began with a simple yet powerful vision: to transform ordinary spaces into extraordinary experiences. What started as a small team of passionate designers has grown into a full-service firm known for its creative excellence and unwavering commitment to quality. Over the years, we've had the privilege of working on a diverse range of projects, from cozy residential homes to dynamic commercial hubs, each time leaving our mark of thoughtful design and meticulous craftsmanship.
+                                    Founded in 2010, NAIMS INTERIOR began with a simple yet powerful vision: to transform ordinary spaces into extraordinary experiences. What started as a small team of passionate designers has grown into a full-service firm known for its creative excellence and unwavering commitment to quality. Over the years, we've had the privilege of working on a diverse range of residential projects, from cozy homes to spacious villas, each time leaving our mark of thoughtful design and meticulous craftsmanship.
                                 </p>
                                 <p className="mt-4 text-muted-foreground leading-relaxed">
                                     Our journey is one of continuous evolution, driven by a passion for innovation and a deep understanding of our clients' needs. We believe that a well-designed space can enhance quality of life, and this belief is at the core of everything we do.
