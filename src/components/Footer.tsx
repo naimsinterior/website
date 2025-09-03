@@ -13,12 +13,12 @@ const serviceAreas = [
 ];
 
 const socialLinks = [
-    { name: "Facebook", href: "#", icon: "/facebook.svg" },
+    { name: "Facebook", href: "https://www.facebook.com/naimsinterior", icon: "/facebook.svg" },
     { name: "Instagram", href: "https://www.instagram.com/naimsinterior/", icon: "/instagram.svg" },
-    { name: "X", href: "#", icon: "/x-logo.svg" },
-    { name: "YouTube", href: "#", icon: "/youtube.svg" },
-    { name: "LinkedIn", href: "#", icon: "/linkedin.svg" },
-    { name: "Pinterest", href: "#", icon: "/pinterest.svg" },
+    { name: "X", href: "https://x.com/naimsinterior", icon: "/x-logo.svg" },
+    { name: "YouTube", href: "https://www.youtube.com/@naimsinterior", icon: "/youtube.svg" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/company/naims", icon: "/linkedin.svg" },
+    { name: "Pinterest", href: "https://in.pinterest.com/naimsinterior", icon: "/pinterest.svg" },
 ];
 
 export function Footer() {

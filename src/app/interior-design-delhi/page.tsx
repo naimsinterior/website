@@ -601,17 +601,15 @@ export default function InteriorDesignDelhiPage() {
                     </p>
                 </div>
                 <div className="mt-12 max-w-4xl mx-auto">
-                    <Accordion type="single" collapsible className="w-full space-y-4">
+                    <Accordion type="single" collapsible className="w-full">
                         {faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
-                                <Card>
-                                    <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="px-6 pb-6">
-                                        <p className="text-base text-muted-foreground">{faq.answer}</p>
-                                    </AccordionContent>
-                                </Card>
+                            <AccordionItem key={index} value={`item-${index}`} className="border-b">
+                                <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
+                                    {faq.question}
+                                </AccordionTrigger>
+                                <AccordionContent className="pt-2">
+                                    <p className="text-base text-muted-foreground">{faq.answer}</p>
+                                </AccordionContent>
                             </AccordionItem>
                         ))}
                     </Accordion>
@@ -623,3 +621,5 @@ export default function InteriorDesignDelhiPage() {
     </div>
   );
 }
+
+    

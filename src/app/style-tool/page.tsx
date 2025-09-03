@@ -40,17 +40,15 @@ function StyleToolPageContent() {
                 <div className="text-center mb-8">
                     <h2 className="font-headline text-3xl md:text-4xl">Frequently Asked Questions</h2>
                 </div>
-                <Accordion type="single" collapsible className="w-full space-y-4">
+                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map((faq, index) => (
-                        <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
-                            <Card>
-                                <AccordionTrigger className="p-6 text-lg text-left hover:no-underline font-headline">
-                                    {faq.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="px-6 pb-6">
-                                    <p className="text-base text-muted-foreground">{faq.answer}</p>
-                                </AccordionContent>
-                            </Card>
+                        <AccordionItem key={index} value={`item-${index}`} className="border-b">
+                            <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
+                                {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="pt-2">
+                                <p className="text-base text-muted-foreground">{faq.answer}</p>
+                            </AccordionContent>
                         </AccordionItem>
                     ))}
                 </Accordion>
@@ -67,3 +65,5 @@ export default function StyleToolPage() {
         </Suspense>
     )
 }
+
+    
