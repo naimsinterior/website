@@ -458,7 +458,7 @@ export default function Home() {
             <h2 className="text-center font-headline text-3xl md:text-4xl">
               Home design
             </h2>
-            <div className="mt-12">
+            <div className="mt-12 md:hidden">
               <Carousel
                 opts={{
                   align: "start",
@@ -468,7 +468,7 @@ export default function Home() {
               >
                 <CarouselContent>
                   {featuredInspirations.map((inspiration) => (
-                    <CarouselItem key={inspiration.slug} className="md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={inspiration.slug} className="basis-4/5">
                       <div className="p-1">
                         <Card>
                           <CardHeader className="p-0">
@@ -500,6 +500,34 @@ export default function Home() {
                 <CarouselNext className="hidden sm:flex" />
               </Carousel>
             </div>
+            <div className="mt-12 hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredInspirations.map((inspiration) => (
+                    <div key={inspiration.slug} className="p-1">
+                        <Card>
+                          <CardHeader className="p-0">
+                            <div className="relative h-64 w-full">
+                                <Image
+                                    src={inspiration.images[0]}
+                                    alt={inspiration.title}
+                                    fill
+                                    className="rounded-t-lg object-cover"
+                                    data-ai-hint={inspiration.aiHint}
+                                />
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6">
+                            <CardTitle className="font-headline">{inspiration.title}</CardTitle>
+                            <CardDescription className="mt-2 h-20 overflow-hidden">{inspiration.description}</CardDescription>
+                          </CardContent>
+                          <CardFooter>
+                            <Button asChild variant="secondary" className="w-full">
+                                <Link href={`/design/${inspiration.slug}`}>View Inspiration</Link>
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </div>
+                ))}
+            </div>
              <div className="mt-12 text-center">
                 <Button asChild size="lg">
                     <Link href="/design">View All Inspirations</Link>
@@ -514,7 +542,7 @@ export default function Home() {
                 <h2 className="text-center font-headline text-3xl md:text-4xl">
                     Featured Projects
                 </h2>
-                <div className="mt-12">
+                <div className="mt-12 md:hidden">
                     <Carousel
                         opts={{
                             align: "start",
@@ -525,7 +553,7 @@ export default function Home() {
                     >
                         <CarouselContent>
                             {featuredProjects.map((project) => (
-                                <CarouselItem key={project.slug} className="md:basis-1/2 lg:basis-1/3">
+                                <CarouselItem key={project.slug} className="basis-4/5">
                                     <div className="p-1">
                                         <Card>
                                             <CardHeader className="p-0">
@@ -556,6 +584,34 @@ export default function Home() {
                         <CarouselPrevious className="hidden sm:flex" />
                         <CarouselNext className="hidden sm:flex" />
                     </Carousel>
+                </div>
+                 <div className="mt-12 hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {featuredProjects.map((project) => (
+                        <div key={project.slug} className="p-1">
+                           <Card>
+                                <CardHeader className="p-0">
+                                    <div className="relative h-64 w-full">
+                                        <Image
+                                            src={project.images[0]}
+                                            alt={project.title}
+                                            fill
+                                            className="rounded-t-lg object-cover"
+                                            data-ai-hint={project.aiHint}
+                                        />
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="p-6">
+                                    <CardTitle className="font-headline">{project.title}</CardTitle>
+                                    <CardDescription className="mt-2 h-20 overflow-hidden">{project.description}</CardDescription>
+                                </CardContent>
+                                <CardFooter>
+                                    <Button asChild variant="secondary" className="w-full">
+                                        <Link href={`/projects/${project.slug}`}>View Project</Link>
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
@@ -701,5 +757,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
