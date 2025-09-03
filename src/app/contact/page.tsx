@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import Image from "next/image";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -91,107 +92,120 @@ function ContactPageContent() {
         form.reset();
     }
     return (
-        <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
-            <div className="text-center">
-                <h1 className="font-headline text-4xl md:text-5xl">Get In Touch</h1>
-                <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                    Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
-                </p>
-            </div>
-            
-            <div className="mt-16 grid grid-cols-1 gap-16 lg:grid-cols-2">
-                <div>
-                     <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
-                     <Accordion type="single" collapsible defaultValue={office} className="w-full">
-                        {locations.map((loc) => (
-                            <AccordionItem key={loc.id} value={loc.id}>
-                                <AccordionTrigger>
-                                    <span className="font-headline text-xl">{loc.name}</span>
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div>
-                                            <div className="space-y-4">
-                                                <div className="flex items-start gap-4">
-                                                    <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0"/>
-                                                    <p>{loc.address}</p>
-                                                </div>
-                                                <div className="flex items-center gap-4">
-                                                    <Mail className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                    <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
-                                                </div>
-                                                <div className="flex items-center gap-4">
-                                                    <Phone className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                    <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
+        <>
+            <section className="relative h-[60vh] w-full">
+                <Image
+                    src="https://placehold.co/1600x800.png"
+                    alt="Contact NAIMS INTERIOR"
+                    fill
+                    className="z-0 object-cover"
+                    data-ai-hint="modern office reception"
+                    priority
+                />
+                <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
+                    <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
+                        Get In Touch
+                    </h1>
+                    <p className="mt-4 max-w-3xl text-lg md:text-xl">
+                        Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
+                    </p>
+                </div>
+            </section>
+            <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+                <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+                    <div>
+                         <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
+                         <Accordion type="single" collapsible defaultValue={office} className="w-full">
+                            {locations.map((loc) => (
+                                <AccordionItem key={loc.id} value={loc.id}>
+                                    <AccordionTrigger>
+                                        <span className="font-headline text-xl">{loc.name}</span>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div>
+                                                <div className="space-y-4">
+                                                    <div className="flex items-start gap-4">
+                                                        <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0"/>
+                                                        <p>{loc.address}</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-4">
+                                                        <Mail className="h-5 w-5 text-primary flex-shrink-0"/>
+                                                        <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
+                                                    </div>
+                                                    <div className="flex items-center gap-4">
+                                                        <Phone className="h-5 w-5 text-primary flex-shrink-0"/>
+                                                        <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="aspect-video w-full overflow-hidden rounded-lg">
+                                                <iframe
+                                                    src={loc.mapSrc}
+                                                    width="100%"
+                                                    height="100%"
+                                                    style={{ border: 0 }}
+                                                    allowFullScreen={false}
+                                                    loading="lazy"
+                                                    referrerPolicy="no-referrer-when-downgrade"
+                                                ></iframe>
+                                            </div>
                                         </div>
-                                        <div className="aspect-video w-full overflow-hidden rounded-lg">
-                                            <iframe
-                                                src={loc.mapSrc}
-                                                width="100%"
-                                                height="100%"
-                                                style={{ border: 0 }}
-                                                allowFullScreen={false}
-                                                loading="lazy"
-                                                referrerPolicy="no-referrer-when-downgrade"
-                                            ></iframe>
-                                        </div>
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-                 <div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="font-headline text-3xl">Send us a message</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                             <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                    <FormField
-                                        control={form.control}
-                                        name="name"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Your Name</FormLabel>
-                                                <FormControl><Input placeholder="Full Name" {...field} /></FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Email</FormLabel>
-                                                <FormControl><Input placeholder="you@example.com" {...field} /></FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="message"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Message</FormLabel>
-                                                <FormControl><Textarea rows={6} placeholder="Your project details or question..." {...field} /></FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <Button type="submit" className="w-full">Send Message</Button>
-                                </form>
-                            </Form>
-                        </CardContent>
-                    </Card>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </div>
+                     <div>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="font-headline text-3xl">Send us a message</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                 <Form {...form}>
+                                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                        <FormField
+                                            control={form.control}
+                                            name="name"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Your Name</FormLabel>
+                                                    <FormControl><Input placeholder="Full Name" {...field} /></FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="email"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Email</FormLabel>
+                                                    <FormControl><Input placeholder="you@example.com" {...field} /></FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="message"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Message</FormLabel>
+                                                    <FormControl><Textarea rows={6} placeholder="Your project details or question..." {...field} /></FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <Button type="submit" className="w-full">Send Message</Button>
+                                    </form>
+                                </Form>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
