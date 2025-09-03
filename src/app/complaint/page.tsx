@@ -17,7 +17,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ShieldAlert } from 'lucide-react';
+import { ShieldAlert, Upload, Camera } from 'lucide-react';
+import { useState } from "react";
+import Image from "next/image";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CameraCapture } from "@/components/CameraCapture";
 
 const complaintFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -26,12 +30,16 @@ const complaintFormSchema = z.object({
   projectName: z.string().min(2, { message: "Project name or ID is required." }),
   complaintDetails: z.string().min(20, { message: "Please provide detailed information about your complaint (at least 20 characters)." }),
   desiredResolution: z.string().min(10, { message: "Please describe your desired resolution (at least 10 characters)." }),
+  image: z.any().optional(),
 });
 
 type ComplaintFormValues = z.infer<typeof complaintFormSchema>;
 
 export default function ComplaintPage() {
     const { toast } = useToast();
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [isCameraOpen, setIsCameraOpen] = useState(false);
 
     const form = useForm<ComplaintFormValues>({
         resolver: zodResolver(complaintFormSchema),
@@ -45,6 +53,43 @@ export default function ComplaintPage() {
         },
     });
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+            form.setValue('image', file);
+        }
+    };
+    
+    const dataURLtoFile = (dataurl: string, filename: string): File => {
+        const arr = dataurl.split(',');
+        const mimeMatch = arr[0].match(/:(.*?);/);
+        if (!mimeMatch) {
+            throw new Error('Invalid data URL');
+        }
+        const mime = mimeMatch[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
+    }
+
+    const handlePhotoTaken = (dataUri: string) => {
+        setImagePreview(dataUri);
+        const file = dataURLtoFile(dataUri, `complaint-${Date.now()}.jpg`);
+        setImageFile(file);
+        form.setValue('image', file);
+        setIsCameraOpen(false);
+    }
+
     function onSubmit(data: ComplaintFormValues) {
         console.log("Complaint Submitted:", data);
         toast({
@@ -53,6 +98,8 @@ export default function ComplaintPage() {
             variant: "default",
         });
         form.reset();
+        setImageFile(null);
+        setImagePreview(null);
     }
 
     return (
@@ -151,6 +198,47 @@ export default function ComplaintPage() {
                                         </FormItem>
                                     )}
                                 />
+                                <FormItem>
+                                    <FormLabel>Attach an Image (Optional)</FormLabel>
+                                    <div className="grid gap-4 md:grid-cols-2">
+                                        <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 space-y-4">
+                                            <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" />
+                                            <Button asChild variant="outline" className="w-full">
+                                              <label htmlFor="photo-upload" className="cursor-pointer">
+                                                <Upload className="mr-2 h-4 w-4" />
+                                                Upload from Device
+                                              </label>
+                                            </Button>
+                                            
+                                            <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+                                                <DialogTrigger asChild>
+                                                   <Button variant="outline" className="w-full">
+                                                     <Camera className="mr-2 h-4 w-4" />
+                                                     Use Camera
+                                                   </Button>
+                                                </DialogTrigger>
+                                                <DialogContent className="max-w-2xl">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Capture a Photo</DialogTitle>
+                                                    </DialogHeader>
+                                                    <CameraCapture onPhotoTaken={handlePhotoTaken} />
+                                                </DialogContent>
+                                            </Dialog>
+                                            
+                                            <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
+                                        </div>
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                                          {imagePreview ? (
+                                            <Image src={imagePreview} alt="Complaint preview" fill className="object-cover" />
+                                          ) : (
+                                            <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
+                                              Image Preview
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    <FormMessage />
+                                </FormItem>
                                 <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                                     {form.formState.isSubmitting ? 'Submitting...' : 'Submit Complaint'}
                                 </Button>
