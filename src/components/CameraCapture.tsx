@@ -23,7 +23,7 @@ export function CameraCapture({ onPhotoTaken }: CameraCaptureProps) {
     const getCameraPermission = async () => {
       if (hasCameraPermission === null) {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
           setHasCameraPermission(true);
 
           if (videoRef.current) {
@@ -120,4 +120,3 @@ export function CameraCapture({ onPhotoTaken }: CameraCaptureProps) {
     </div>
   );
 }
-
