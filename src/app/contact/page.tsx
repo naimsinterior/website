@@ -102,7 +102,7 @@ function ContactPageContent() {
             <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
                 <div className="text-center mb-16">
                     <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
-                        Get In Touch
+                        Contact Us
                     </h1>
                 </div>
 
