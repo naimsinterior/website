@@ -9,9 +9,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { SubHeader } from '@/components/SubHeader';
 import { FloatingContactButtons } from '@/components/FloatingContactButtons';
 import { MobileFooter } from '@/components/MobileFooter';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SimpleContactForm } from '@/components/SimpleContactForm';
 import { OfferPopup } from '@/components/OfferPopup';
+import { Preloader } from '@/components/Preloader';
 
 
 export default function RootLayout({
@@ -22,7 +23,20 @@ export default function RootLayout({
   const pathname = usePathname();
   const isAgentDashboard = pathname === '/agent-dashboard';
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const handleLoad = () => {
+      setIsLoading(false);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
 
   return (
     <html lang="en" className="!scroll-smooth">
@@ -35,6 +49,7 @@ export default function RootLayout({
         <link rel="icon" href="/naimsinterior-icon.png" />
       </head>
       <body className="font-body antialiased">
+        <Preloader isLoading={isLoading} />
         <OfferPopup onBookNow={() => setIsContactFormOpen(true)} />
         <SimpleContactForm open={isContactFormOpen} onOpenChange={setIsContactFormOpen}>
             {null}

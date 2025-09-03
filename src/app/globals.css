@@ -62,3 +62,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes preloader-fill {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-preloader-fill {
+  animation: preloader-fill 1.5s linear infinite;
+}
