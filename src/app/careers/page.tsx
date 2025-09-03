@@ -41,7 +41,7 @@ export default function CareerPage() {
     <>
       <header className="relative h-64 md:h-80 w-full">
           <Image
-            src="https://placehold.co/1600x600.png"
+            src="/Join-our-teams.png"
             alt="Careers at NAIMS INTERIOR"
             layout="fill"
             objectFit="cover"
