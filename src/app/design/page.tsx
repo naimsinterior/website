@@ -13,6 +13,7 @@ import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { inspirations, Inspiration } from "./inspirations";
 import { useSearchParams } from "next/navigation";
+import { GetQuoteForm } from "@/components/GetQuoteForm";
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -20,6 +21,7 @@ export default function DesignPage() {
   const { moodboard, addToMoodboard, removeFromMoodboard } = useMoodboard();
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_PAGE);
+  const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
 
   const searchParams = useSearchParams();
   const categoryFilter = searchParams.get('category');
@@ -75,6 +77,11 @@ export default function DesignPage() {
                         : "Discover a world of creative possibilities. Browse our curated collection of stunning interiors to spark your next big idea."
                     }
                 </p>
+                <div className="mt-8">
+                    <GetQuoteForm open={isQuoteFormOpen} onOpenChange={setIsQuoteFormOpen}>
+                        <Button>Book Free Consultation</Button>
+                    </GetQuoteForm>
+                </div>
             </div>
         </section>
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
