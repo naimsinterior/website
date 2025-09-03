@@ -1,12 +1,13 @@
 
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { Camera, RefreshCcw } from 'lucide-react';
+import { Camera, RefreshCcw, ZoomIn, ZoomOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Slider } from '@/components/ui/slider';
 
 interface CameraCaptureProps {
   onPhotoTaken: (dataUri: string) => void;
@@ -18,17 +19,34 @@ export function CameraCapture({ onPhotoTaken }: CameraCaptureProps) {
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [photoData, setPhotoData] = useState<string | null>(null);
   const { toast } = useToast();
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [zoom, setZoom] = useState<number>(1);
+  const [zoomCapabilities, setZoomCapabilities] = useState<MediaTrackCapabilities["zoom"] | null>(null);
+
+  const getVideoTrack = useCallback(() => {
+    if (!stream) return null;
+    return stream.getVideoTracks()[0];
+  }, [stream]);
 
   useEffect(() => {
     const getCameraPermission = async () => {
       if (hasCameraPermission === null) {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          setStream(stream);
           setHasCameraPermission(true);
 
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
           }
+
+          const track = stream.getVideoTracks()[0];
+          const capabilities = track.getCapabilities();
+          if (capabilities.zoom) {
+            setZoomCapabilities(capabilities.zoom);
+            setZoom(capabilities.zoom.min);
+          }
+
         } catch (error) {
           console.error('Error accessing camera:', error);
           setHasCameraPermission(false);
@@ -45,13 +63,25 @@ export function CameraCapture({ onPhotoTaken }: CameraCaptureProps) {
 
     return () => {
       // Cleanup stream on component unmount
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
+      if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, [toast, hasCameraPermission]);
+    // The dependency array is intentionally kept this way to run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const handleZoomChange = (value: number[]) => {
+    const newZoom = value[0];
+    const track = getVideoTrack();
+    if (track && zoomCapabilities) {
+        if (newZoom >= zoomCapabilities.min && newZoom <= zoomCapabilities.max) {
+           track.applyConstraints({ advanced: [{ zoom: newZoom }] });
+           setZoom(newZoom);
+        }
+    }
+  };
+  
   const handleTakePhoto = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -95,6 +125,21 @@ export function CameraCapture({ onPhotoTaken }: CameraCaptureProps) {
             Please allow camera access in your browser to use this feature. You may need to refresh the page after granting permissions.
           </AlertDescription>
         </Alert>
+      )}
+
+      {hasCameraPermission && !photoData && zoomCapabilities && (
+        <div className="flex items-center gap-2">
+            <ZoomOut className="h-5 w-5 text-muted-foreground" />
+             <Slider
+                value={[zoom]}
+                min={zoomCapabilities.min}
+                max={zoomCapabilities.max}
+                step={zoomCapabilities.step}
+                onValueChange={handleZoomChange}
+                aria-label="Zoom"
+            />
+            <ZoomIn className="h-5 w-5 text-muted-foreground" />
+        </div>
       )}
 
       {hasCameraPermission && (
