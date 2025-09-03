@@ -14,7 +14,7 @@ const serviceAreas = [
 
 const socialLinks = [
     { name: "Facebook", href: "#", icon: "/facebook.svg" },
-    { name: "Instagram", href: "#", icon: "/instagram.svg" },
+    { name: "Instagram", href: "https://www.instagram.com/naimsinterior/", icon: "/instagram.svg" },
     { name: "X", href: "#", icon: "/x-logo.svg" },
     { name: "YouTube", href: "#", icon: "/youtube.svg" },
     { name: "LinkedIn", href: "#", icon: "/linkedin.svg" },
