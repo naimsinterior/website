@@ -75,8 +75,19 @@ export function StyleToolClient() {
         if (!photoDataUri) {
              throw new Error("Failed to read file");
         }
-        const result = await suggestStyle({ photoDataUri, roomType: selectedRoomType });
-        setSuggestions(result);
+        try {
+            const result = await suggestStyle({ photoDataUri, roomType: selectedRoomType });
+            setSuggestions(result);
+        } catch (error) {
+            console.error(error);
+            toast({
+                title: "An error occurred",
+                description: "Failed to get style suggestions. Please try again.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
       };
       reader.onerror = (error) => {
         console.error("File reading error:", error);
@@ -86,10 +97,9 @@ export function StyleToolClient() {
       console.error(error);
       toast({
         title: "An error occurred",
-        description: "Failed to get style suggestions. Please try again.",
+        description: "Failed to process the image. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
