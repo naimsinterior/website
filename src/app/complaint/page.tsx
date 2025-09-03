@@ -17,11 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ShieldAlert, Upload, Camera } from 'lucide-react';
+import { ShieldAlert, Upload, Camera, Trash2 } from 'lucide-react';
 import { useState } from "react";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { CameraCapture } from "@/components/CameraCapture";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const complaintFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -30,15 +31,15 @@ const complaintFormSchema = z.object({
   projectName: z.string().min(2, { message: "Project name or ID is required." }),
   complaintDetails: z.string().min(20, { message: "Please provide detailed information about your complaint (at least 20 characters)." }),
   desiredResolution: z.string().min(10, { message: "Please describe your desired resolution (at least 10 characters)." }),
-  image: z.any().optional(),
+  images: z.array(z.any()).optional(),
 });
 
 type ComplaintFormValues = z.infer<typeof complaintFormSchema>;
 
 export default function ComplaintPage() {
     const { toast } = useToast();
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [isCameraOpen, setIsCameraOpen] = useState(false);
 
     const form = useForm<ComplaintFormValues>({
@@ -50,19 +51,20 @@ export default function ComplaintPage() {
             projectName: "",
             complaintDetails: "",
             desiredResolution: "",
+            images: [],
         },
     });
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setImageFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-            form.setValue('image', file);
+        const files = event.target.files;
+        if (files) {
+            const newFiles = Array.from(files);
+            setImageFiles(prev => [...prev, ...newFiles]);
+
+            const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+            setImagePreviews(prev => [...prev, ...newPreviews]);
+            
+            form.setValue('images', [...(form.getValues('images') || []), ...newFiles]);
         }
     };
     
@@ -83,11 +85,17 @@ export default function ComplaintPage() {
     }
 
     const handlePhotoTaken = (dataUri: string) => {
-        setImagePreview(dataUri);
+        setImagePreviews(prev => [...prev, dataUri]);
         const file = dataURLtoFile(dataUri, `complaint-${Date.now()}.jpg`);
-        setImageFile(file);
-        form.setValue('image', file);
+        setImageFiles(prev => [...prev, file]);
+        form.setValue('images', [...(form.getValues('images') || []), file]);
         setIsCameraOpen(false);
+    }
+    
+    const handleRemoveImage = (index: number) => {
+        setImageFiles(prev => prev.filter((_, i) => i !== index));
+        setImagePreviews(prev => prev.filter((_, i) => i !== index));
+        form.setValue('images', form.getValues('images')?.filter((_, i) => i !== index));
     }
 
     function onSubmit(data: ComplaintFormValues) {
@@ -98,8 +106,8 @@ export default function ComplaintPage() {
             variant: "default",
         });
         form.reset();
-        setImageFile(null);
-        setImagePreview(null);
+        setImageFiles([]);
+        setImagePreviews([]);
     }
 
     return (
@@ -199,44 +207,62 @@ export default function ComplaintPage() {
                                     )}
                                 />
                                 <FormItem>
-                                    <FormLabel>Attach an Image (Optional)</FormLabel>
-                                    <div className="grid gap-4 md:grid-cols-2">
-                                        <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 space-y-4">
-                                            <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" />
-                                            <Button asChild variant="outline" className="w-full">
-                                              <label htmlFor="photo-upload" className="cursor-pointer">
-                                                <Upload className="mr-2 h-4 w-4" />
-                                                Upload from Device
-                                              </label>
-                                            </Button>
-                                            
-                                            <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
-                                                <DialogTrigger asChild>
-                                                   <Button variant="outline" className="w-full">
-                                                     <Camera className="mr-2 h-4 w-4" />
-                                                     Use Camera
-                                                   </Button>
-                                                </DialogTrigger>
-                                                <DialogContent className="max-w-2xl">
-                                                    <DialogHeader>
-                                                        <DialogTitle>Capture a Photo</DialogTitle>
-                                                    </DialogHeader>
-                                                    <CameraCapture onPhotoTaken={handlePhotoTaken} />
-                                                </DialogContent>
-                                            </Dialog>
-                                            
-                                            <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
-                                        </div>
-                                        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
-                                          {imagePreview ? (
-                                            <Image src={imagePreview} alt="Complaint preview" fill className="object-cover" />
-                                          ) : (
-                                            <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
-                                              Image Preview
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                    <FormLabel>Attach Images (Optional)</FormLabel>
+                                    <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 space-y-4">
+                                        <Input id="photo-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" multiple />
+                                        <Button asChild variant="outline" className="w-full">
+                                          <label htmlFor="photo-upload" className="cursor-pointer">
+                                            <Upload className="mr-2 h-4 w-4" />
+                                            Upload from Device
+                                          </label>
+                                        </Button>
+                                        
+                                        <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+                                            <DialogTrigger asChild>
+                                               <Button variant="outline" className="w-full">
+                                                 <Camera className="mr-2 h-4 w-4" />
+                                                 Use Camera
+                                               </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-2xl">
+                                                <DialogHeader>
+                                                    <DialogTitle>Capture a Photo</DialogTitle>
+                                                </DialogHeader>
+                                                <CameraCapture onPhotoTaken={handlePhotoTaken} />
+                                            </DialogContent>
+                                        </Dialog>
+                                        
+                                        <p className="text-xs text-muted-foreground">PNG, JPG, WEBP. You can upload multiple images.</p>
+                                    </div>
+                                    
+                                     {imagePreviews.length > 0 && (
+                                        <ScrollArea className="w-full whitespace-nowrap rounded-md border mt-4">
+                                          <div className="flex w-max space-x-4 p-4">
+                                            {imagePreviews.map((src, index) => (
+                                              <div key={index} className="relative group flex-shrink-0">
+                                                <Image
+                                                  src={src}
+                                                  alt={`Complaint preview ${index + 1}`}
+                                                  width={100}
+                                                  height={100}
+                                                  className="h-24 w-24 rounded-md object-cover"
+                                                />
+                                                <Button
+                                                  type="button"
+                                                  variant="destructive"
+                                                  size="icon"
+                                                  className="absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                                  onClick={() => handleRemoveImage(index)}
+                                                >
+                                                  <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                              </div>
+                                            ))}
+                                          </div>
+                                          <ScrollBar orientation="horizontal" />
+                                        </ScrollArea>
+                                      )}
+
                                     <FormMessage />
                                 </FormItem>
                                 <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
