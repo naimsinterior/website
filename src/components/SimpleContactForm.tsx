@@ -102,7 +102,9 @@ export function SimpleContactForm({ children, open, onOpenChange }: SimpleContac
     }
 
     const handleOpenChange = (open: boolean) => {
-        setCurrentOpen(open);
+        if (setCurrentOpen) {
+            setCurrentOpen(open);
+        }
         if (!open) {
             setTimeout(() => {
                 form.reset();

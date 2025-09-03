@@ -15,6 +15,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { ScratchCard } from "@/components/ScratchCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { SimpleContactForm } from "@/components/SimpleContactForm";
 
 const featuredProjects = projects.slice(0, 5);
 const testimonials = projects.filter(p => p.testimonial).slice(0, 3);
@@ -284,11 +285,13 @@ export default function InteriorDesignNoidaPage() {
                 <p className="mt-4 text-muted-foreground">
                   Naims Interior is a leading interior design firm in Noida, specializing in high-end residential and commercial projects. Our philosophy is to create spaces that are both functional and inspiring, reflecting the unique style of our clients in Noida.
                 </p>
-                <Button asChild variant="link" className="mt-4 px-0">
-                  <Link href="/interior-designer-near-me">
-                    Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                <div className="mt-4">
+                  <SimpleContactForm>
+                      <Button variant="link" className="px-0">
+                          Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                  </SimpleContactForm>
+                </div>
               </div>
               <div className="relative h-80 w-full rounded-lg shadow-xl">
                  <Image
