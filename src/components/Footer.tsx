@@ -43,7 +43,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
               <li><Link href="/careers" className="text-sm text-muted-foreground hover:text-primary">Careers</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
+              <li><Link href="/interior-designer-near-me" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
               <li><Link href="/terms-and-conditions" className="text-sm text-muted-foreground hover:text-primary">Terms & Conditions</Link></li>
               <li><Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary">Privacy Policy</Link></li>
               <li><Link href="/declaration" className="text-sm text-muted-foreground hover:text-primary">Declaration</Link></li>
@@ -64,11 +64,11 @@ export function Footer() {
            <div>
             <h3 className="font-headline text-sm font-semibold uppercase tracking-wider">City</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="/contact?office=headoffice" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
-              <li><Link href="/contact?office=noida" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
-              <li><Link href="/contact?office=gurgaon" className="text-sm text-muted-foreground hover:text-primary">Gurgaon</Link></li>
-              <li><Link href="/contact?office=chennai" className="text-sm text-muted-foreground hover:text-primary">Chennai</Link></li>
-              <li><Link href="/contact?office=omr" className="text-sm text-muted-foreground hover:text-primary">OMR</Link></li>
+              <li><Link href="/interior-designer-near-me?office=headoffice" className="text-sm text-muted-foreground hover:text-primary">Head office</Link></li>
+              <li><Link href="/interior-designer-near-me?office=noida" className="text-sm text-muted-foreground hover:text-primary">Noida</Link></li>
+              <li><Link href="/interior-designer-near-me?office=gurgaon" className="text-sm text-muted-foreground hover:text-primary">Gurgaon</Link></li>
+              <li><Link href="/interior-designer-near-me?office=chennai" className="text-sm text-muted-foreground hover:text-primary">Chennai</Link></li>
+              <li><Link href="/interior-designer-near-me?office=omr" className="text-sm text-muted-foreground hover:text-primary">OMR</Link></li>
             </ul>
           </div>
         </div>
