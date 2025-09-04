@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Sparkles, Users, Ruler } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -19,9 +19,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useRef } from "react";
 import Image from "next/image";
+import Link from 'next/link';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -38,6 +39,7 @@ const locations = [
         address: 'H-77, Silai Bara Gaon, Milak, Rampur, Uttar Pradesh (244701)',
         email: 'headoffice@naimsinterior.com',
         phone: '(+91) 987-654-3210',
+        pageHref: "/contact",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55604.57684847901!2d79.0026363872999!3d28.8092348510808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390a5add696144a1%3A0x2d87a7168b958937!2sRampur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488825852!5m2!1sen!2sin"
     },
     {
@@ -46,6 +48,7 @@ const locations = [
         address: 'Sector 62, Noida, Uttar Pradesh 201309',
         email: 'noida@naimsinterior.com',
         phone: '(+91) 987-654-3211',
+        pageHref: "/interior-design-noida",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14013.149595299837!2d77.36151909923838!3d28.608759600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce544da318685%3A0x62836b6901844893!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488924296!5m2!1sen!2sin"
     },
     {
@@ -54,6 +57,7 @@ const locations = [
         address: 'DLF Cyber City, Gurgaon, Haryana 122002',
         email: 'gurgaon@naimsinterior.com',
         phone: '(+91) 987-654-3212',
+        pageHref: "#",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14031.1194200159!2d77.0805335992225!3d28.4984242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d194473c4d42d%3A0x891435fc036e5229!2sDLF%20CyberHub%2C%20Gurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1719489000185!5m2!1sen!2sin"
     },
     {
@@ -62,6 +66,7 @@ const locations = [
         address: 'T. Nagar, Chennai, Tamil Nadu 600017',
         email: 'chennai@naimsinterior.com',
         phone: '(+91) 987-654-3213',
+        pageHref: "#",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31093.003926019313!2d80.21985901309832!3d13.04586940801304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526674a2373307%3A0x356f955f01905380!2sT.%20Nagar%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1719489053531!5m2!1sen!2sin"
     },
     {
@@ -70,32 +75,52 @@ const locations = [
         address: 'Old Mahabalipuram Road, Chennai, Tamil Nadu 600119',
         email: 'omr@naimsinterior.com',
         phone: '(+91) 987-654-3214',
+        pageHref: "/interior-design-omr",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124434.9080649547!2d80.12119934339486!3d12.898867372776489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525c3458448f47%3A0x959733477348981d!2sOld%20Mahabalipuram%20Rd%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1719489110196!5m2!1sen!2sin"
     }
 ];
 
 const faqs = [
     {
-        question: "How do I choose the right interior designer for my home?",
-        answer: "Look for a designer whose portfolio aligns with your personal style. It's also important to find someone you can communicate with easily. At NAIMS INTERIOR, we prioritize understanding your vision and collaborating closely with you throughout the process."
+        question: "How do I find a reputable interior designer near me?",
+        answer: "Start by looking at portfolios to find a style that resonates with you. Read reviews and testimonials. Most importantly, schedule a consultation to ensure you connect with the designer. At NAIMS INTERIOR, we offer free initial consultations at all our locations to help you find the perfect match for your project."
     },
     {
-        question: "What should I have prepared for my first meeting with an interior designer?",
-        answer: "It's helpful to have a general idea of your budget, your style preferences (inspiration photos are great!), and a list of what you want to achieve. This helps our designers understand your needs from day one."
+        question: "What are the benefits of hiring a local interior designer?",
+        answer: "A local designer has established relationships with local contractors, suppliers, and artisans, which can save you time and money. They also have a deep understanding of regional styles, building codes, and climate considerations, ensuring your design is both beautiful and practical for your area."
     },
     {
-        question: "Are your interior design services available in my area?",
-        answer: "We have offices in several major cities and serve their surrounding areas. Please check our office locations on this page. If you're unsure, feel free to contact us, and we'll let you know if we can service your location."
+        question: "How much does it cost to hire an interior designer in my city?",
+        answer: "Costs can vary based on the designer's experience and the project's scope. We offer transparent pricing and can work with you to create a plan that fits your budget. Use our online Cost Calculator for a preliminary estimate, or contact a local office for a detailed quote."
     },
     {
-        question: "How much does interior design cost?",
-        answer: "The cost varies greatly depending on the scope of the project, the size of your space, and the materials chosen. We offer a free initial consultation to discuss your project and can provide a preliminary estimate. You can also use our online cost calculator for a rough idea."
+        question: "Can an interior designer work with a small budget?",
+        answer: "Yes, a good designer can work with almost any budget. They are experts at knowing where to splurge and where to save, ensuring you get the most impact for your money. They can also help you avoid costly mistakes, which is a significant saving in itself."
     }
 ];
+
+const localBenefits = [
+    {
+        icon: Sparkles,
+        title: "Local Style Expertise",
+        description: "Our designers have an in-depth understanding of your city's architectural styles and trends, ensuring a design that feels right at home."
+    },
+    {
+        icon: Users,
+        title: "Trusted Local Network",
+        description: "We have strong relationships with the best local craftsmen, suppliers, and contractors, ensuring quality workmanship and materials."
+    },
+    {
+        icon: Ruler,
+        title: "On-Site Management",
+        description: "Being local means we can provide hands-on project management and frequent site visits, ensuring your project runs smoothly and to the highest standard."
+    }
+]
 
 
 function InteriorDesignerNearMePageContent() {
     const searchParams = useSearchParams();
+    const router = useRouter();
     const office = searchParams.get('office') || 'headoffice';
     const formRef = useRef<HTMLDivElement>(null);
 
@@ -121,7 +146,7 @@ function InteriorDesignerNearMePageContent() {
         <>
             <section className="relative h-[60vh] w-full">
                 <Image
-                    src="https://placehold.co/1600x800.png"
+                    src="https://picsum.photos/1600/800"
                     alt="Map with location pins showing interior designers near you"
                     fill
                     className="z-0 object-cover"
@@ -140,6 +165,33 @@ function InteriorDesignerNearMePageContent() {
                     </div>
                 </div>
             </section>
+
+            <section className="py-16 md:py-24 bg-muted">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center">
+                        <h2 className="font-headline text-3xl md:text-4xl">Why Choose a Local Designer?</h2>
+                        <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
+                            Working with a local NAIMS INTERIOR designer offers unique advantages for your project's success.
+                        </p>
+                    </div>
+                    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {localBenefits.map((benefit, index) => (
+                            <Card key={index} className="text-center">
+                                <CardHeader>
+                                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
+                                        <benefit.icon className="h-6 w-6 text-primary" />
+                                    </div>
+                                    <CardTitle>{benefit.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-muted-foreground">{benefit.description}</p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
                 <div className="text-center mb-16">
                     <h2 className="font-headline text-3xl">Transform Your Home with a Local Design Expert</h2>
@@ -157,24 +209,20 @@ function InteriorDesignerNearMePageContent() {
                                         <span className="font-headline text-xl">{loc.name}</span>
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            <div>
-                                                <div className="space-y-4">
-                                                    <div className="flex items-start gap-4">
-                                                        <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0"/>
-                                                        <p>{loc.address}</p>
-                                                    </div>
-                                                    <div className="flex items-center gap-4">
-                                                        <Mail className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                        <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
-                                                    </div>
-                                                    <div className="flex items-center gap-4">
-                                                        <Phone className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                        <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
-                                                    </div>
-                                                </div>
+                                        <div className="space-y-4">
+                                            <div className="flex items-start gap-4">
+                                                <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0"/>
+                                                <p>{loc.address}</p>
                                             </div>
-                                            <div className="aspect-video w-full overflow-hidden rounded-lg">
+                                            <div className="flex items-center gap-4">
+                                                <Mail className="h-5 w-5 text-primary flex-shrink-0"/>
+                                                <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                <Phone className="h-5 w-5 text-primary flex-shrink-0"/>
+                                                <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
+                                            </div>
+                                             <div className="aspect-video w-full overflow-hidden rounded-lg mt-4">
                                                 <iframe
                                                     src={loc.mapSrc}
                                                     width="100%"
@@ -185,6 +233,9 @@ function InteriorDesignerNearMePageContent() {
                                                     referrerPolicy="no-referrer-when-downgrade"
                                                 ></iframe>
                                             </div>
+                                            <Button asChild variant="secondary" onClick={() => router.push(loc.pageHref)}>
+                                                <Link href={loc.pageHref}>Explore {loc.name} Services</Link>
+                                            </Button>
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -195,6 +246,7 @@ function InteriorDesignerNearMePageContent() {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="font-headline text-3xl">Send us a message</CardTitle>
+                                <CardDescription>Our team will get back to you within 24 hours.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                  <Form {...form}>
