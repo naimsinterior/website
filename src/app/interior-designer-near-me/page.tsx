@@ -146,7 +146,7 @@ function InteriorDesignerNearMePageContent() {
         <>
             <section className="relative h-[60vh] w-full">
                 <Image
-                    src="https://picsum.photos/1600/800"
+                    src="https://placehold.co/1600x800"
                     alt="Map with location pins showing interior designers near you"
                     fill
                     className="z-0 object-cover"
