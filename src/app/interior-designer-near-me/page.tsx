@@ -110,13 +110,8 @@ const localBenefits = [
         icon: Users,
         title: "Trusted Local Network",
         description: "We have strong relationships with the best local craftsmen, suppliers, and contractors, ensuring quality workmanship and materials."
-    },
-    {
-        icon: Ruler,
-        title: "On-Site Management",
-        description: "Being local means we can provide hands-on project management and frequent site visits, ensuring your project runs smoothly and to the highest standard."
     }
-]
+];
 
 
 function InteriorDesignerNearMePageContent() {
@@ -147,7 +142,7 @@ function InteriorDesignerNearMePageContent() {
         <>
             <section className="relative h-[60vh] w-full">
                 <Image
-                    src="https://placehold.co/1600x800"
+                    src="https://placehold.co/1600/800"
                     alt="Map with location pins showing interior designers near you"
                     fill
                     className="z-0 object-cover"
@@ -175,7 +170,7 @@ function InteriorDesignerNearMePageContent() {
                             Working with a local NAIMS INTERIOR designer offers unique advantages for your project's success.
                         </p>
                     </div>
-                    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {localBenefits.map((benefit, index) => (
                             <Card key={index} className="text-center">
                                 <CardHeader>
