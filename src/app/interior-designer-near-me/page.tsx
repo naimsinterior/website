@@ -23,6 +23,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useRef } from "react";
 import Image from "next/image";
 import Link from 'next/link';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -202,45 +203,57 @@ function InteriorDesignerNearMePageContent() {
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
-                         <Accordion type="single" collapsible defaultValue={office} className="w-full">
-                            {locations.map((loc) => (
-                                <AccordionItem key={loc.id} value={loc.id}>
-                                    <AccordionTrigger>
-                                        <span className="font-headline text-xl">{loc.name}</span>
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="space-y-4">
-                                            <div className="flex items-start gap-4">
-                                                <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0"/>
-                                                <p>{loc.address}</p>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <Mail className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <Phone className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
-                                            </div>
-                                             <div className="aspect-video w-full overflow-hidden rounded-lg mt-4">
-                                                <iframe
-                                                    src={loc.mapSrc}
-                                                    width="100%"
-                                                    height="100%"
-                                                    style={{ border: 0 }}
-                                                    allowFullScreen={false}
-                                                    loading="lazy"
-                                                    referrerPolicy="no-referrer-when-downgrade"
-                                                ></iframe>
-                                            </div>
-                                            <Button asChild variant="secondary" onClick={() => router.push(loc.pageHref)}>
-                                                <Link href={loc.pageHref}>Explore {loc.name} Services</Link>
-                                            </Button>
+                         <Carousel
+                            opts={{
+                              align: "start",
+                              loop: true,
+                            }}
+                            className="w-full"
+                          >
+                            <CarouselContent>
+                              {locations.map((loc) => (
+                                <CarouselItem key={loc.id}>
+                                  <div className="p-1">
+                                    <Card>
+                                      <CardHeader>
+                                        <CardTitle className="font-headline text-xl">{loc.name}</CardTitle>
+                                      </CardHeader>
+                                      <CardContent className="space-y-4">
+                                        <div className="aspect-video w-full overflow-hidden rounded-lg">
+                                          <iframe
+                                            src={loc.mapSrc}
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 0 }}
+                                            allowFullScreen={false}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                          ></iframe>
                                         </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
+                                        <div className="flex items-start gap-4">
+                                          <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                                          <p>{loc.address}</p>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                          <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                                          <a href={`mailto:${loc.email}`} className="hover:text-primary transition-colors">{loc.email}</a>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                          <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                                          <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
+                                        </div>
+                                        <Button asChild variant="secondary" className="w-full" onClick={() => router.push(loc.pageHref)}>
+                                          <Link href={loc.pageHref}>Explore {loc.name} Services</Link>
+                                        </Button>
+                                      </CardContent>
+                                    </Card>
+                                  </div>
+                                </CarouselItem>
+                              ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="left-2" />
+                            <CarouselNext className="right-2" />
+                          </Carousel>
                     </div>
                      <div>
                         <Card>
@@ -322,3 +335,5 @@ export default function InteriorDesignerNearMePage() {
         </Suspense>
     )
 }
+
+    
