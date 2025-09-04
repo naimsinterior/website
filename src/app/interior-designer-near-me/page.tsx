@@ -74,6 +74,26 @@ const locations = [
     }
 ];
 
+const faqs = [
+    {
+        question: "How do I choose the right interior designer for my home?",
+        answer: "Look for a designer whose portfolio aligns with your personal style. It's also important to find someone you can communicate with easily. At NAIMS INTERIOR, we prioritize understanding your vision and collaborating closely with you throughout the process."
+    },
+    {
+        question: "What should I have prepared for my first meeting with an interior designer?",
+        answer: "It's helpful to have a general idea of your budget, your style preferences (inspiration photos are great!), and a list of what you want to achieve. This helps our designers understand your needs from day one."
+    },
+    {
+        question: "Are your interior design services available in my area?",
+        answer: "We have offices in several major cities and serve their surrounding areas. Please check our office locations on this page. If you're unsure, feel free to contact us, and we'll let you know if we can service your location."
+    },
+    {
+        question: "How much does interior design cost?",
+        answer: "The cost varies greatly depending on the scope of the project, the size of your space, and the materials chosen. We offer a free initial consultation to discuss your project and can provide a preliminary estimate. You can also use our online cost calculator for a rough idea."
+    }
+];
+
+
 function InteriorDesignerNearMePageContent() {
     const searchParams = useSearchParams();
     const office = searchParams.get('office') || 'headoffice';
@@ -102,25 +122,31 @@ function InteriorDesignerNearMePageContent() {
             <section className="relative h-[60vh] w-full">
                 <Image
                     src="https://placehold.co/1600x800.png"
-                    alt="Contact NAIMS INTERIOR"
+                    alt="Map with location pins showing interior designers near you"
                     fill
                     className="z-0 object-cover"
-                    data-ai-hint="modern office reception"
+                    data-ai-hint="map location pins"
                     priority
                 />
                 <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black/50 text-center text-white p-4">
                     <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl">
-                        Get In Touch
+                        Find Top Interior Designers Near You
                     </h1>
                     <p className="mt-4 max-w-3xl text-lg md:text-xl">
-                        Have a project in mind, a question about our services, or just want to say hello? We'd love to hear from you. Reach out via the form below or contact one of our offices directly.
+                        Searching for the best "interior designer near me"? Look no further. NAIMS INTERIOR has offices across the country, ready to bring your design dreams to life.
                     </p>
                     <div className="mt-8">
-                        <Button size="lg" onClick={scrollToForm}>Send us a message</Button>
+                        <Button size="lg" onClick={scrollToForm}>Book a Free Consultation</Button>
                     </div>
                 </div>
             </section>
             <div className="container mx-auto px-4 py-16 md:px-6 md:py-24" ref={formRef}>
+                <div className="text-center mb-16">
+                    <h2 className="font-headline text-3xl">Transform Your Home with a Local Design Expert</h2>
+                    <p className="mt-4 max-w-3xl mx-auto text-muted-foreground">Finding a local interior designer means you get personalized service from someone who understands the style and nuances of your area. At NAIMS INTERIOR, our local teams combine regional expertise with world-class design standards to create a space that's uniquely yours.
+                    </p>
+                </div>
+
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
@@ -212,6 +238,24 @@ function InteriorDesignerNearMePageContent() {
                             </CardContent>
                         </Card>
                     </div>
+                </div>
+
+                <div className="mt-24">
+                     <div className="text-center mb-8">
+                        <h2 className="font-headline text-3xl md:text-4xl">Questions About Finding a Designer?</h2>
+                    </div>
+                    <Accordion type="single" collapsible className="w-full max-w-4xl mx-auto">
+                        {faqs.map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index}`} className="border-b">
+                                <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
+                                    {faq.question}
+                                </AccordionTrigger>
+                                <AccordionContent className="pt-2">
+                                    <p className="text-base text-muted-foreground">{faq.answer}</p>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
                 </div>
             </div>
         </>
