@@ -200,7 +200,7 @@ function InteriorDesignerNearMePageContent() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     <div>
                          <h2 className="font-headline text-3xl mb-8">Our Offices</h2>
                          <Carousel
@@ -256,9 +256,10 @@ function InteriorDesignerNearMePageContent() {
                           </Carousel>
                     </div>
                      <div>
+                        <h2 className="font-headline text-3xl mb-8">Send us a message</h2>
                         <Card>
                             <CardHeader>
-                                <CardTitle className="font-headline text-3xl">Send us a message</CardTitle>
+                                <CardTitle className="font-headline text-2xl">Get a Free Consultation</CardTitle>
                                 <CardDescription>Our team will get back to you within 24 hours.</CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -335,5 +336,3 @@ export default function InteriorDesignerNearMePage() {
         </Suspense>
     )
 }
-
-    
