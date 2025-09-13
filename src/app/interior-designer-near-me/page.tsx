@@ -38,28 +38,29 @@ const locations = [
         id: 'headoffice',
         name: 'Head Office',
         address: 'H-77, Silai Bara Gaon, Milak, Rampur, Uttar Pradesh (244701)',
-        email: 'headoffice@naimsinterior.com',
-        phone: '(+91) 987-654-3210',
+        email: 'WeCare@naimsinterior.com',
+        "toll free": "1800-120-8230",
         pageHref: "/contact",
-        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55604.57684847901!2d79.0026363872999!3d28.8092348510808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390a5add696144a1%3A0x2d87a7168b958937!2sRampur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488825852!5m2!1sen!2sin"
+        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.56617878634!2d79.2481741!3d28.7026211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390a995181dfd987%3A0xfeec77310e0f673a!2sNAIMS%20Enterprises%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1757784043805!5m2!1sen!2sin"
     },
     {
         id: 'noida',
         name: 'Noida',
-        address: 'Sector 62, Noida, Uttar Pradesh 201309',
-        email: 'noida@naimsinterior.com',
-        phone: '(+91) 987-654-3211',
+        address: 'Plot No. A-27, Block A, Industrial Area, Sector 62, Noida, Uttar Pradesh 201309',
+        email: 'NCR@naimsinterior.com',
+        phone: '(+91) 705511-8138',
         pageHref: "/interior-design-noida",
-        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14013.149595299837!2d77.36151909923838!3d28.608759600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce544da318685%3A0x62836b6901844893!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1719488924296!5m2!1sen!2sin"
+        mapSrc: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3502.051629287631!2d77.35577147375238!3d28.628214684279836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1757784653032!5m2!1sen!2sin"
     },
     {
         id: 'gurgaon',
         name: 'Gurgaon',
-        address: 'DLF Cyber City, Gurgaon, Haryana 122002',
-        email: 'gurgaon@naimsinterior.com',
-        phone: '(+91) 987-654-3212',
+        address: 'Golf Crse Rd, Suncity, Sector 54, Haiderpur, Gurugram, Haryana 122011',
+        email: 'NCR@naimsinterior.com',
+        "toll free": "1800-120-8230",
+        phone: '(+91) 705511-8139',
         pageHref: "#",
-        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14031.1194200159!2d77.0805335992225!3d28.4984242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d194473c4d42d%3A0x891435fc036e5229!2sDLF%20CyberHub%2C%20Gurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1719489000185!5m2!1sen!2sin"
+        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.4156549447257!2d77.10728397374314!3d28.436883992941606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f955ac59859%3A0x788db0fdefa83c4c!2sNAIMS%20INTERIOR!5e0!3m2!1sen!2sin!4v1757785093889!5m2!1sen!2sin"
     },
     {
         id: 'chennai',
@@ -73,9 +74,10 @@ const locations = [
     {
         id: 'omr',
         name: 'OMR',
-        address: 'Old Mahabalipuram Road, Chennai, Tamil Nadu 600119',
+        address: 'Old Mamallapuram Rd, Ganapathy Nagar, Kelambakkam, Tamil Nadu 603103',
         email: 'omr@naimsinterior.com',
-        phone: '(+91) 987-654-3214',
+        "toll free" : "1800-120-8230",
+        phone: '(+91) 705511-8141',
         pageHref: "/interior-design-omr",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124434.9080649547!2d80.12119934339486!3d12.898867372776489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525c3458448f47%3A0x959733477348981d!2sOld%20Mahabalipuram%20Rd%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1719489110196!5m2!1sen!2sin"
     }
@@ -235,9 +237,9 @@ function InteriorDesignerNearMePageContent() {
                                         </div>
                                         <div className="flex items-center gap-4">
                                           <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                                          <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone}</a>
+                                          <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone || loc["toll free"]}</a>
                                         </div>
-                                        <Button asChild variant="secondary" className="w-full" onClick={() => router.push(loc.pageHref)}>
+                                        <Button asChild variant="secondary" className="w-full">
                                           <Link href={loc.pageHref}>Explore {loc.name} Services</Link>
                                         </Button>
                                       </CardContent>
