@@ -48,6 +48,7 @@ const locations = [
         name: 'Noida',
         address: 'Plot No. A-27, Block A, Industrial Area, Sector 62, Noida, Uttar Pradesh 201309',
         email: 'NCR@naimsinterior.com',
+        "toll free": "1800-120-8230",
         phone: '(+91) 705511-8138',
         pageHref: "/interior-design-noida",
         mapSrc: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3502.051629287631!2d77.35577147375238!3d28.628214684279836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1757784653032!5m2!1sen!2sin"
@@ -237,7 +238,10 @@ function InteriorDesignerNearMePageContent() {
                                         </div>
                                         <div className="flex items-center gap-4">
                                           <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                                          <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors">{loc.phone || loc["toll free"]}</a>
+                                          <div>
+                                            {loc.phone && <a href={`tel:${loc.phone}`} className="hover:text-primary transition-colors block">{loc.phone}</a>}
+                                            {loc["toll free"] && <a href={`tel:${loc["toll free"]}`} className="hover:text-primary transition-colors block">Toll-free: {loc["toll free"]}</a>}
+                                          </div>
                                         </div>
                                         <Button asChild variant="secondary" className="w-full">
                                           <Link href={loc.pageHref}>Explore {loc.name} Services</Link>
