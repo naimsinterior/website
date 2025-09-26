@@ -321,7 +321,7 @@ export default function CalculatePage() {
                         });
                     });
                 }
-            }, 5000); // 5 seconds delay
+            }, 2000); // 2 seconds delay
 
             return () => clearTimeout(timer); // Cleanup the timer
         }
