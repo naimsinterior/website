@@ -4,12 +4,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type FieldName } from "react-hook-form";
 import * as z from "zod";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Info, Plus, Minus, CheckCircle, MailCheck } from "lucide-react";
+import { Info, Plus, Minus, CheckCircle, MailCheck, Volume2, VolumeX } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -289,6 +289,9 @@ export default function CalculatePage() {
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(1);
     const { toast } = useToast();
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [isMuted, setIsMuted] = useState(false);
+
 
     const form = useForm<CalculatorFormValues>({
         resolver: zodResolver(calculatorSchema),
@@ -302,6 +305,23 @@ export default function CalculatePage() {
     });
 
     const propertyType = form.watch("propertyType");
+
+    useEffect(() => {
+        if (estimatedCost !== null && audioRef.current) {
+            if (isMuted) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            } else {
+                audioRef.current.play().catch(error => {
+                    console.warn("Audio autoplay was prevented.", error);
+                    toast({
+                        title: "Audio blocked",
+                        description: "Your browser prevented audio from playing automatically. Click the unmute button to hear the announcement.",
+                    });
+                });
+            }
+        }
+    }, [estimatedCost, isMuted, toast]);
 
     useEffect(() => {
         const resetScope = () => {
@@ -392,11 +412,16 @@ export default function CalculatePage() {
             setCurrentStep(currentStep - 1);
         }
     };
+
+    const toggleMute = () => {
+        setIsMuted(!isMuted);
+    };
     
     const progress = Math.round(((currentStep - 1) / STEPS.length) * 100);
 
     return (
         <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+            <audio ref={audioRef} src="/estimate_voice.mp3" preload="auto" muted={isMuted} />
             <div className="text-center">
                 <h1 className="font-headline text-4xl md:text-5xl">Project Cost Calculator</h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -607,7 +632,7 @@ export default function CalculatePage() {
 
                                 {currentStep === 4 && estimatedCost !== null && (
                                     <div className="text-center">
-                                        <div className="p-6 bg-muted rounded-lg">
+                                        <div className="p-6 bg-muted rounded-lg relative">
                                             <p className="text-muted-foreground">Estimated Project Cost</p>
                                             <p className="font-headline text-4xl font-bold">
                                                 {estimatedCost.toLocaleString('en-IN', {
@@ -620,6 +645,15 @@ export default function CalculatePage() {
                                             <p className="text-sm text-muted-foreground mt-2">
                                                 This is a preliminary estimate. Actual costs may vary.
                                             </p>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={toggleMute}
+                                                className="absolute top-2 right-2"
+                                                aria-label={isMuted ? "Unmute" : "Mute"}
+                                            >
+                                                {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                                            </Button>
                                         </div>
                                         <div className="mt-8 flex justify-center items-center gap-4">
                                             <Dialog>
