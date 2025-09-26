@@ -308,18 +308,22 @@ export default function CalculatePage() {
 
     useEffect(() => {
         if (estimatedCost !== null && audioRef.current) {
-            if (isMuted) {
-                audioRef.current.pause();
-                audioRef.current.currentTime = 0;
-            } else {
-                audioRef.current.play().catch(error => {
-                    console.warn("Audio autoplay was prevented.", error);
-                    toast({
-                        title: "Audio blocked",
-                        description: "Your browser prevented audio from playing automatically. Click the unmute button to hear the announcement.",
+            const timer = setTimeout(() => {
+                if (isMuted) {
+                    audioRef.current.pause();
+                    audioRef.current.currentTime = 0;
+                } else {
+                    audioRef.current.play().catch(error => {
+                        console.warn("Audio autoplay was prevented.", error);
+                        toast({
+                            title: "Audio blocked",
+                            description: "Your browser prevented audio from playing automatically. Click the unmute button to hear the announcement.",
+                        });
                     });
-                });
-            }
+                }
+            }, 30000); // 30 seconds delay
+
+            return () => clearTimeout(timer); // Cleanup the timer
         }
     }, [estimatedCost, isMuted, toast]);
 
@@ -703,5 +707,3 @@ export default function CalculatePage() {
         </div>
     );
 }
-
-    
