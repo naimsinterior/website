@@ -27,6 +27,7 @@ const allNavLinks = [
   { href: "/about", label: "About" },
   { href: "/design", label: "Design" },
   { href: "/style-tool", label: "Style Tool" },
+  { href: "/franchise", label: "Franchise" },
   { href: "/careers", label: "Careers" },
   { href: "/interior-designer-near-me", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
