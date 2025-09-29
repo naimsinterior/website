@@ -58,6 +58,18 @@ export function FranchiseForm() {
 
     const form = useForm<FranchiseFormValues>({
         resolver: zodResolver(franchiseFormSchema),
+        defaultValues: {
+            fullName: '',
+            email: '',
+            phone: '',
+            city: '',
+            state: '',
+            netWorth: '',
+            liquidCapital: '',
+            background: '',
+            whyNaims: '',
+            howHeard: '',
+        }
     });
 
     const handleNext = async () => {
