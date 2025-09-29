@@ -30,7 +30,6 @@ const navLinks = [
   { href: "/about", label: "About" },
   // Design link is handled separately
   { href: "/style-tool", label: "Style Tool" },
-  { href: "/franchise", label: "Franchise" },
   { href: "/careers", label: "Careers" },
   { href: "/interior-designer-near-me", label: "Contact" },
   { href: "/moodboard", label: "Moodboard" },
