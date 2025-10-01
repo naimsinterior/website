@@ -37,8 +37,24 @@ const MyStyleAgentOutputSchema = z.object({
 export type MyStyleAgentOutput = z.infer<typeof MyStyleAgentOutputSchema>;
 
 export async function myStyleAgent(input: MyStyleAgentInput): Promise<MyStyleAgentOutput> {
-  return myStyleAgentFlow(input);
+  // Directly return a hardcoded response instead of calling the flow.
+  // This removes the dependency on an external AI model.
+  return Promise.resolve({
+    writtenSuggestions: "This is a great start! To enhance your space, consider adding a large, abstract piece of art on the main wall to create a focal point. A plush, textured area rug would add warmth and define the seating area. Introducing some metallic accents, like a brass floor lamp or chrome decorative objects, would bring in a touch of modern glamour.",
+    suggestedStyles: [
+      {
+        styleName: "Modern Chic",
+        projectLinks: ["/design/monochrome-magic-living-room"]
+      },
+      {
+        styleName: "Industrial Loft",
+        projectLinks: ["/design/industrial-loft-kitchen"]
+      }
+    ]
+  });
 }
+
+// The following flow is no longer used but is kept for reference.
 
 const inspirationList = inspirations.map(i => `- ${i.title} (slug: ${i.slug})`).join('\n');
 
