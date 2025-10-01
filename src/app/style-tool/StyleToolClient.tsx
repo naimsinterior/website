@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { suggestStyle, type SuggestStyleOutput } from '@/ai/flows/suggest-style';
+import { myStyleAgent, type MyStyleAgentOutput } from '@/ai/flows/my-style-agent';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -32,7 +32,7 @@ export function StyleToolClient() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [selectedRoomType, setSelectedRoomType] = useState<string | null>(null);
-  const [suggestions, setSuggestions] = useState<SuggestStyleOutput | null>(null);
+  const [suggestions, setSuggestions] = useState<MyStyleAgentOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -106,7 +106,7 @@ export function StyleToolClient() {
              throw new Error("Failed to read file");
         }
         try {
-            const result = await suggestStyle({ photoDataUri, roomType: selectedRoomType });
+            const result = await myStyleAgent({ photoDataUri, roomType: selectedRoomType });
             setSuggestions(result);
         } catch (error) {
             console.error(error);

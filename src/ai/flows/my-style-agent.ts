@@ -6,16 +6,16 @@
 /**
  * @fileOverview An AI agent that suggests interior design styles based on an image.
  *
- * - suggestStyle - A function that suggests interior design styles based on an uploaded image.
- * - SuggestStyleInput - The input type for the suggestStyle function.
- * - SuggestStyleOutput - The return type for the suggestStyle function.
+ * - myStyleAgent - A function that suggests interior design styles based on an uploaded image.
+ * - MyStyleAgentInput - The input type for the myStyleAgent function.
+ * - MyStyleAgentOutput - The return type for the myStyleAgent function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { inspirations } from '@/app/design/inspirations';
 
-const SuggestStyleInputSchema = z.object({
+const MyStyleAgentInputSchema = z.object({
   photoDataUri: z
     .string()
     .describe(
@@ -23,9 +23,9 @@ const SuggestStyleInputSchema = z.object({
     ),
     roomType: z.string().describe('The type of room specified by the user, e.g., "Living Room", "Kitchen", "Bedroom".'),
 });
-export type SuggestStyleInput = z.infer<typeof SuggestStyleInputSchema>;
+export type MyStyleAgentInput = z.infer<typeof MyStyleAgentInputSchema>;
 
-const SuggestStyleOutputSchema = z.object({
+const MyStyleAgentOutputSchema = z.object({
   writtenSuggestions: z.string().describe('A paragraph of written suggestions for the room, based on the uploaded photo and specified room type.'),
   suggestedStyles: z.array(
     z.object({
@@ -34,18 +34,18 @@ const SuggestStyleOutputSchema = z.object({
     })
   ).describe('A list of suggested interior design styles with links to relevant projects.'),
 });
-export type SuggestStyleOutput = z.infer<typeof SuggestStyleOutputSchema>;
+export type MyStyleAgentOutput = z.infer<typeof MyStyleAgentOutputSchema>;
 
-export async function suggestStyle(input: SuggestStyleInput): Promise<SuggestStyleOutput> {
-  return suggestStyleFlow(input);
+export async function myStyleAgent(input: MyStyleAgentInput): Promise<MyStyleAgentOutput> {
+  return myStyleAgentFlow(input);
 }
 
 const inspirationList = inspirations.map(i => `- ${i.title} (slug: ${i.slug})`).join('\n');
 
 const prompt = ai.definePrompt({
-  name: 'suggestStylePrompt',
-  input: {schema: SuggestStyleInputSchema},
-  output: {schema: SuggestStyleOutputSchema},
+  name: 'myStyleAgentPrompt',
+  input: {schema: MyStyleAgentInputSchema},
+  output: {schema: MyStyleAgentOutputSchema},
   prompt: `You are an expert interior design consultant. A user has uploaded a photo of their {{roomType}}.
 
 Your task is to:
@@ -70,11 +70,11 @@ Example Output for a modern-looking Living Room:
 }`,
 });
 
-const suggestStyleFlow = ai.defineFlow(
+const myStyleAgentFlow = ai.defineFlow(
   {
-    name: 'suggestStyleFlow',
-    inputSchema: SuggestStyleInputSchema,
-    outputSchema: SuggestStyleOutputSchema,
+    name: 'myStyleAgentFlow',
+    inputSchema: MyStyleAgentInputSchema,
+    outputSchema: MyStyleAgentOutputSchema,
   },
   async input => {
     const {output} = await prompt(input);
